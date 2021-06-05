@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const Users = () => {
   useEffect(() => {
-    axios.get("/api/users")
+    axios.get('/api/users')
       .then(res => console.log(res))
   }, [])
 
