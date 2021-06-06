@@ -10,13 +10,13 @@ import {
 export const LoginDialog = () => {
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" p={1} width={500}>
+    <Box display="flex" justifyContent="center" alignItems="center">
       <Paper>
         <Box display="flex" justifyContent="center" mt={5}>
           <img src="../../img/Logo1.png" alt="logo"/>
         </Box>
-        <Box display="flex" justifyContent="center" alignItems="center" p={5} width={500}>
-          <FormControl>
+        <Box display="flex" justifyContent="center" alignItems="center" p={5} width={300}>
+          <FormControl fullWidth>
             <TextField label="Email"></TextField>
             <TextField label="Password"></TextField>
             <Box display="flex" justifyContent="center" m={5}>
