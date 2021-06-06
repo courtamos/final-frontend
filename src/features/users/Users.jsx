@@ -5,10 +5,6 @@ export const Users = () => {
   useEffect(() => {
     axios.get('/api/users')
       .then(res => console.log(res))
-
-    axios.get('/api/nothere')
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
   }, [])
 
   return (
