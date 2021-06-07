@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Login } from "./components/Login"
-import { Signup } from "./components/Signup";
-import { Logout } from "./components/Logout";
-import { PrivateRoute } from "./components/PrivateRoute";
-import { authSelector, fetchLoggedInStatus } from "./features/auth/authSlice";
+import Login from './features/auth/Login'
+import Signup from './features/auth/Signup';
+import Logout from './features/dashboard/Logout';
+import PrivateRoute from './components/PrivateRoute';
+import { authSelector, fetchLoggedInStatus } from './features/auth/authSlice';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 

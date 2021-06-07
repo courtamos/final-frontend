@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Redirect } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { authSelector, signup } from "../features/auth/authSlice";
+import { Redirect } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { authSelector, signup } from './authSlice';
 import { Box, FormControl, TextField, Button, Paper } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
-export const Signup = () => {
+const Signup = () => {
   const dispatch = useDispatch();
   const { user } = useSelector(authSelector);
   const [first_name, setFirstName] = useState("");
@@ -15,7 +15,6 @@ export const Signup = () => {
   const [password_confirmation, setPasswordConfirmation] = useState("")
   const [error, setError] = useState(false);
 
-  // if statement to see if user exist -> if yes redirect to dashboard
   if (user) {
     return (
       <Redirect to='/dashboard' />
@@ -91,3 +90,5 @@ export const Signup = () => {
     </Box>
   )
 }
+
+export default Signup;

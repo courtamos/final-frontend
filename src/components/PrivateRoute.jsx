@@ -1,9 +1,9 @@
 import React from 'react';
-import { Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { authSelector } from "../features/auth/authSlice";
+import { Route, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { authSelector } from '../features/auth/authSlice';
 
-export const PrivateRoute = ({ children, ...rest }) => {
+const PrivateRoute = ({ children, ...rest }) => {
   const { user } = useSelector(authSelector);
 
   return (
@@ -14,3 +14,5 @@ export const PrivateRoute = ({ children, ...rest }) => {
     }} />
   )
 }
+
+export default PrivateRoute;

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Redirect, Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { authSelector, login } from "../features/auth/authSlice";
+import { Redirect, Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { authSelector, login } from './authSlice';
 import { Box, FormControl, TextField, Button, Paper } from '@material-ui/core';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Alert from '@material-ui/lab/Alert';
 
-export const Login = () => {
+const Login = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector(authSelector);
+  const { user, loggingInStatus } = useSelector(authSelector);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -34,6 +35,9 @@ export const Login = () => {
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
       <Paper>
+        {loggingInStatus === 'loading' &&
+          <LinearProgress />
+        }
         <Box display="flex" justifyContent="center" mt={5}>
           <img src="../../img/Logo1.png" alt="logo"/>
         </Box>
@@ -66,3 +70,5 @@ export const Login = () => {
     </Box>
   )
 }
+
+export default Login;

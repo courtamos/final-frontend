@@ -12,7 +12,6 @@ export const fetchLoggedInStatus = createAsyncThunk(
   async () => {
     try {
       const response = await axios.get('/api/logged_in');
-      console.log('response', response);
       // The value we return becomes the `fulfilled` action payload
       return response.data;
     } catch(error) {
@@ -24,8 +23,6 @@ export const fetchLoggedInStatus = createAsyncThunk(
 export const login = createAsyncThunk(
   'auth/login',
   async ({email, password}) => {
-    console.log('email...', email);
-    console.log('password...', password);
     try {
       const response = await axios.post('/api/login', {
         user: {
@@ -33,7 +30,6 @@ export const login = createAsyncThunk(
           password
         }
       }, { withCredentials: true });
-      console.log('response', response);
       // The value we return becomes the `fulfilled` action payload
       return response.data;
     } catch(error) {
@@ -74,7 +70,6 @@ export const logout = createAsyncThunk(
   async () => {
     try {
       const response = await axios.delete('/api/logout');
-      console.log('response', response);
       // The value we return becomes the `fulfilled` action payload
       return response.data;
     } catch(error) {
@@ -109,11 +104,21 @@ export const authSlice = createSlice({
           state.user = action.payload.user
         }
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(login.rejected, (state) => {
         state.loggingInStatus = 'failed';
       })
-
-      
+      .addCase(signup.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(signup.fulfilled, (state, action) => {
+        state.status = 'idle';
+        if (action.payload.user && action.payload.status === 'created') {
+          state.user = action.payload.user
+        }
+      })
+      .addCase(signup.rejected, (state) => {
+        state.status = 'failed';
+      })
       .addCase(logout.pending, (state, action) => {
         state.status = 'loading';
       })
