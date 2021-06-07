@@ -23,14 +23,30 @@ export const fetchLoggedInStatus = createAsyncThunk(
 
 export const login = createAsyncThunk(
   'auth/login',
-  async (email, password) => {
+  async ({email, password}) => {
+    console.log('email...', email);
+    console.log('password...', password);
     try {
       const response = await axios.post('/api/login', {
         user: {
           email,
           password
         }
-      });
+      }, { withCredentials: true });
+      console.log('response', response);
+      // The value we return becomes the `fulfilled` action payload
+      return response.data;
+    } catch(error) {
+      console.log('error', error)
+    }
+  }
+);
+
+export const logout = createAsyncThunk(
+  'auth/logout',
+  async () => {
+    try {
+      const response = await axios.delete('/api/logout');
       console.log('response', response);
       // The value we return becomes the `fulfilled` action payload
       return response.data;
@@ -68,6 +84,15 @@ export const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.loggingInStatus = 'failed';
+      })
+      .addCase(logout.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.status = 'idle';
+        if (action.payload.logged_out) {
+          state.user = null;
+        }
       })
   },
 });
