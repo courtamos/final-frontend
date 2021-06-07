@@ -19,7 +19,7 @@ const JobItem = (props) => {
 
   return (
     <StylesProvider injectFirst>
-      <Paper elevation={1} square className="panel">
+      <Button elevation={1} square className="panel" onClic>
         <Box
           p={1}
           display="flex"
@@ -41,7 +41,7 @@ const JobItem = (props) => {
             <MenuIcon />
           </Box>
         </Box>
-      </Paper>
+      </Button>
     </StylesProvider>
   );
 };
