@@ -1,0 +1,15 @@
+@import "../styles/variables.scss";
+
+.container{
+  margin-top: 10px;
+}
+
+.panel{
+  background-color: $theme-color6;
+  color: $white;
+}
+
+.logo{
+  width: 75px;
+  height: 75px;
+}
