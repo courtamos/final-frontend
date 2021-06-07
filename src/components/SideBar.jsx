@@ -1,6 +1,8 @@
 import React from 'react';
-import { Box, Button, Paper
-} from '@material-ui/core';
+import { Box, Paper } from '@material-ui/core';
+
+import { Link } from "react-router-dom";
+
 import { StylesProvider } from "@material-ui/core/styles";
 
 import { SideBarButton } from "./SideBarButton";
@@ -9,21 +11,25 @@ import AddIcon from '@material-ui/icons/Add';
 
 import './SideBar.scss';
 
-export const SideBar = () => {
+export const SideBar = (props) => {
 
   return (
     <StylesProvider injectFirst>
       <Box id="sidebar" display="flex" height="100%">
-        <Paper>
+        <Paper elevation={1} square>
           <Box display="flex" flexGrow={1} flexDirection="column" height="100%">
             <SideBarButton>
-              <img src="../../img/Logo1.png" alt="logo" width="50px"/>
+              <Link to="/" className="link">
+                <img src="../../img/Logo1.png" alt="logo" width="50px"/>
+              </Link>
             </SideBarButton>
             <SideBarButton>
-              <FaceIcon style={{ fontSize: 65 }}/>
+              <Link to="/profile" className="link">
+                <FaceIcon className="icon"/>
+              </Link>
             </SideBarButton>
-            <SideBarButton>
-              <AddIcon style={{ fontSize: 65 }}/>
+            <SideBarButton onClick={ props.onAddItem }>
+              <AddIcon className="icon add"/>
             </SideBarButton>
           </Box>
         </Paper>  

@@ -9,7 +9,7 @@ export const SideBarButton = (props) => {
 
   return (
     <StylesProvider injectFirst>
-      <Button className="button">
+      <Button className="button" onClick={props.onClick}>
         { props.children }
       </Button>
     </StylesProvider>
