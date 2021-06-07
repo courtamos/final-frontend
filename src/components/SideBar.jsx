@@ -1,20 +1,22 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { authSelector } from "../features/auth/authSlice";
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-//MaterialUI Components
+// MaterialUI Components
 import { Box, Paper } from '@material-ui/core';
-import { StylesProvider } from "@material-ui/core/styles";
+import { StylesProvider } from '@material-ui/core/styles';
 import FaceIcon from '@material-ui/icons/Face';
 import AddIcon from '@material-ui/icons/Add';
+import { authSelector } from '../features/auth/authSlice';
 
-//Custom Components
-import { SideBarButton } from "./SideBarButton";
+// Custom Components
+import { SideBarButton } from './SideBarButton';
 
 import './SideBar.scss';
 
-export const SideBar = (props) => {
+const SideBar = (props) => {
+  const { onAddItem } = props;
 
   const { user } = useSelector(authSelector);
 
@@ -25,26 +27,36 @@ export const SideBar = (props) => {
           <Box display="flex" flexGrow={1} flexDirection="column" height="100%">
             <SideBarButton>
               <Link to="/" className="link">
-                <img src="../../img/Logo1.png" alt="logo" width="50px"/>
+                <img src="../../img/Logo1.png" alt="logo" width="50px" />
               </Link>
             </SideBarButton>
-              {user ? 
-                <React.Fragment>
+            {user
+              ? (
+                <>
                   <SideBarButton>
                     <Link to={`/users/${user.id}`} className="link">
-                      <FaceIcon className="icon"/>
-                    </Link> 
+                      <FaceIcon className="icon" />
+                    </Link>
                   </SideBarButton>
-                  <SideBarButton onClick={ props.onAddItem }>
-                    <AddIcon className="icon add"/>
+                  <SideBarButton onClick={onAddItem}>
+                    <AddIcon className="icon add" />
                   </SideBarButton>
-                </React.Fragment>
-                : 
-                <React.Fragment></React.Fragment>
-              }
+                </>
+              )
+              : <></>}
           </Box>
-        </Paper>  
+        </Paper>
       </Box>
     </StylesProvider>
-  )
-}
+  );
+};
+
+SideBar.propTypes = {
+  onAddItem: PropTypes.func,
+};
+
+SideBar.defaultProps = {
+  onAddItem: () => {},
+};
+
+export default SideBar;
