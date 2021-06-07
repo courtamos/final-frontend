@@ -42,6 +42,33 @@ export const login = createAsyncThunk(
   }
 );
 
+export const signup = createAsyncThunk(
+  'auth/signup',
+  async ({first_name, last_name, email, password, password_confirmation}) => {
+    console.log('firstname...', first_name);
+    console.log('lastname...', last_name);
+    console.log('email...', email);
+    console.log('password...', password);
+    console.log('passwordconf...', password_confirmation);
+    try {
+      const response = await axios.post('/api/users', {
+        user: {
+          first_name,
+          last_name,
+          email,
+          password,
+          password_confirmation
+        }
+      }, { withCredentials: true });
+      console.log('response', response);
+      // The value we return becomes the `fulfilled` action payload
+      return response.data;
+    } catch(error) {
+      console.log('error', error)
+    }
+  }
+);
+
 export const logout = createAsyncThunk(
   'auth/logout',
   async () => {
@@ -85,6 +112,8 @@ export const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.loggingInStatus = 'failed';
       })
+
+      
       .addCase(logout.pending, (state, action) => {
         state.status = 'loading';
       })

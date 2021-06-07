@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { authSelector, login } from "../features/auth/authSlice";
 import { Box, FormControl, TextField, Button, Paper } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
-export const LoginForm = () => {
+export const Login = () => {
   const dispatch = useDispatch();
   const { user } = useSelector(authSelector);
   const [email, setEmail] = useState("");
@@ -29,10 +29,6 @@ export const LoginForm = () => {
     
     console.log('email: ', email);
     console.log('password: ', password);  
-  }
-
-  const registerRedirect = (event) => {
-    <Redirect to='/register' />
   }
 
   return (
@@ -60,7 +56,9 @@ export const LoginForm = () => {
             />
             <Box display="flex" justifyContent="center" m={5}>
               <Button onClick={handleLogin}>Login</Button>
-              <Button onClick={registerRedirect}>Register</Button>
+              <Button component={Link} to="/signup">
+                  Sign Up
+              </Button>
             </Box>
           </FormControl>
         </Box>
