@@ -36,7 +36,7 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function JobsModal(props) {
+export default function JobsModal() {
   const [open, setOpen] = useState(false);
   const [company, setCompany] = useState("")
   const [title, setTitle] = useState("")
@@ -49,20 +49,6 @@ export default function JobsModal(props) {
   const [contact_email, setContact_email] = useState("")
   const [contact_phone, setContact_phone] = useState("")
   const [contact_socialmedia, setContact_socialmedia] = useState("")
-
-  // const [state, setState] = useState({
-  //   title: "",
-  //   company: "",
-  //   status: 0,
-  //   salary: 0,
-  //   url: "",
-  //   location: "",
-  //   details: "",
-  //   contact_name: "",
-  //   contact_email: "",
-  //   contact_phone: "",
-  //   contact_socialmedia: "",
-  // });
 
   function reset() {
     setCompany("");
@@ -111,8 +97,6 @@ export default function JobsModal(props) {
     }
   }
 
-  // const {title, company, status, salary, url, location, details, contact_name, contact_email, contact_phone, contact_socialmedia} = state
-
   return (
    <div>
       <Grid container>
@@ -128,7 +112,7 @@ export default function JobsModal(props) {
                 <TextField required id="outlined-basic" label="Job Title" variant="outlined" className={classes.textField} name='title'  value={title} onChange={(event) => setTitle(event.target.value)}/>
               </div>
               <div>
-                <GoogleMaps className={classes.textField} name='location'  value={location} onChange={(event) => setLocation(event.target.value)}/>
+                <GoogleMaps className={classes.textField} name='location' value={location} onChange={(event) => setLocation(event.target.value)} />
               </div>
                 <TextField id="outlined-basic" label="Job Link Url" variant="outlined" className={classes.textField} name='url' value={url} onChange={(event) => setUrl(event.target.value)}/>
                 <TextField id="outlined-basic" type="number" label="Salary" variant="outlined" className={classes.textField} name='salary' value={salary} onChange={(event) => setSalary(parseInt(event.target.value))}/>

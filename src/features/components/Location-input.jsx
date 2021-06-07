@@ -21,7 +21,7 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
-export default function GoogleMaps() {
+export default function GoogleMaps(props) {
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
   const [options, setOptions] = React.useState([]);
@@ -29,7 +29,7 @@ export default function GoogleMaps() {
 
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
-      loadScript(`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`, document.querySelector("head"), "google-maps");
+      loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyCCL1PQNdE5UcKLV33V8NWthK3qxSVSj2E&libraries=places`, document.querySelector("head"), "google-maps");
     }
 
     loaded.current = true;
@@ -95,9 +95,10 @@ export default function GoogleMaps() {
         setValue(newValue);
       }}
       onInputChange={(event, newInputValue) => {
+        console.log(newInputValue);
         setInputValue(newInputValue);
       }}
-      renderInput={(params) => <TextField {...params} label="Add a location" variant="outlined" fullWidth />}
+      renderInput={(params) => <TextField {...params} label="Location" variant="outlined" fullWidth />}
       renderOption={(option) => {
         const matches = option.structured_formatting.main_text_matched_substrings;
         const parts = parse(
