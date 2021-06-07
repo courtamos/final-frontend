@@ -21,7 +21,7 @@ export default function Status() {
   });
 
   const handleChange = (event) => {
-    const name = event.target.name;
+    const { name } = event.target;
     setState({
       ...state,
       [name]: event.target.value,

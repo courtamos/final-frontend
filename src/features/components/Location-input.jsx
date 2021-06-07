@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -12,35 +14,34 @@ function loadScript(src, position, id) {
     return;
   }
 
-  const script = document.createElement("script");
-  script.setAttribute("async", "");
-  script.setAttribute("id", id);
+  const script = document.createElement('script');
+  script.setAttribute('async', '');
+  script.setAttribute('id', id);
   script.src = src;
   position.appendChild(script);
 }
 
 const autocompleteService = { current: null };
 
-export default function GoogleMaps(props) {
+export default function GoogleMaps() {
   const [value, setValue] = React.useState(null);
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
 
-  if (typeof window !== "undefined" && !loaded.current) {
-    if (!document.querySelector("#google-maps")) {
-      loadScript(`https://maps.googleapis.com/maps/api/js?key=AIzaSyCCL1PQNdE5UcKLV33V8NWthK3qxSVSj2E&libraries=places`, document.querySelector("head"), "google-maps");
+  if (typeof window !== 'undefined' && !loaded.current) {
+    if (!document.querySelector('#google-maps')) {
+      loadScript(`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`, document.querySelector('head'), 'google-maps');
     }
 
     loaded.current = true;
   }
 
   const fetch = React.useMemo(
-    () =>
-      throttle((request, callback) => {
-        autocompleteService.current.getPlacePredictions(request, callback);
-      }, 200),
-    []
+    () => throttle((request, callback) => {
+      autocompleteService.current.getPlacePredictions(request, callback);
+    }, 200),
+    [],
   );
 
   React.useEffect(() => {
@@ -53,7 +54,7 @@ export default function GoogleMaps(props) {
       return undefined;
     }
 
-    if (inputValue === "") {
+    if (inputValue === '') {
       setOptions(value ? [value] : []);
       return undefined;
     }
@@ -83,7 +84,7 @@ export default function GoogleMaps(props) {
     <Autocomplete
       id="google-map-demo"
       style={{ width: 300 }}
-      getOptionLabel={(option) => (typeof option === "string" ? option : option.description)}
+      getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
       filterOptions={(x) => x}
       options={options}
       autoComplete
@@ -103,7 +104,7 @@ export default function GoogleMaps(props) {
         const matches = option.structured_formatting.main_text_matched_substrings;
         const parts = parse(
           option.structured_formatting.main_text,
-          matches.map((match) => [match.offset, match.offset + match.length])
+          matches.map((match) => [match.offset, match.offset + match.length]),
         );
 
         return (

@@ -16,19 +16,19 @@ export default function DatePicker() {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDatePicker
-          disableToolbar
-          variant="outlined"
-          format="MM/dd/yyyy"
-          margin="normal"
-          id="date-picker-inline"
-          label="Date picker inline"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
+      <KeyboardDatePicker
+        disableToolbar
+        variant="outlined"
+        format="MM/dd/yyyy"
+        margin="normal"
+        id="date-picker-inline"
+        label="Date picker inline"
+        value={selectedDate}
+        onChange={handleDateChange}
+        KeyboardButtonProps={{
+          'aria-label': 'change date',
+        }}
+      />
     </MuiPickersUtilsProvider>
   );
 }
