@@ -5,11 +5,27 @@
 }
 
 .panel{
-  background-color: $theme-color6;
-  color: $white;
+  background-color: $white;
+  color: $theme-color6;
 }
 
 .logo{
   width: 75px;
   height: 75px;
+}
+
+.heading{
+  font-family: 'Montserrat';
+  padding-top: 0px;
+  padding-bottom: 0px;
+  line-height: 1em;
+  margin: 0px;
+}
+
+.content{
+  font-family: 'Source Sans Pro';
+  padding-top: 5px;
+  padding-bottom: 0px;
+  line-height: 1em;
+  margin: 0px;
 }

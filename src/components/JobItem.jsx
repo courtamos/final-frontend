@@ -1,35 +1,56 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { authSelector } from "../features/auth/authSlice";
+import PropTypes from 'prop-types';
 
-//MaterialUI Components
-import { Box, Paper } from '@material-ui/core';
-import { StylesProvider } from "@material-ui/core/styles";
+// MaterialUI Components
+import {
+  Box, Button, Paper, Typography,
+} from '@material-ui/core';
+import { StylesProvider } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
 
-//Custom Components
+// Custom Components
 
 import './JobItem.scss';
 
-export const JobItem = (props) => {
+const JobItem = (props) => {
+  const {
+    company, title, description, location,
+  } = props;
 
   return (
     <StylesProvider injectFirst>
-      <Box height="100%" width="100%" className="container">
-        <Paper elevation={1} square className="panel">
-          <Box p={1} display="flex" flexGrow={1} flexDirection="row" height="100%" width="100%" alignItems="center">
-            <Box display="flex" alignItems="center" justifyContent="center" className="logo" m={2}>
-              {/* Fetch the icon from an api here */}
-              <img src="../../img/facebook.png" alt="logo" width="75px"/>
-            </Box>
-            <Box>
-              <h2>Company Name</h2>
-              <p>Job Title</p>
-              <p>Description</p>
-            </Box>
+      <Paper elevation={1} square className="panel">
+        <Box
+          p={1}
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          m={2}
+        >
+          <Box display="flex" alignItems="center" justifyContent="center" className="logo" m={2}>
+            {/* Fetch the icon from an api here */}
+            <img src="../../img/facebook.png" alt="logo" width="75px" />
           </Box>
-        </Paper>  
-      </Box>
+          <Box display="flex" flexDirection="column" flexGrow={1}>
+            <Typography variant="h4" align="left" className="heading">{company}</Typography>
+            <Typography variant="h6" align="left" className="heading">{title}</Typography>
+            <Typography variant="body1" align="left" className="content">{description}</Typography>
+            <Typography variant="body2" align="left" className="content">{location}</Typography>
+          </Box>
+          <Box id="end" display="flex" flexDirection="column" justifyContent="flex-start" alignItems="flex-start">
+            <MenuIcon />
+          </Box>
+        </Box>
+      </Paper>
     </StylesProvider>
-  )
-}
+  );
+};
+
+JobItem.propTypes = {
+  company: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
+};
+
+export default JobItem;
