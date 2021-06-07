@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Paper, Grid, makeStyles } from '@material-ui/core'
 import JobsModal from './Jobs-modal';
@@ -12,14 +12,6 @@ const useStyles = makeStyles(theme => ({
 
 export const Jobs = () => {
   const classes = useStyles();
-
-  useEffect(() => {
-    axios.get('/api/jobs')
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
-  }, [])
-
-  
 
   return (
     <>
