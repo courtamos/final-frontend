@@ -20,7 +20,11 @@
     "date-fns": "^2.22.1",
     "dotenv": "^10.0.0",
     "http-proxy-middleware": "^2.0.0",
+<<<<<<< HEAD
     "moment": "^2.29.1",
+=======
+    "node-sass": "^6.0.0",
+>>>>>>> c3f9ec50af62cb66da58f423f7423a363a0a8eaa
     "react": "^17.0.2",
     "react-add-to-calendar": "^0.1.5",
     "react-dom": "^17.0.2",
