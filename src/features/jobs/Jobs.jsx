@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import axios from 'axios';
-import { Paper, Grid, makeStyles } from '@material-ui/core'
+import React from "react";
+import { Paper,  makeStyles } from '@material-ui/core'
 import JobsModal from './Jobs-modal';
 
 const useStyles = makeStyles(theme => ({

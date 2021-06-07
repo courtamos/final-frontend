@@ -14,20 +14,6 @@ import SalaryInput from '../components/Salary';
 import AddToCalendar from '../components/AddToCalendar';
 import Status from '../components/Status';
 
-const styles = (theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2),
-    width: 500,
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
-
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
@@ -103,7 +89,7 @@ export default function JobsModal(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
-  
+
   const handleClose = () => {
     setOpen(false);
     reset()
@@ -111,26 +97,36 @@ export default function JobsModal(props) {
 
   const handleSubmit = (event) => {
     if (company === "") {
-      console.log("Company name cannot be blank");
+      console.log("Company Name Cannot be blank");
+    } else if (title === "") {
+      console.log("Title Cannot be blank");
+    } else {
+      const jobObject = {company, title, status, salary, url, location, details, contact_name, contact_email, contact_phone, contact_socialmedia}
+      console.log(jobObject);
+      axios.post('/api/jobs', jobObject).then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
     }
-    console.log({company, title, status, salary, url, location, details, contact_name, contact_email, contact_phone, contact_socialmedia});
   }
 
   // const {title, company, status, salary, url, location, details, contact_name, contact_email, contact_phone, contact_socialmedia} = state
 
   return (
    <div>
-      <Grid container xs={2}>
+      <Grid container>
         <AddBoxIcon onClick={handleClickOpen} />
         <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="sm">
           <form onSubmit={(event) => event.preventDefault()}>
             <DialogContent dividers >
               <div>
-                <TextField id="outlined-basic" label="Company Name" variant="outlined" className={classes.textField} name='company' value={company} onChange={(event) => setCompany(event.target.value)} />
-                <Status value={status} />
+                <TextField required id="outlined-basic" label="Company Name" variant="outlined" className={classes.textField} name='company' value={company} onChange={(event) => setCompany(event.target.value)} />
+                <Status value={status} onChange={(event) => setStatus(event.target.value)}/>
               </div>
               <div>
-                <TextField id="outlined-basic" label="Job Title" variant="outlined" className={classes.textField} name='title'  value={title} onChange={(event) => setTitle(event.target.value)}/>
+                <TextField required id="outlined-basic" label="Job Title" variant="outlined" className={classes.textField} name='title'  value={title} onChange={(event) => setTitle(event.target.value)}/>
               </div>
               <div>
                 <GoogleMaps className={classes.textField} name='location'  value={location} onChange={(event) => setLocation(event.target.value)}/>
