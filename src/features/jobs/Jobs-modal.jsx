@@ -10,7 +10,6 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import TextField from '@material-ui/core/TextField';
 import GoogleMaps from '../components/Location-input';
 import DatePicker from '../components/DatePicker';
-import SalaryInput from '../components/Salary';
 import AddToCalendar from '../components/AddToCalendar';
 import Status from '../components/Status';
 
@@ -104,7 +103,7 @@ export default function JobsModal(props) {
       const jobObject = {company, title, status, salary, url, location, details, contact_name, contact_email, contact_phone, contact_socialmedia}
       console.log(jobObject);
       axios.post('/api/jobs', jobObject).then(res => {
-        console.log(res);
+        console.log("This is my response", res);
       })
       .catch(err => {
         console.log(err);
@@ -132,7 +131,7 @@ export default function JobsModal(props) {
                 <GoogleMaps className={classes.textField} name='location'  value={location} onChange={(event) => setLocation(event.target.value)}/>
               </div>
                 <TextField id="outlined-basic" label="Job Link Url" variant="outlined" className={classes.textField} name='url' value={url} onChange={(event) => setUrl(event.target.value)}/>
-                <SalaryInput className={classes.textField} name='salary' value={salary} onChange={(event) => setSalary(event.target.value)}/>
+                <TextField id="outlined-basic" type="number" label="Salary" variant="outlined" className={classes.textField} name='salary' value={salary} onChange={(event) => setSalary(parseInt(event.target.value))}/>
               <div>
               </div>
               <div>
