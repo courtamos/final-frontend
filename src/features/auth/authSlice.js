@@ -13,11 +13,9 @@ export const fetchLoggedInStatus = createAsyncThunk(
   async () => {
     try {
       const response = await axios.get('/api/logged_in');
-      console.log('response', response);
       // The value we return becomes the `fulfilled` action payload
       return response.data;
     } catch (error) {
-      console.log('error', error);
       return error;
     }
   },
@@ -33,11 +31,9 @@ export const login = createAsyncThunk(
           password,
         },
       });
-      console.log('response', response);
       // The value we return becomes the `fulfilled` action payload
       return response.data;
     } catch (error) {
-      console.log('error', error);
       return error;
     }
   },

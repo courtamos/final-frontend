@@ -4,8 +4,8 @@ import axios from 'axios';
 const Events = () => {
   useEffect(() => {
     axios.get('/api/events')
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => res)
+      .catch((err) => err);
   }, []);
 
   return (

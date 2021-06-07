@@ -4,8 +4,8 @@ import axios from 'axios';
 const Jobs = () => {
   useEffect(() => {
     axios.get('/api/jobs')
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => res)
+      .catch((err) => err);
   }, []);
 
   return (

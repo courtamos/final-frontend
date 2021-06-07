@@ -4,7 +4,7 @@ import axios from 'axios';
 const Users = () => {
   useEffect(() => {
     axios.get('/api/users')
-      .then((res) => console.log(res));
+      .then((res) => res);
   }, []);
 
   return (
