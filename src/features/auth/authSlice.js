@@ -1,10 +1,11 @@
+/* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const initialState = {
   user: null,
   status: 'loading',
-  loggingInStatus: 'idle'
+  loggingInStatus: 'idle',
 };
 
 export const fetchLoggedInStatus = createAsyncThunk(
@@ -15,10 +16,11 @@ export const fetchLoggedInStatus = createAsyncThunk(
       console.log('response', response);
       // The value we return becomes the `fulfilled` action payload
       return response.data;
-    } catch(error) {
-      console.log('error', error)
+    } catch (error) {
+      console.log('error', error);
+      return error;
     }
-  }
+  },
 );
 
 export const login = createAsyncThunk(
@@ -28,16 +30,17 @@ export const login = createAsyncThunk(
       const response = await axios.post('/api/login', {
         user: {
           email,
-          password
-        }
+          password,
+        },
       });
       console.log('response', response);
       // The value we return becomes the `fulfilled` action payload
       return response.data;
-    } catch(error) {
-      console.log('error', error)
+    } catch (error) {
+      console.log('error', error);
+      return error;
     }
-  }
+  },
 );
 
 export const authSlice = createSlice({
@@ -54,7 +57,7 @@ export const authSlice = createSlice({
       .addCase(fetchLoggedInStatus.fulfilled, (state, action) => {
         state.status = 'idle';
         if (action.payload.user && action.payload.logged_in) {
-          state.user = action.payload.user
+          state.user = action.payload.user;
         }
       })
       .addCase(login.pending, (state) => {
@@ -63,12 +66,12 @@ export const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loggingInStatus = 'idle';
         if (action.payload.user && action.payload.logged_in) {
-          state.user = action.payload.user
+          state.user = action.payload.user;
         }
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(login.rejected, (state) => {
         state.loggingInStatus = 'failed';
-      })
+      });
   },
 });
 
