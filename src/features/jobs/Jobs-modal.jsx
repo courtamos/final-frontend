@@ -11,14 +11,22 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import TextField from '@material-ui/core/TextField';
-import GoogleMaps from '../location/location-input';
-import DatePicker from '../datePicker/datePicker'
+import GoogleMaps from '../components/Location-input';
+import DatePicker from '../components/DatePicker';
+import SalaryInput from '../components/Salary';
+import AddToCalendar from '../components/AddToCalendar'
 
 const styles = (theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(2),
     width: 500,
+  },
+  margin: {
+    margin: theme.spacing(1),
+  },
+  textField: {
+    width: '25ch',
   },
   closeButton: {
     position: 'absolute',
@@ -57,6 +65,7 @@ const DialogActions = withStyles((theme) => ({
 
 export default function JobsModal() {
   const [open, setOpen] = React.useState(false);
+  const classes = styles;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -68,7 +77,7 @@ export default function JobsModal() {
   return (
     <div>
       <AddBoxIcon onClick={handleClickOpen} />
-      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="sm">
         <DialogContent dividers>
           <div>
             <TextField id="outlined-basic" label="Company Name" variant="outlined" />
@@ -83,16 +92,10 @@ export default function JobsModal() {
             <TextField id="outlined-basic" label="Job Link Url" variant="outlined" />
           </div>
           <div>
-            <TextField id="outlined-basic" label="Salary" variant="outlined" />
+            <SalaryInput />
           </div>
           <div>
-          <TextField
-          id="outlined-multiline-static"
-          label="Details"
-          multiline
-          rows={4}
-          variant="outlined"
-        />
+          <TextField id="outlined-multiline-static" label="Details" multiline rows={4} variant="outlined"/>
           </div>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Events
@@ -100,6 +103,7 @@ export default function JobsModal() {
         <DialogTitle display="flex">
           <TextField id="outlined-basic" label="Upcoming Event" variant="outlined" />
           <DatePicker />
+          <AddToCalendar />
         </DialogTitle>
         </DialogContent>
         <DialogActions>
