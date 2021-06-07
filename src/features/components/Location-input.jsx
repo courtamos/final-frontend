@@ -25,12 +25,10 @@ const autocompleteService = { current: null };
 const useStyles = makeStyles((theme) => ({
   icon: {
     color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2),
   },
 }));
 
 export default function GoogleMaps() {
-  const classes = useStyles();
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
   const [options, setOptions] = React.useState([]);
@@ -117,7 +115,7 @@ export default function GoogleMaps() {
         return (
           <Grid container alignItems="center">
             <Grid item>
-              <LocationOnIcon className={classes.icon} />
+              <LocationOnIcon />
             </Grid>
             <Grid item xs>
               {parts.map((part, index) => (

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import axios from 'axios'
-import { withStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import Grid from '@material-ui/core/Grid';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -14,19 +15,14 @@ import TextField from '@material-ui/core/TextField';
 import GoogleMaps from '../components/Location-input';
 import DatePicker from '../components/DatePicker';
 import SalaryInput from '../components/Salary';
-import AddToCalendar from '../components/AddToCalendar'
+import AddToCalendar from '../components/AddToCalendar';
+import Status from '../components/Status';
 
 const styles = (theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(2),
     width: 500,
-  },
-  margin: {
-    margin: theme.spacing(1),
-  },
-  textField: {
-    width: '25ch',
   },
   closeButton: {
     position: 'absolute',
@@ -35,6 +31,16 @@ const styles = (theme) => ({
     color: theme.palette.grey[500],
   },
 });
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  textField: {
+    margin: theme.spacing(1),
+    width: '25ch',
+  },
+}))
 
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
@@ -65,7 +71,7 @@ const DialogActions = withStyles((theme) => ({
 
 export default function JobsModal() {
   const [open, setOpen] = React.useState(false);
-  const classes = styles;
+  const classes = useStyles();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -75,43 +81,44 @@ export default function JobsModal() {
   };
 
   return (
-    <div>
-      <AddBoxIcon onClick={handleClickOpen} />
-      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="sm">
-        <DialogContent dividers>
-          <div>
-            <TextField id="outlined-basic" label="Company Name" variant="outlined" />
-          </div>
-          <div>
-            <TextField id="outlined-basic" label="Job Title" variant="outlined" />
-          </div>
-          <div>
-            <GoogleMaps />
-          </div>
-          <div>
-            <TextField id="outlined-basic" label="Job Link Url" variant="outlined" />
-          </div>
-          <div>
-            <SalaryInput />
-          </div>
-          <div>
-          <TextField id="outlined-multiline-static" label="Details" multiline rows={4} variant="outlined"/>
-          </div>
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Events
-        </DialogTitle>
-        <DialogTitle display="flex">
-          <TextField id="outlined-basic" label="Upcoming Event" variant="outlined" />
-          <DatePicker />
-          <AddToCalendar />
-        </DialogTitle>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
-            Save changes
-          </Button>
-        </DialogActions>
-      </Dialog>
+   <div>
+      <Grid container xs={2}>
+        <AddBoxIcon onClick={handleClickOpen} />
+        <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="sm">
+          <DialogContent dividers>
+            <div>
+              <TextField id="outlined-basic" label="Company Name" variant="outlined" className={classes.textField} />
+              <Status />
+            </div>
+            <div>
+              <TextField id="outlined-basic" label="Job Title" variant="outlined" className={classes.textField} />
+            </div>
+            <div>
+              <GoogleMaps className={classes.textField}/>
+            </div>
+            <div>
+              <TextField id="outlined-basic" label="Job Link Url" variant="outlined" className={classes.textField} />
+            </div>
+            <div>
+              <SalaryInput className={classes.textField}/>
+            </div>
+            <div>
+            <TextField id="outlined-multiline-static" label="Details" multiline rows={4} variant="outlined" className={classes.textField}/>
+            </div>
+            <h3 className={classes.textField}>Events</h3>
+            <TextField id="outlined-basic" label="Upcoming Event" variant="outlined" className={classes.textField}/>
+            <DatePicker />
+            <AddToCalendar />
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={handleClose} color="primary">
+              Save changes
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Grid>
     </div>
   );
 }
+
+   

@@ -17,7 +17,6 @@ export default function DatePicker() {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Grid container justify="space-around">
         <KeyboardDatePicker
           disableToolbar
           variant="outlined"
@@ -31,7 +30,6 @@ export default function DatePicker() {
             'aria-label': 'change date',
           }}
         />
-      </Grid>
     </MuiPickersUtilsProvider>
   );
 }
