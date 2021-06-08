@@ -12,6 +12,9 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import TextField from '@material-ui/core/TextField';
 import { useDebounce } from 'use-debounce';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import GoogleMaps from '../components/Location-input';
 import DatePicker from '../components/DatePicker';
 import Status from '../components/Status';
@@ -139,6 +142,28 @@ export default function JobsModal() {
                   </div>
                   <TextField required id="outlined-basic" label="Company Name" variant="outlined" className={classes.textField} name="company" value={company} onChange={(event) => setCompany(event.target.value)} />
                   <Status value={status} onChange={(event) => setStatus(event.target.value)} />
+                  <div>
+                    <FormControl variant="outlined" className={classes.formControl}>
+                      <InputLabel htmlFor="outlined-age-native-simple">Status</InputLabel>
+                      <Select
+                        native
+                        value={status}
+                        onChange={(event) => setStatus(event.target.value)}
+                        label="Status"
+                        inputProps={{
+                          name: 'status',
+                          id: 'outlined-age-native-simple',
+                        }}
+                      >
+                        <option aria-label="None" value="" />
+                        <option value={0}>Interested</option>
+                        <option value={1}>Applied</option>
+                        <option value={2}>Interviewing</option>
+                        <option value={3}>Offers</option>
+                        <option value={4}>Rejected</option>
+                      </Select>
+                    </FormControl>
+                  </div>
                 </div>
                 <div>
                   <TextField required id="outlined-basic" label="Job Title" variant="outlined" className={classes.textField} name="title" value={title} onChange={(event) => setTitle(event.target.value)} />
