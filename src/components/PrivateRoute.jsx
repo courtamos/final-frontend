@@ -11,7 +11,7 @@ const PrivateRoute = ({ children, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={() => (user === true
+      render={() => (user === null
         ? <Redirect to="/login" />
         : children)}
     />
