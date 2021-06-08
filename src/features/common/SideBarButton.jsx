@@ -1,19 +1,25 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
-import { StylesProvider } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
-import './SideBarButton.scss';
+const useStyles = makeStyles({
+  root: {
+    margin: '5px',
+    width: '75px',
+    height: '75px',
+    lineHeight: '0em',
+  },
+});
 
 export const SideBarButton = (props) => {
+  const classes = useStyles();
   const { onClick, children } = props;
 
   return (
-    <StylesProvider injectFirst>
-      <Button className="button" onClick={onClick}>
-        { children }
-      </Button>
-    </StylesProvider>
+    <Button className={classes.root} onClick={onClick}>
+      { children }
+    </Button>
   );
 };
 
