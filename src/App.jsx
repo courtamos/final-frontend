@@ -55,7 +55,6 @@ function App() {
           <Login />
         </Route>
       </Switch>
-
     </Router>
   );
 }

@@ -1,15 +1,23 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { Paper, makeStyles } from '@material-ui/core';
+import JobsModal from './Jobs-modal';
+
+const useStyles = makeStyles((theme) => ({
+  pageContent: {
+    margin: theme.spacing(5),
+    padding: theme.spacing(3),
+  },
+}));
 
 const Jobs = () => {
-  useEffect(() => {
-    axios.get('/api/jobs')
-      .then((res) => res)
-      .catch((err) => err);
-  }, []);
+  const classes = useStyles();
 
   return (
-    <div><h1>Jobs</h1></div>
+    <>
+      <Paper className={classes.pageContent}>
+        <JobsModal />
+      </Paper>
+    </>
   );
 };
 
