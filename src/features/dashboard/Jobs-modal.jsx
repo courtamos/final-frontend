@@ -21,6 +21,10 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import {
+  google,
+} from 'calendar-link';
+import InsertInvitationSharpIcon from '@material-ui/icons/InsertInvitationSharp';
 import { SideBarButton } from '../common/SideBarButton';
 
 import './Jobs-modal.scss';
@@ -160,6 +164,17 @@ export const JobsModal = () => {
     return 'https://i.imgur.com/n7X5rsl.png';
   };
 
+  const calendarEvent = {
+    title: events,
+    description: eventDetails,
+    start: selectedDate,
+    duration: [3, 'hour'],
+  };
+
+  const calendarButton = () => {
+    window.open(google(calendarEvent));
+  };
+
   return (
     <div>
       <StylesProvider>
@@ -235,6 +250,10 @@ export const JobsModal = () => {
                     }}
                   />
                 </MuiPickersUtilsProvider>
+                <Button onClick={calendarButton}>
+                  <InsertInvitationSharpIcon />
+                  Add to Google Calendar
+                </Button>
                 <TextField id="standard-multiline-flexible" multiline label="Details" className={classes.textField} name="details" value={eventDetails} onChange={(event) => setEventDetails(event.target.value)} />
                 <TextField id="standard-basic" label="Event Location" className={classes.textField} name="event location" value={eventLocation} onChange={(event) => setEventLocation(event.target.value)} />
                 <SideBarButton>

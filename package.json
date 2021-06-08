@@ -16,6 +16,7 @@
     "@types/date-fns": "^2.6.0",
     "autosuggest-highlight": "^3.1.1",
     "axios": "^0.21.1",
+    "calendar-link": "^2.1.1",
     "cross-fetch": "^3.1.4",
     "date-fns": "^2.22.1",
     "dotenv": "^10.0.0",
