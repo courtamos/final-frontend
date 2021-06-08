@@ -164,7 +164,6 @@ export const JobsModal = () => {
                           id: 'outlined-age-native-simple',
                         }}
                       >
-                        <option aria-label="None" value="" />
                         <option value={0}>Interested</option>
                         <option value={1}>Applied</option>
                         <option value={2}>Interviewing</option>
