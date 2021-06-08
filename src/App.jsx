@@ -1,27 +1,30 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import Login from './features/auth/Login'
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import Login from './features/auth/Login';
 import Signup from './features/auth/Signup';
 import Logout from './features/dashboard/Logout';
 import PrivateRoute from './components/PrivateRoute';
 import { authSelector, fetchLoggedInStatus } from './features/auth/authSlice';
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 function App() {
   const dispatch = useDispatch();
   const { status } = useSelector(authSelector);
 
   useEffect(() => {
-    dispatch(fetchLoggedInStatus())
-  }, [dispatch])
+    dispatch(fetchLoggedInStatus());
+  }, [dispatch]);
 
-  if (status === 'loading') return (
-    <Backdrop open>
-      <CircularProgress color="inherit" />
-    </Backdrop>
-  );
+  if (status === 'loading') {
+    return (
+      <Backdrop open>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    );
+  }
 
   return (
     <Router>
@@ -32,10 +35,10 @@ function App() {
           <Switch>
             <Route path="/dashboard/profile">
               <h1>Profile</h1>
-            </Route> 
+            </Route>
             <Route path="/dashboard/jobs">
               <h1>Jobs</h1>
-            </Route> 
+            </Route>
           </Switch>
         </PrivateRoute>
         <Route path="/profile">
@@ -46,7 +49,7 @@ function App() {
           <Signup />
         </Route>
         <Route path={['/login', '/']}>
-          <h1>Login</h1> 
+          <h1>Login</h1>
           <Login />
         </Route>
       </Switch>

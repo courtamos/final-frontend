@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import axios from 'axios';
 
-export const Users = () => {
+const Users = () => {
   useEffect(() => {
     axios.get('/api/users')
-      .then(res => console.log(res))
-  }, [])
+      .then((res) => res);
+  }, []);
 
   return (
     <div><h1>Users</h1></div>
-  )
-}
+  );
+};
+
+export default Users;
