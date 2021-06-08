@@ -1,28 +1,69 @@
 import React from 'react';
-
-// React Components
 import { Box, Container } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 // Custom Components
 import SideBar from '../common/SideBar';
 import DashboardColumn from './DashboardColumn';
 
-const Jobs = () => (
-  <Container id="dashboard-container" disableGutters>
-    <Box display="flex" flexDirection="row">
-      <Box display="flex">
+const Dashboard = () => {
+  // const { data } = props;
+  // Dummy Data
+  const data = {
+    interested: [{
+      company: 'Facebook',
+      title: 'Full-Stack Web Developer',
+      description: 'Remote, Full Time',
+      location: 'Calgary, AB',
+    }],
+    applied: [{
+      company: 'Facebook',
+      title: 'Full-Stack Web Developer',
+      description: 'Remote, Full Time',
+      location: 'Calgary, AB',
+    }],
+    interviewing: [{
+      company: 'Facebook',
+      title: 'Full-Stack Web Developer',
+      description: 'Remote, Full Time',
+      location: 'Calgary, AB',
+    }],
+    offer: [{
+      company: 'Facebook',
+      title: 'Full-Stack Web Developer',
+      description: 'Remote, Full Time',
+      location: 'Calgary, AB',
+    }],
+    rejected: [{
+      company: 'Facebook',
+      title: 'Full-Stack Web Developer',
+      description: 'Remote, Full Time',
+      location: 'Calgary, AB',
+    }],
+  };
+
+  return (
+    <Container id="dashboard-container" disableGutters style={{ margin: '0px' }}>
+      <Box display="flex" flexDirection="row" width="100vw">
         <SideBar />
+        <Box id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between">
+          <DashboardColumn items={data.interested} title="Interested" color="#ffe7d6" />
+          <DashboardColumn items={data.applied} title="Applied" color="#ffa7a5" />
+          <DashboardColumn items={data.interviewing} title="Interviewing" color="#ee6a7c" />
+          <DashboardColumn items={data.offer} title="Offer" color="#ab5675" />
+          <DashboardColumn items={data.rejected} title="Rejected" color="#73464f" />
+        </Box>
       </Box>
-      <Box id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between">
-        <DashboardColumn>Interested</DashboardColumn>
-        <DashboardColumn>Applied</DashboardColumn>
-        <DashboardColumn>Interviewing</DashboardColumn>
-        <DashboardColumn>Offers</DashboardColumn>
-        <DashboardColumn>Rejected</DashboardColumn>
-      </Box>
-    </Box>
+    </Container>
+  );
+};
 
-  </Container>
-);
+Dashboard.propTypes = {
+  data: PropTypes.shape({}),
+};
 
-export default Jobs;
+Dashboard.defaultProps = {
+  data: {},
+};
+
+export default Dashboard;

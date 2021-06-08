@@ -3,25 +3,46 @@ import PropTypes from 'prop-types';
 
 // React Components
 import { Box } from '@material-ui/core';
+import DashboardColumnHeading from './DashboardColumnHeading';
+import JobItem from '../../components/JobItem';
 
 // Custom Components
 
 const DashboardColumn = (props) => {
-  const { children } = props;
+  const { title, color, items } = props;
+
+  const jobItems = items.map((item) => (
+    <JobItem
+      company={item.company}
+      title={item.title}
+      description={item.description}
+      location={item.location}
+    />
+  ));
 
   return (
-    <Box display="flex">
-      {children}
+    <Box width={1}>
+      <DashboardColumnHeading title={title} color={color} />
+      {jobItems}
     </Box>
   );
 };
 
 DashboardColumn.propTypes = {
-  children: PropTypes.node,
+  title: PropTypes.string,
+  color: PropTypes.string,
+  items: PropTypes.arrayOf(PropTypes.object),
 };
 
 DashboardColumn.defaultProps = {
-  children: {},
+  title: 'Category',
+  color: '#ee6a7c',
+  items: [{
+    company: 'Facebook',
+    title: 'Full-Stack Web Developer',
+    description: 'Full Time, Remote',
+    location: 'Calgary, AB',
+  }],
 };
 
 export default DashboardColumn;
