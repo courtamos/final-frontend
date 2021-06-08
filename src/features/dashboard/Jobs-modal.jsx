@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable camelcase */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { withStyles, makeStyles, StylesProvider } from '@material-ui/core/styles';
@@ -15,8 +15,16 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import AddIcon from '@material-ui/icons/Add';
-import GoogleMaps from '../../components/Location-input';
-import DatePicker from '../../components/DatePicker';
+// import GoogleMaps from '../../components/Location-input';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import {
+  google,
+} from 'calendar-link';
+import InsertInvitationSharpIcon from '@material-ui/icons/InsertInvitationSharp';
 import { SideBarButton } from '../common/SideBarButton';
 
 import './Jobs-modal.scss';
@@ -56,6 +64,7 @@ const DialogActions = withStyles((theme) => ({
 export const JobsModal = () => {
   const [open, setOpen] = useState(false);
   const user_id = 1;
+  const job_id = 1;
   const [company, setCompany] = useState('');
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState(0);
@@ -67,6 +76,10 @@ export const JobsModal = () => {
   const [contact_email, setContact_email] = useState('');
   const [contact_phone, setContact_phone] = useState('');
   const [contact_socialmedia, setContact_socialmedia] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
+  const [events, setEvents] = useState('');
+  const [eventDetails, setEventDetails] = useState('');
+  const [eventLocation, setEventLocation] = useState('');
 
   function reset() {
     setCompany('');
@@ -80,12 +93,10 @@ export const JobsModal = () => {
     setContact_email('');
     setContact_phone('');
     setContact_socialmedia('');
+    setEvents('');
+    setEventDetails('');
+    setEventLocation('');
   }
-
-  useEffect(() => {
-    // axios.get('users/1/jobs')
-    //   .then((res) => console.log('JOB DATA', res));
-  }, []);
 
   const classes = useStyles();
 
@@ -98,33 +109,42 @@ export const JobsModal = () => {
     reset();
   };
 
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
   const handleSubmit = () => {
     if (company === '') {
-      console.log('Company Name Cannot be blank');
-    } else if (title === '') {
-      console.log('Title Cannot be blank');
-    } else {
-      const jobObject = {
-        user_id,
-        company,
-        title,
-        status,
-        salary,
-        url,
-        location,
-        details,
-        contact_name,
-        contact_email,
-        contact_phone,
-        contact_socialmedia,
-      };
-      axios.post('/api/jobs', jobObject).then(() => {
-        handleClose();
-      })
-        .catch((err) => {
-          console.log(err);
-        });
+      return null;
+    } if (title === '') {
+      return null;
     }
+    const jobObject = {
+      user_id,
+      company,
+      title,
+      status,
+      salary,
+      url,
+      location,
+      details,
+      contact_name,
+      contact_email,
+      contact_phone,
+      contact_socialmedia,
+    };
+    const eventsObject = {
+      job_id,
+      title: events,
+      date: selectedDate,
+      details: eventDetails,
+      location: eventLocation,
+    };
+
+    return Promise.all([axios.post('/api/jobs', jobObject)], [axios.post('/api/events', eventsObject)]).then(() => {
+      handleClose();
+    })
+      .catch((err) => err);
   };
 
   const debouncedText = useDebounce(company.replace(/\s/g, ''), 10);
@@ -134,6 +154,17 @@ export const JobsModal = () => {
       return `//logo.clearbit.com/${debouncedText[0]}.com`;
     }
     return 'https://i.imgur.com/n7X5rsl.png';
+  };
+
+  const calendarEvent = {
+    title: events,
+    description: eventDetails,
+    start: selectedDate,
+    duration: [3, 'hour'],
+  };
+
+  const calendarButton = () => {
+    window.open(google(calendarEvent));
   };
 
   return (
@@ -150,9 +181,9 @@ export const JobsModal = () => {
                   <div id="company-logo-holder">
                     <img id="company-logo" src={companyLogo()} alt="" />
                   </div>
-                  <TextField required id="outlined-basic" label="Company Name" variant="outlined" className={classes.textField} name="company" value={company} onChange={(event) => setCompany(event.target.value)} />
+                  <TextField required id="standard-basic" label="Company Name" className={classes.textField} name="company" value={company} onChange={(event) => setCompany(event.target.value)} />
                   <div>
-                    <FormControl variant="outlined" className={classes.formControl}>
+                    <FormControl id="demo-simple-select" className={classes.formControl}>
                       <InputLabel htmlFor="outlined-age-native-simple">Status</InputLabel>
                       <Select
                         native
@@ -174,28 +205,49 @@ export const JobsModal = () => {
                   </div>
                 </div>
                 <div>
-                  <TextField required id="outlined-basic" label="Job Title" variant="outlined" className={classes.textField} name="title" value={title} onChange={(event) => setTitle(event.target.value)} />
+                  <TextField required id="standard-basic" label="Job Title" className={classes.textField} name="title" value={title} onChange={(event) => setTitle(event.target.value)} />
                 </div>
                 <div>
-                  <GoogleMaps className={classes.textField} name="location" value={location} onChange={(event) => setLocation(event.target.value)} />
+                  {/* <GoogleMaps className={classes.textField} name="location"/> */}
+                  <TextField id="standard-basic" label="Location" className={classes.textField} name="location" value={location} onChange={(event) => setLocation(event.target.value)} />
                 </div>
-                <TextField id="outlined-basic" label="Job Link Url" variant="outlined" className={classes.textField} name="url" value={url} onChange={(event) => setUrl(event.target.value)} />
-                <TextField id="outlined-basic" type="number" label="Salary" variant="outlined" className={classes.textField} name="salary" value={salary} onChange={(event) => setSalary(parseInt(event.target.value, 10))} />
+                <TextField id="standard-basic" label="Job Link Url" className={classes.textField} name="url" value={url} onChange={(event) => setUrl(event.target.value)} />
+                <TextField id="standard-basic" type="number" label="Salary" className={classes.textField} name="salary" value={salary} onChange={(event) => setSalary(parseInt(event.target.value, 10))} />
                 <div />
                 <div />
                 <div>
-                  <TextField id="outlined-multiline-static" label="Details" multiline rows={4} variant="outlined" className={classes.textField} name="details" value={details} onChange={(event) => setDetails(event.target.value)} />
+                  <TextField id="standard-multiline-flexible" multiline label="Details" className={classes.textField} name="details" value={details} onChange={(event) => setDetails(event.target.value)} />
                 </div>
                 <h3 className={classes.textField}>Contact</h3>
                 <div>
-                  <TextField id="outlined-basic" label="Contact Name" variant="outlined" className={classes.textField} name="contact_name" value={contact_name} onChange={(event) => setContact_name(event.target.value)} />
-                  <TextField id="outlined-basic" label="Contact Email" variant="outlined" className={classes.textField} name="contact_email" value={contact_email} onChange={(event) => setContact_email(event.target.value)} />
-                  <TextField id="outlined-basic" label="Contact Phone Number" variant="outlined" className={classes.textField} name="contact_phone" value={contact_phone} onChange={(event) => setContact_phone(event.target.value)} />
-                  <TextField id="outlined-basic" label="Contact Links (LinkedIn)" variant="outlined" className={classes.textField} name="contact_socialmedia" value={contact_socialmedia} onChange={(event) => setContact_socialmedia(event.target.value)} />
+                  <TextField id="standard-basic" label="Contact Name" className={classes.textField} name="contact_name" value={contact_name} onChange={(event) => setContact_name(event.target.value)} />
+                  <TextField id="standard-basic" label="Contact Email" className={classes.textField} name="contact_email" value={contact_email} onChange={(event) => setContact_email(event.target.value)} />
+                  <TextField id="standard-basic" label="Contact Phone Number" className={classes.textField} name="contact_phone" value={contact_phone} onChange={(event) => setContact_phone(event.target.value)} />
+                  <TextField id="standard-basic" label="Contact Links (LinkedIn)" className={classes.textField} name="contact_socialmedia" value={contact_socialmedia} onChange={(event) => setContact_socialmedia(event.target.value)} />
                 </div>
                 <h3 className={classes.textField}>Events</h3>
-                <TextField id="outlined-basic" label="Upcoming Event" variant="outlined" className={classes.textField} />
-                <DatePicker />
+                <TextField id="standard-basic" label="Upcoming Event" value={events} onChange={(event) => setEvents(event.target.value)} />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="outlined"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="Date picker inline"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+                <Button onClick={calendarButton}>
+                  <InsertInvitationSharpIcon />
+                  Add to Google Calendar
+                </Button>
+                <TextField id="standard-multiline-flexible" multiline label="Details" className={classes.textField} name="details" value={eventDetails} onChange={(event) => setEventDetails(event.target.value)} />
+                <TextField id="standard-basic" label="Event Location" className={classes.textField} name="event location" value={eventLocation} onChange={(event) => setEventLocation(event.target.value)} />
                 <SideBarButton>
                   <AddIcon className={`${classes.icon} ${classes.add}`} />
                 </SideBarButton>
