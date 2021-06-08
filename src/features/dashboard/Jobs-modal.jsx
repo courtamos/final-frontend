@@ -83,7 +83,7 @@ export const JobsModal = () => {
   }
 
   useEffect(() => {
-    axios.get('/api/jobs')
+    axios.get('users/1/jobs')
       .then((res) => console.log('JOB DATA', res));
   }, []);
 
