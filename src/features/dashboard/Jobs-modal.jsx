@@ -15,8 +15,8 @@ import { useDebounce } from 'use-debounce';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import GoogleMaps from '../components/Location-input';
-import DatePicker from '../components/DatePicker';
+import GoogleMaps from '../../components/Location-input';
+import DatePicker from '../../components/DatePicker';
 
 import './Jobs-modal.scss';
 
