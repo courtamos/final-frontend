@@ -11,26 +11,27 @@ const Login = () => {
   const { user, loggingInStatus } = useSelector(authSelector);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
 
   // if statement to see if user exist -> if yes redirect to dashboard
   if (user) {
     return (
       <Redirect to='/dashboard' />
-    )
-  }
+    );
+  };
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     if (!email || !password) {
-      setError(true);
+      setError("Must include Email and Password");
       return;
+    };
+    
+    const actionResult = await dispatch(login({email, password}));
+
+    if (login.rejected.match(actionResult)) {
+      setError("Email or Password are incorrect")
     }
-    
-    dispatch(login({email, password}));
-    
-    console.log('email: ', email);
-    console.log('password: ', password);  
-  }
+  };
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
@@ -45,7 +46,7 @@ const Login = () => {
           <FormControl fullWidth>
             {error && (
               <Alert severity="error">
-                Error message
+                {error}
               </Alert>
             )}
             <TextField 

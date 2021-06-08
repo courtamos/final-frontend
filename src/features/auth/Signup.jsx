@@ -3,47 +3,51 @@ import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { authSelector, signup } from './authSlice';
 import { Box, FormControl, TextField, Button, Paper } from '@material-ui/core';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Alert from '@material-ui/lab/Alert';
 
 const Signup = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector(authSelector);
+  const { user, signUpStatus } = useSelector(authSelector);
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password_confirmation, setPasswordConfirmation] = useState("")
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
 
   if (user) {
     return (
       <Redirect to='/dashboard' />
-    )
-  }
+    );
+  };
 
-  const handleSignup = (event) => {
+  const handleSignup = async (event) => {
     if (!first_name || !last_name || !email || !password || !password_confirmation) {
-      setError(true)
+      setError("All fields must be filled out");
       return;
-    }
+    };
 
     if (password !== password_confirmation) {
-      setError(true)
+      setError("Passwords do not match");
       return;
-    }
+    };
 
-    dispatch(signup({first_name, last_name, email, password, password_confirmation}));
-    console.log('s/u firstname: ', first_name);
-    console.log('s/u lastname: ', last_name);
-    console.log('s/u email: ', email);
-    console.log('s/u password: ', password);
-    console.log('s/u pass_conf: ', password_confirmation);
-  }
+    const actionResult = await dispatch(signup({first_name, last_name, email, password, password_confirmation}));
+
+    if (signup.rejected.match(actionResult)) {
+      setError("Sign Up failed, try again")
+      return;
+    };
+  };
 
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
       <Paper>
+        {signUpStatus === 'loading' &&
+          <LinearProgress />
+        }
         <Box display="flex" justifyContent="center" mt={5}>
           <img src="../../img/Logo1.png" alt="logo"/>
         </Box>
@@ -51,7 +55,7 @@ const Signup = () => {
           <FormControl fullWidth>
             {error && (
               <Alert severity="error">
-                Error message
+                {error}
               </Alert>
             )}
             <TextField 

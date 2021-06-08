@@ -4,25 +4,26 @@ import axios from 'axios';
 const initialState = {
   user: null,
   status: 'loading',
-  loggingInStatus: 'idle'
+  loggingInStatus: 'idle',
+  signUpStatus: 'idle',
 };
 
 export const fetchLoggedInStatus = createAsyncThunk(
-  'auth/fetchLoggedInStatus',
-  async () => {
+  'auth/fetchLoggedInStatus', 
+  async (_undefined, { rejectWithValue }) => {
     try {
       const response = await axios.get('/api/logged_in');
       // The value we return becomes the `fulfilled` action payload
       return response.data;
     } catch(error) {
-      console.log('error', error)
+      return rejectWithValue(error.response.data)
     }
   }
 );
 
 export const login = createAsyncThunk(
   'auth/login',
-  async ({email, password}) => {
+  async ({email, password}, { rejectWithValue }) => {
     try {
       const response = await axios.post('/api/login', {
         user: {
@@ -33,19 +34,14 @@ export const login = createAsyncThunk(
       // The value we return becomes the `fulfilled` action payload
       return response.data;
     } catch(error) {
-      console.log('error', error)
+      return rejectWithValue(error.response.data)
     }
   }
 );
 
 export const signup = createAsyncThunk(
   'auth/signup',
-  async ({first_name, last_name, email, password, password_confirmation}) => {
-    console.log('firstname...', first_name);
-    console.log('lastname...', last_name);
-    console.log('email...', email);
-    console.log('password...', password);
-    console.log('passwordconf...', password_confirmation);
+  async ({first_name, last_name, email, password, password_confirmation}, { rejectWithValue }) => {
     try {
       const response = await axios.post('/api/users', {
         user: {
@@ -56,24 +52,23 @@ export const signup = createAsyncThunk(
           password_confirmation
         }
       }, { withCredentials: true });
-      console.log('response', response);
       // The value we return becomes the `fulfilled` action payload
       return response.data;
     } catch(error) {
-      console.log('error', error)
+      return rejectWithValue(error.response.data)
     }
   }
 );
 
 export const logout = createAsyncThunk(
   'auth/logout',
-  async () => {
+  async (_undefined, { rejectWithValue }) => {
     try {
       const response = await axios.delete('/api/logout');
       // The value we return becomes the `fulfilled` action payload
       return response.data;
     } catch(error) {
-      console.log('error', error)
+      return rejectWithValue(error.response.data)
     }
   }
 );
@@ -108,25 +103,25 @@ export const authSlice = createSlice({
         state.loggingInStatus = 'failed';
       })
       .addCase(signup.pending, (state) => {
-        state.status = 'loading';
+        state.signUpStatus = 'loading';
       })
       .addCase(signup.fulfilled, (state, action) => {
-        state.status = 'idle';
+        state.signUpStatus = 'idle';
         if (action.payload.user && action.payload.status === 'created') {
           state.user = action.payload.user
         }
       })
       .addCase(signup.rejected, (state) => {
-        state.status = 'failed';
+        state.signUpStatus = 'failed';
       })
-      .addCase(logout.pending, (state, action) => {
+      .addCase(logout.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(logout.fulfilled, (state, action) => {
         state.status = 'idle';
         if (action.payload.logged_out) {
           state.user = null;
-        }
+        };
       })
   },
 });
