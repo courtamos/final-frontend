@@ -17,7 +17,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import GoogleMaps from '../components/Location-input';
 import DatePicker from '../components/DatePicker';
-import Status from '../components/Status';
 
 import './Jobs-modal.scss';
 
@@ -141,7 +140,6 @@ export default function JobsModal() {
                     <img id="company-logo" src={companyLogo()} alt="" />
                   </div>
                   <TextField required id="outlined-basic" label="Company Name" variant="outlined" className={classes.textField} name="company" value={company} onChange={(event) => setCompany(event.target.value)} />
-                  <Status value={status} onChange={(event) => setStatus(event.target.value)} />
                   <div>
                     <FormControl variant="outlined" className={classes.formControl}>
                       <InputLabel htmlFor="outlined-age-native-simple">Status</InputLabel>
