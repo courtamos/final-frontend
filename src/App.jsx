@@ -4,8 +4,8 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Users from './features/users/Users';
-import Jobs from './features/jobs/Jobs';
+import User from './features/user/User';
+import Jobs from './features/dashboard/Jobs';
 import Events from './features/events/Events';
 import PrivateRoute from './components/PrivateRoute';
 import { authSelector, fetchLoggedInStatus } from './features/auth/authSlice';
@@ -28,7 +28,7 @@ function App() {
 
   return (
     <Router>
-      <Users />
+      <User />
       <Jobs />
       <Events />
 

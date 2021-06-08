@@ -8,7 +8,7 @@ import { Box, Paper } from '@material-ui/core';
 import { StylesProvider } from '@material-ui/core/styles';
 import FaceIcon from '@material-ui/icons/Face';
 import AddIcon from '@material-ui/icons/Add';
-import { authSelector } from '../features/auth/authSlice';
+import { authSelector } from '../auth/authSlice';
 
 // Custom Components
 import { SideBarButton } from './SideBarButton';

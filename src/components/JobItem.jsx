@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 // MaterialUI Components
 import {
-  Box, Button, Paper, Typography,
+  Box, Button, Typography,
 } from '@material-ui/core';
 import { StylesProvider } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
