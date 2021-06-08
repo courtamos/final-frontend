@@ -1,17 +1,33 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Box, FormControl, TextField, Button, Paper,
 } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Alert from '@material-ui/lab/Alert';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { authSelector, signup } from './authSlice';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+  },
+}));
+
 const Signup = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const { user, signUpStatus } = useSelector(authSelector);
   const [first_name, setFirstName] = useState('');
@@ -20,6 +36,8 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [password_confirmation, setPasswordConfirmation] = useState('');
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
 
   if (user) {
     return (
@@ -49,7 +67,7 @@ const Signup = () => {
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
-      <Paper>
+      <Paper className={classes.root}>
         {signUpStatus === 'loading'
           && <LinearProgress />}
         <Box display="flex" justifyContent="center" mt={5}>
@@ -58,40 +76,79 @@ const Signup = () => {
         <Box display="flex" justifyContent="center" alignItems="center" p={5} width={300}>
           <FormControl fullWidth>
             {error && (
-              <Alert severity="error">
-                {error}
-              </Alert>
+            <Alert severity="error" fullWidth style={{ marginBottom: '10px' }}>
+              {error}
+            </Alert>
             )}
-            <TextField
-              label="First Name"
-              value={first_name}
-              onChange={(event) => setFirstName(event.target.value)}
-            />
-            <TextField
-              label="Last Name"
-              value={last_name}
-              onChange={(event) => setLastName(event.target.value)}
-            />
-            <TextField
-              label="Email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-            <TextField
-              label="Password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-            <TextField
-              label="Password Confirmation"
-              value={password_confirmation}
-              onChange={(event) => setPasswordConfirmation(event.target.value)}
-            />
-            <Box display="flex" justifyContent="center" m={5}>
-              <Button onClick={handleSignup}>
-                Sign Up
-              </Button>
+            <FormControl fullWidth>
+              <TextField
+                label="First Name"
+                value={first_name}
+                onChange={(event) => setFirstName(event.target.value)}
+                style={{ marginBottom: '10px' }}
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <TextField
+                label="Last Name"
+                value={last_name}
+                onChange={(event) => setLastName(event.target.value)}
+                style={{ marginBottom: '10px' }}
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <TextField
+                label="Email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                style={{ marginBottom: '10px' }}
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel>Password</InputLabel>
+              <Input
+                label="Password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                style={{ marginBottom: '10px' }}
+                endAdornment={(
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+              )}
+              />
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel>Password Confirmation</InputLabel>
+              <Input
+                label="Password Confirmation"
+                type={showPasswordConfirmation ? 'text' : 'password'}
+                value={password_confirmation}
+                onChange={(event) => setPasswordConfirmation(event.target.value)}
+                endAdornment={(
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPasswordConfirmation((prev) => !prev)}
+                    >
+                      {showPasswordConfirmation ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+              )}
+              />
+            </FormControl>
+            <Box marginTop={5} marginBottom={3}>
+              <Button variant="contained" color="secondary" onClick={handleSignup} fullWidth>Sign Up</Button>
             </Box>
+            <Link to="/login" style={{ textAlign: 'center' }}>
+              Already have an account? Login!
+            </Link>
           </FormControl>
         </Box>
       </Paper>
