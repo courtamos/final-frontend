@@ -6,9 +6,11 @@ import { Link } from 'react-router-dom';
 import { Box, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FaceIcon from '@material-ui/icons/Face';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // import { authSelector } from '../auth/authSlice';
 
 // Custom Components
+import axios from 'axios';
 import { SideBarButton } from './SideBarButton';
 import { JobsModal } from '../dashboard/Jobs-modal';
 
@@ -30,6 +32,12 @@ const SideBar = () => {
   // const { user } = useSelector(authSelector);
   const user = { id: '1' };
 
+  const handleLogOut = () => {
+    axios.delete('api/logout').then(() => {
+      window.location.href = '/login';
+    });
+  };
+
   return (
     <Box id="sidebar" display="flex" height="100vh">
       <Paper elevation={1} square>
@@ -48,6 +56,11 @@ const SideBar = () => {
                   </Link>
                 </SideBarButton>
                 <JobsModal />
+                <SideBarButton onClick={handleLogOut}>
+                  <Link to={`/users/${user.id}`} className="link">
+                    <ExitToAppIcon className={classes.icon} />
+                  </Link>
+                </SideBarButton>
               </>
             )
             : <></>}
