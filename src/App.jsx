@@ -31,9 +31,6 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path={['/login', '/']}>
-          <h1>Login</h1>
-        </Route>
         <PrivateRoute path="/dashboard">
           <Dashboard />
           <Logout />

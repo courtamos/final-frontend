@@ -1,17 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
 // MaterialUI Components
 import { Box, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FaceIcon from '@material-ui/icons/Face';
-import AddIcon from '@material-ui/icons/Add';
 // import { authSelector } from '../auth/authSlice';
 
 // Custom Components
 import { SideBarButton } from './SideBarButton';
+import { JobsModal } from '../dashboard/Jobs-modal';
 
 const useStyles = makeStyles({
   link: {
@@ -25,9 +24,8 @@ const useStyles = makeStyles({
   },
 });
 
-const SideBar = (props) => {
+const SideBar = () => {
   const classes = useStyles();
-  const { onAddItem } = props;
 
   // const { user } = useSelector(authSelector);
   const user = { id: '1' };
@@ -49,9 +47,7 @@ const SideBar = (props) => {
                     <FaceIcon className={classes.icon} />
                   </Link>
                 </SideBarButton>
-                <SideBarButton onClick={onAddItem}>
-                  <AddIcon className={`${classes.icon} ${classes.add}`} />
-                </SideBarButton>
+                <JobsModal />
               </>
             )
             : <></>}
@@ -59,10 +55,6 @@ const SideBar = (props) => {
       </Paper>
     </Box>
   );
-};
-
-SideBar.propTypes = {
-  onAddItem: PropTypes.func,
 };
 
 SideBar.defaultProps = {

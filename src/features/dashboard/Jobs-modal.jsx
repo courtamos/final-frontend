@@ -9,14 +9,15 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
-import AddBoxIcon from '@material-ui/icons/AddBox';
 import TextField from '@material-ui/core/TextField';
 import { useDebounce } from 'use-debounce';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import AddIcon from '@material-ui/icons/Add';
 import GoogleMaps from '../../components/Location-input';
 import DatePicker from '../../components/DatePicker';
+import { SideBarButton } from '../common/SideBarButton';
 
 import './Jobs-modal.scss';
 
@@ -27,6 +28,15 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     margin: theme.spacing(1),
     width: '25ch',
+  },
+  link: {
+    color: 'black',
+  },
+  icon: {
+    fontSize: '50px',
+  },
+  add: {
+    color: 'black',
   },
 }));
 
@@ -43,7 +53,7 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function JobsModal() {
+export const JobsModal = () => {
   const [open, setOpen] = useState(false);
   const user_id = 1;
   const [company, setCompany] = useState('');
@@ -108,8 +118,7 @@ export default function JobsModal() {
         contact_phone,
         contact_socialmedia,
       };
-      axios.post('/api/jobs', jobObject).then((res) => {
-        console.log('This is my response', res);
+      axios.post('/api/jobs', jobObject).then(() => {
         handleClose();
       })
         .catch((err) => {
@@ -131,7 +140,9 @@ export default function JobsModal() {
     <div>
       <StylesProvider>
         <Grid container>
-          <AddBoxIcon onClick={handleClickOpen} />
+          <SideBarButton onClick={handleClickOpen}>
+            <AddIcon className={`${classes.icon} ${classes.add}`} />
+          </SideBarButton>
           <Dialog className="job-modal-background" onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="sm">
             <form className="job-modal-box" onSubmit={(event) => event.preventDefault()}>
               <DialogContent dividers>
@@ -186,6 +197,9 @@ export default function JobsModal() {
                 <h3 className={classes.textField}>Events</h3>
                 <TextField id="outlined-basic" label="Upcoming Event" variant="outlined" className={classes.textField} />
                 <DatePicker />
+                <SideBarButton>
+                  <AddIcon className={`${classes.icon} ${classes.add}`} />
+                </SideBarButton>
               </DialogContent>
               <DialogActions>
                 <Button type="submit" autoFocus onClick={handleClose} variant="contained" color="default">
@@ -201,4 +215,6 @@ export default function JobsModal() {
       </StylesProvider>
     </div>
   );
-}
+};
+
+export default JobsModal;
