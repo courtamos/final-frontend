@@ -6,7 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import parse from 'autosuggest-highlight/parse';
+import { parse } from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
 import PropTypes from 'prop-types';
 
