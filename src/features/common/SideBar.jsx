@@ -33,7 +33,7 @@ const SideBar = (props) => {
   const user = { id: '1' };
 
   return (
-    <Box id="sidebar" display="flex" height="100%">
+    <Box id="sidebar" display="flex" height="100vh">
       <Paper elevation={1} square>
         <Box display="flex" flexGrow={1} flexDirection="column" height="100%">
           <SideBarButton>
