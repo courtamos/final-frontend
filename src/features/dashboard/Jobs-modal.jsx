@@ -83,8 +83,8 @@ export const JobsModal = () => {
   }
 
   useEffect(() => {
-    axios.get('users/1/jobs')
-      .then((res) => console.log('JOB DATA', res));
+    // axios.get('users/1/jobs')
+    //   .then((res) => console.log('JOB DATA', res));
   }, []);
 
   const classes = useStyles();
