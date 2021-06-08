@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable camelcase */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { withStyles, makeStyles, StylesProvider } from '@material-ui/core/styles';
@@ -98,11 +98,6 @@ export const JobsModal = () => {
     setEventLocation('');
   }
 
-  useEffect(() => {
-    // axios.get('users/1/jobs')
-    //   .then((res) => console.log('JOB DATA', res));
-  }, []);
-
   const classes = useStyles();
 
   const handleClickOpen = () => {
@@ -120,39 +115,36 @@ export const JobsModal = () => {
 
   const handleSubmit = () => {
     if (company === '') {
-      console.log('Company Name Cannot be blank');
-    } else if (title === '') {
-      console.log('Title Cannot be blank');
-    } else {
-      const jobObject = {
-        user_id,
-        company,
-        title,
-        status,
-        salary,
-        url,
-        location,
-        details,
-        contact_name,
-        contact_email,
-        contact_phone,
-        contact_socialmedia,
-      };
-      const eventsObject = {
-        job_id,
-        title: events,
-        date: selectedDate,
-        details: eventDetails,
-        location: eventLocation,
-      };
-      console.log(eventsObject);
-      Promise.all([axios.post('/api/jobs', jobObject)], [axios.post('/api/events', eventsObject)]).then(() => {
-        handleClose();
-      })
-        .catch((err) => {
-          console.log(err);
-        });
+      return null;
+    } if (title === '') {
+      return null;
     }
+    const jobObject = {
+      user_id,
+      company,
+      title,
+      status,
+      salary,
+      url,
+      location,
+      details,
+      contact_name,
+      contact_email,
+      contact_phone,
+      contact_socialmedia,
+    };
+    const eventsObject = {
+      job_id,
+      title: events,
+      date: selectedDate,
+      details: eventDetails,
+      location: eventLocation,
+    };
+
+    return Promise.all([axios.post('/api/jobs', jobObject)], [axios.post('/api/events', eventsObject)]).then(() => {
+      handleClose();
+    })
+      .catch((err) => err);
   };
 
   const debouncedText = useDebounce(company.replace(/\s/g, ''), 10);

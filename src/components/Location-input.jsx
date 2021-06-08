@@ -24,14 +24,11 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
-export default function GoogleMaps(props) {
+export default function GoogleMaps() {
   const [value, setValue] = React.useState('');
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
-  const { onChange } = props;
-  console.log(value.description);
-  console.log(onChange);
 
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
@@ -98,7 +95,6 @@ export default function GoogleMaps(props) {
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
-        console.log(setValue(newValue));
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
