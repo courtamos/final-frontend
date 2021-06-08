@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Container } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 // Custom Components
 import SideBar from '../common/SideBar';
 import DashboardColumn from './DashboardColumn';
 
 const Dashboard = () => {
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    axios.get('users/1/jobs').then((res) => {
+      // Set jobs state
+      setJobs({ ...res.data });
+    });
+  }, []);
   // const { data } = props;
   // Dummy Data
-  const data = {
+  let data = jobs;
+  data = {
     interested: [{
       company: 'Facebook',
       title: 'Full-Stack Web Developer',
