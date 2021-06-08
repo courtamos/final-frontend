@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
+import PropTypes from 'prop-types';
 
 function loadScript(src, position, id) {
   if (!position) {
@@ -23,11 +24,14 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
-export default function GoogleMaps() {
-  const [value, setValue] = React.useState(null);
+export default function GoogleMaps(props) {
+  const [value, setValue] = React.useState('');
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
+  const { onChange } = props;
+  console.log(value.description);
+  console.log(onChange);
 
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
@@ -94,9 +98,9 @@ export default function GoogleMaps() {
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
+        console.log(setValue(newValue));
       }}
       onInputChange={(event, newInputValue) => {
-        console.log(newInputValue);
         setInputValue(newInputValue);
       }}
       renderInput={(params) => <TextField {...params} label="Location" variant="outlined" fullWidth />}
@@ -129,3 +133,13 @@ export default function GoogleMaps() {
     />
   );
 }
+
+GoogleMaps.propTypes = {
+  onChange: PropTypes.func,
+  children: PropTypes.node,
+};
+
+GoogleMaps.defaultProps = {
+  onChange: () => {},
+  children: {},
+};
