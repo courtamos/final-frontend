@@ -1,24 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // MaterialUI Components
 import { Box, Paper } from '@material-ui/core';
-import { StylesProvider } from '@material-ui/core/styles';
+import { makeStyles, StylesProvider } from '@material-ui/core/styles';
 import FaceIcon from '@material-ui/icons/Face';
 import AddIcon from '@material-ui/icons/Add';
-import { authSelector } from '../auth/authSlice';
+// import { authSelector } from '../auth/authSlice';
 
 // Custom Components
 import { SideBarButton } from './SideBarButton';
 
 import './SideBar.scss';
 
+const useStyles = makeStyles({
+  link: {
+    color: 'black',
+  },
+  icon: {
+    fontSize: '50px',
+  },
+  add: {
+    color: 'black',
+  },
+});
+
 const SideBar = (props) => {
+  const classes = useStyles();
+
   const { onAddItem } = props;
 
-  const { user } = useSelector(authSelector);
+  // const { user } = useSelector(authSelector);
+  const user = { id: '1' };
 
   return (
     <StylesProvider injectFirst>
@@ -35,11 +50,11 @@ const SideBar = (props) => {
                 <>
                   <SideBarButton>
                     <Link to={`/users/${user.id}`} className="link">
-                      <FaceIcon className="icon" />
+                      <FaceIcon className={classes.icon} />
                     </Link>
                   </SideBarButton>
                   <SideBarButton onClick={onAddItem}>
-                    <AddIcon className="icon add" />
+                    <AddIcon className={`${classes.icon} ${classes.add}`} />
                   </SideBarButton>
                 </>
               )

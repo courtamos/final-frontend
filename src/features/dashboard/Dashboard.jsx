@@ -15,7 +15,7 @@ const Jobs = () => {
     ],
   });
   return (
-    <Container id="dashboard-container" disableGutters fluid>
+    <Container id="dashboard-container" disableGutters>
       <Box display="flex" flexDirection="row">
         <Box display="flex">
           <SideBar />
