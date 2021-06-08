@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-
 import Dashboard from './features/dashboard/Dashboard';
 import Login from './features/auth/Login';
 import Signup from './features/auth/Signup';
