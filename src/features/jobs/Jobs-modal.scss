@@ -1,0 +1,23 @@
+@import "../../styles/variables.scss";
+
+.job-modal {
+  &-box {
+    background-color: $theme-color4;
+    opacity: 100%;
+  }
+
+  #outlined-basic {
+    background-color: white;
+    z-index: 1;
+  }
+}
+
+#company-logo {
+  width: 100px;
+  height: 100px;
+}
+
+#company-logo-holder {
+  width: 100px;
+  height: 100px;
+}
