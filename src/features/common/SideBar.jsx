@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 
@@ -7,6 +7,7 @@ import { Box, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FaceIcon from '@material-ui/icons/Face';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AddIcon from '@material-ui/icons/Add';
 // import { authSelector } from '../auth/authSlice';
 
 // Custom Components
@@ -27,6 +28,7 @@ const useStyles = makeStyles({
 });
 
 const SideBar = () => {
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
 
   // const { user } = useSelector(authSelector);
@@ -36,6 +38,18 @@ const SideBar = () => {
     axios.delete('api/logout').then(() => {
       window.location.href = '/login';
     });
+  };
+
+  const handleClickOpen = () => {
+    if (!open) {
+      setOpen(true);
+    }
+  };
+
+  const handleClose = () => {
+    if (open) {
+      setOpen(false);
+    }
   };
 
   return (
@@ -55,7 +69,10 @@ const SideBar = () => {
                     <FaceIcon className={classes.icon} />
                   </Link>
                 </SideBarButton>
-                <JobsModal />
+                <SideBarButton onClick={handleClickOpen}>
+                  <AddIcon className={`${classes.icon} ${classes.add}`} />
+                </SideBarButton>
+                <JobsModal open={open} onClose={handleClose} />
                 <SideBarButton onClick={handleLogOut}>
                   <Link to={`/users/${user.id}`} className="link">
                     <ExitToAppIcon className={classes.icon} />

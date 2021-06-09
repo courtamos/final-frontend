@@ -10,13 +10,20 @@ import JobItem from '../../components/JobItem';
 
 const DashboardColumn = (props) => {
   const { title, color, items } = props;
-
   const jobItems = items.map((item) => (
     <JobItem
+      id={item.id}
       company={item.company}
       title={item.title}
-      description={item.description}
+      description={item.details}
       location={item.location}
+      salary={item.salary}
+      status={item.status}
+      url={item.url}
+      contact_name={item.contact_name}
+      contact_phone={item.contact_phone}
+      contact_email={item.contact_email}
+      contact_socialmedia={item.contact_socialmedia}
     />
   ));
 
