@@ -64,7 +64,6 @@ const DialogActions = withStyles((theme) => ({
 export const JobsModal = () => {
   const [open, setOpen] = useState(false);
   const user_id = 1;
-  const job_id = 1;
   const [company, setCompany] = useState('');
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState(0);
@@ -96,6 +95,7 @@ export const JobsModal = () => {
     setEvents('');
     setEventDetails('');
     setEventLocation('');
+    setSelectedDate(new Date(Date.now()));
   }
 
   const classes = useStyles();
@@ -114,11 +114,6 @@ export const JobsModal = () => {
   };
 
   const handleSubmit = () => {
-    if (company === '') {
-      return null;
-    } if (title === '') {
-      return null;
-    }
     const jobObject = {
       user_id,
       company,
@@ -133,17 +128,30 @@ export const JobsModal = () => {
       contact_phone,
       contact_socialmedia,
     };
+
     const eventsObject = {
-      job_id,
       title: events,
       date: selectedDate,
       details: eventDetails,
       location: eventLocation,
     };
 
-    return Promise.all([axios.post('/api/jobs', jobObject)], [axios.post('/api/events', eventsObject)]).then(() => {
-      handleClose();
-    })
+    const fullObject = {
+      job: jobObject,
+      event: eventsObject,
+    };
+
+    if (company === '') {
+      return null;
+    } if (title === '') {
+      return null;
+    }
+
+    if (events === '') {
+      return axios.post('/api/jobs', jobObject).then(() => handleClose())
+        .catch((err) => err);
+    }
+    return axios.post('/api/jobs', fullObject).then(() => handleClose())
       .catch((err) => err);
   };
 
@@ -160,7 +168,8 @@ export const JobsModal = () => {
     title: events,
     description: eventDetails,
     start: selectedDate,
-    duration: [3, 'hour'],
+    location,
+    duration: [1, 'hour'],
   };
 
   const calendarButton = () => {
@@ -246,11 +255,8 @@ export const JobsModal = () => {
                   <InsertInvitationSharpIcon />
                   Add to Google Calendar
                 </Button>
-                <TextField id="standard-multiline-flexible" multiline label="Details" className={classes.textField} name="details" value={eventDetails} onChange={(event) => setEventDetails(event.target.value)} />
+                <TextField id="standard-multiline-flexible" multiline label="Event Details" className={classes.textField} name="details" value={eventDetails} onChange={(event) => setEventDetails(event.target.value)} />
                 <TextField id="standard-basic" label="Event Location" className={classes.textField} name="event location" value={eventLocation} onChange={(event) => setEventLocation(event.target.value)} />
-                <SideBarButton>
-                  <AddIcon className={`${classes.icon} ${classes.add}`} />
-                </SideBarButton>
               </DialogContent>
               <DialogActions>
                 <Button type="submit" autoFocus onClick={handleClose} variant="contained" color="default">
