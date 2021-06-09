@@ -180,7 +180,7 @@ export const JobsModal = (props) => {
       <StylesProvider>
         <Grid container>
 
-          <Dialog className="job-modal-background" onClose={onClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="sm">
+          <Dialog className="job-modal-background" onBackdropClick={onClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="sm">
             <form className="job-modal-box" onSubmit={(event) => event.preventDefault()}>
               <DialogContent dividers>
                 <div className="modal-top">
@@ -427,9 +427,8 @@ export const JobsModal = (props) => {
 };
 
 JobsModal.propTypes = {
-  open: PropTypes.string.isRequired,
+  open: PropTypes.string,
   onClose: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired,
   companyName: PropTypes.string.isRequired,
   jobTitle: PropTypes.string.isRequired,
   jobDetails: PropTypes.string.isRequired,
@@ -441,6 +440,10 @@ JobsModal.propTypes = {
   jobContact_email: PropTypes.string.isRequired,
   jobContact_phone: PropTypes.string.isRequired,
   jobContact_socialmedia: PropTypes.string.isRequired,
+};
+
+JobsModal.defaultProps = {
+  open: false,
 };
 
 export default JobsModal;

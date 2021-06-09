@@ -55,7 +55,9 @@ const useStyles = makeStyles({
 });
 
 const JobItem = (props) => {
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+
   const classes = useStyles();
   const {
     id,
@@ -78,14 +80,14 @@ const JobItem = (props) => {
   };
 
   const openModal = () => {
-    if (!modalOpen) {
-      setModalOpen(true);
+    if (!editModalOpen) {
+      setEditModalOpen(true);
     }
   };
 
   const closeModal = () => {
-    if (modalOpen) {
-      setModalOpen(false);
+    if (editModalOpen) {
+      setEditModalOpen(false);
     }
   };
 
@@ -99,7 +101,9 @@ const JobItem = (props) => {
   //   setModalOpen(true);
   // };
 
-  const handleEditConfirmModal = () => {};
+  // const handleEditConfirmModal = () => {
+  //   // No current functionality
+  // };
 
   const handleConfirmDelete = () => {
     // Handle Delete Logic here
@@ -111,23 +115,7 @@ const JobItem = (props) => {
   };
 
   return (
-    <Button className={classes.panel} variant="contained" onClick={openModal}>
-      <JobsModal
-        open={modalOpen}
-        onClose={closeModal}
-        id={id}
-        companyName={company}
-        jobTitle={title}
-        jobDetails={description}
-        jobLocation={location}
-        jobSalary={salary}
-        jobStatus={status}
-        jobUrl={url}
-        jobContact_name={contact_name}
-        jobContact_email={contact_email}
-        jobContact_phone={contact_phone}
-        jobContact_socialmedia={contact_socialmedia}
-      />
+    <Button className={classes.panel} variant="contained">
       <Box display="flex" flexDirection="column" width="100%">
         <Box
           display="flex"
@@ -143,14 +131,29 @@ const JobItem = (props) => {
           <Box display="flex" flexDirection="column" flexGrow={1}>
             <Typography variant="h6" align="left" className={classes.heading}>{company}</Typography>
             <Typography variant="h8" align="left" className={classes.heading}>{title}</Typography>
-            <Typography variant="body1" align="left" className={classes.content}>{description}</Typography>
             <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
           </Box>
           <Box>
             <IconButton aria-label="delete" onClick={() => { setModalOpen(true); }}>
               <DeleteIcon />
             </IconButton>
-            <IconButton aria-label="edit" onClick={handleEditConfirmModal}>
+            <IconButton aria-label="edit" onClick={openModal}>
+              <JobsModal
+                open={editModalOpen}
+                onClose={closeModal}
+                id={id}
+                companyName={company}
+                jobTitle={title}
+                jobDetails={description}
+                jobLocation={location}
+                jobSalary={salary}
+                jobStatus={status}
+                jobUrl={url}
+                jobContact_name={contact_name}
+                jobContact_email={contact_email}
+                jobContact_phone={contact_phone}
+                jobContact_socialmedia={contact_socialmedia}
+              />
               <EditIcon />
             </IconButton>
           </Box>
