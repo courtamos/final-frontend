@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 // import { useSelector } from 'react-redux';
 
 // MaterialUI Components
@@ -10,7 +11,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // import { authSelector } from '../auth/authSlice';
 
 // Custom Components
-import axios from 'axios';
+import { logout } from '../auth/authSlice';
 import { SideBarButton } from './SideBarButton';
 import { JobsModal } from '../dashboard/Jobs-modal';
 
@@ -32,10 +33,10 @@ const SideBar = () => {
   // const { user } = useSelector(authSelector);
   const user = { id: '1' };
 
+  const dispatch = useDispatch();
+
   const handleLogOut = () => {
-    axios.delete('api/logout').then(() => {
-      window.location.href = '/login';
-    });
+    dispatch(logout());
   };
 
   return (
