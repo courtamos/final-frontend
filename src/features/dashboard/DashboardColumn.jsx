@@ -23,7 +23,10 @@ const DashboardColumn = (props) => {
   return (
     <Box width={1}>
       <DashboardColumnHeading title={title} color={color} />
-      {jobItems}
+      <Box p={0.5}>
+        {jobItems}
+      </Box>
+
     </Box>
   );
 };
