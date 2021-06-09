@@ -49,7 +49,6 @@ const DialogActions = withStyles((theme) => ({
 export const JobsModal = (props) => {
   const dispatch = useDispatch();
   const { user } = useSelector(authSelector);
-
   const {
     onClose,
     open,
