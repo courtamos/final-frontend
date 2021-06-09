@@ -178,7 +178,7 @@ export const JobsModal = () => {
             <form className="job-modal-box" onSubmit={(event) => event.preventDefault()}>
               <DialogContent dividers>
                 <div className="modal-top">
-                  <img id="company-logo" src={companyLogo()} alt="" />
+                  <img id="company-logo" src={companyLogo()} alt="" className="logo" />
                   <div className="modal-top-right">
                     <TextField required id="standard-basic" label="Company Name" className="content" name="company" value={company} onChange={(event) => setCompany(event.target.value)} />
                     <FormControl id="demo-simple-select" className="status-selector" style={{ marginLeft: 15 }}>
