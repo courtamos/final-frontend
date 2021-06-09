@@ -1,7 +1,7 @@
+/* eslint-disable camelcase */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-// import axios from 'axios';
 
 // MaterialUI Components
 import {
@@ -15,6 +15,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import ModalConfirm from './ModalConfirm';
 
 import './JobItem.scss';
+import { JobsModal } from '../features/dashboard/Jobs-modal';
 
 const useStyles = makeStyles({
   container: {
@@ -54,14 +55,40 @@ const useStyles = makeStyles({
 });
 
 const JobItem = (props) => {
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
   const classes = useStyles();
   const {
-    company, title, description, location,
+    id,
+    company,
+    title,
+    description,
+    location,
+    salary,
+    status,
+    url,
+    contact_name,
+    contact_email,
+    contact_phone,
+    contact_socialmedia,
   } = props;
 
   const companyLogo = (logo) => {
     const logoImage = logo.replace(/\s/g, '');
     return `//logo.clearbit.com/${logoImage}.com`;
+  };
+
+  const openModal = () => {
+    if (!editModalOpen) {
+      setEditModalOpen(true);
+    }
+  };
+
+  const closeModal = () => {
+    if (editModalOpen) {
+      setEditModalOpen(false);
+    }
   };
 
   // const getCompanyLogo = (logo) => {
@@ -70,13 +97,13 @@ const JobItem = (props) => {
 
   // console.log(getCompanyLogo('Facebook'));
 
-  const [modalOpen, setModalOpen] = useState(false);
-
   // const handleDeleteConfirmModal = () => {
   //   setModalOpen(true);
   // };
 
-  const handleEditConfirmModal = () => {};
+  // const handleEditConfirmModal = () => {
+  //   // No current functionality
+  // };
 
   const handleConfirmDelete = () => {
     // Handle Delete Logic here
@@ -104,14 +131,29 @@ const JobItem = (props) => {
           <Box display="flex" flexDirection="column" flexGrow={1}>
             <Typography variant="h6" align="left" className={classes.heading}>{company}</Typography>
             <Typography variant="h8" align="left" className={classes.heading}>{title}</Typography>
-            <Typography variant="body1" align="left" className={classes.content}>{description}</Typography>
             <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
           </Box>
           <Box>
             <IconButton aria-label="delete" onClick={() => { setModalOpen(true); }}>
               <DeleteIcon />
             </IconButton>
-            <IconButton aria-label="edit" onClick={handleEditConfirmModal}>
+            <IconButton aria-label="edit" onClick={openModal}>
+              <JobsModal
+                open={editModalOpen}
+                onClose={closeModal}
+                id={id}
+                companyName={company}
+                jobTitle={title}
+                jobDetails={description}
+                jobLocation={location}
+                jobSalary={salary}
+                jobStatus={status}
+                jobUrl={url}
+                jobContact_name={contact_name}
+                jobContact_email={contact_email}
+                jobContact_phone={contact_phone}
+                jobContact_socialmedia={contact_socialmedia}
+              />
               <EditIcon />
             </IconButton>
           </Box>
@@ -123,10 +165,18 @@ const JobItem = (props) => {
 };
 
 JobItem.propTypes = {
+  id: PropTypes.number.isRequired,
   company: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
+  salary: PropTypes.number.isRequired,
+  status: PropTypes.number.isRequired,
+  url: PropTypes.string.isRequired,
+  contact_name: PropTypes.string.isRequired,
+  contact_email: PropTypes.string.isRequired,
+  contact_phone: PropTypes.string.isRequired,
+  contact_socialmedia: PropTypes.string.isRequired,
 };
 
 export default JobItem;

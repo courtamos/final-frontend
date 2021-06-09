@@ -2,9 +2,10 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable camelcase */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
-import { withStyles, makeStyles, StylesProvider } from '@material-ui/core/styles';
+import { withStyles, StylesProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -14,7 +15,6 @@ import { useDebounce } from 'use-debounce';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import AddIcon from '@material-ui/icons/Add';
 import Alert from '@material-ui/lab/Alert';
 // import GoogleMaps from '../../components/Location-input';
 import DateFnsUtils from '@date-io/date-fns';
@@ -28,20 +28,11 @@ import {
 import InsertInvitationSharpIcon from '@material-ui/icons/InsertInvitationSharp';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { SideBarButton } from '../common/SideBarButton';
+// import { SideBarButton } from '../common/SideBarButton';
 
 import './Jobs-modal.scss';
 import { authSelector } from '../auth/authSlice';
 import { addJob } from './jobs/jobsSlice';
-
-const useStyles = makeStyles(() => ({
-  icon: {
-    fontSize: '50px',
-  },
-  add: {
-    color: 'black',
-  },
-}));
 
 const DialogContent = withStyles((theme) => ({
   root: {
@@ -55,22 +46,36 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export const JobsModal = () => {
+export const JobsModal = (props) => {
   const dispatch = useDispatch();
   const { user } = useSelector(authSelector);
+  const {
+    onClose,
+    open,
+    companyName,
+    jobTitle,
+    jobDetails,
+    jobLocation,
+    jobSalary,
+    jobStatus,
+    jobUrl,
+    jobContact_name,
+    jobContact_email,
+    jobContact_phone,
+    jobContact_socialmedia,
+  } = props;
 
-  const [open, setOpen] = useState(false);
-  const [company, setCompany] = useState('');
-  const [title, setTitle] = useState('');
-  const [status, setStatus] = useState(0);
-  const [salary, setSalary] = useState(null);
-  const [url, setUrl] = useState('');
-  const [location, setLocation] = useState('');
-  const [details, setDetails] = useState('');
-  const [contact_name, setContact_name] = useState('');
-  const [contact_email, setContact_email] = useState('');
-  const [contact_phone, setContact_phone] = useState('');
-  const [contact_socialmedia, setContact_socialmedia] = useState('');
+  const [company, setCompany] = useState(companyName || '');
+  const [title, setTitle] = useState(jobTitle || '');
+  const [status, setStatus] = useState(jobStatus || 0);
+  const [salary, setSalary] = useState(jobSalary || null);
+  const [url, setUrl] = useState(jobUrl || '');
+  const [location, setLocation] = useState(jobLocation || '');
+  const [details, setDetails] = useState(jobDetails || '');
+  const [contact_name, setContact_name] = useState(jobContact_name || '');
+  const [contact_email, setContact_email] = useState(jobContact_email || '');
+  const [contact_phone, setContact_phone] = useState(jobContact_phone || '');
+  const [contact_socialmedia, setContact_socialmedia] = useState(jobContact_socialmedia || '');
   const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
   const [events, setEvents] = useState('');
   const [eventDetails, setEventDetails] = useState('');
@@ -95,14 +100,7 @@ export const JobsModal = () => {
     setSelectedDate(new Date(Date.now()));
   }
 
-  const classes = useStyles();
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
-    setOpen(false);
     reset();
   };
 
@@ -178,10 +176,8 @@ export const JobsModal = () => {
     <div>
       <StylesProvider>
         <Grid container>
-          <SideBarButton onClick={handleClickOpen}>
-            <AddIcon className={`${classes.icon} ${classes.add}`} />
-          </SideBarButton>
-          <Dialog className="job-modal-background" onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="sm">
+
+          <Dialog className="job-modal-background" onBackdropClick={onClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="sm">
             <form className="job-modal-box" onSubmit={(event) => event.preventDefault()}>
               <DialogContent dividers>
                 <div className="modal-top">
@@ -401,17 +397,8 @@ export const JobsModal = () => {
                     </Button>
                   </div>
                   <div className="buttons-right">
-                    <Button
-                      type="submit"
-                      autoFocus
-                      onClick={handleClose}
-                      style={{ backgroundColor: '#ffe7d6' }}
-                      variant="contained"
-                      color="default"
-                    >
-                      <h5 style={{ margin: 2 }}>
-                        Cancel
-                      </h5>
+                    <Button type="button" autoFocus onClick={onClose} style={{ backgroundColor: '#ffe7d6' }} variant="contained" color="default">
+                      <h5 style={{ margin: 2 }}>Cancel</h5>
                     </Button>
                     <Button
                       type="submit"
@@ -434,6 +421,26 @@ export const JobsModal = () => {
       </StylesProvider>
     </div>
   );
+};
+
+JobsModal.propTypes = {
+  open: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+  companyName: PropTypes.string.isRequired,
+  jobTitle: PropTypes.string.isRequired,
+  jobDetails: PropTypes.string.isRequired,
+  jobLocation: PropTypes.string.isRequired,
+  jobSalary: PropTypes.number.isRequired,
+  jobStatus: PropTypes.number.isRequired,
+  jobUrl: PropTypes.string.isRequired,
+  jobContact_name: PropTypes.string.isRequired,
+  jobContact_email: PropTypes.string.isRequired,
+  jobContact_phone: PropTypes.string.isRequired,
+  jobContact_socialmedia: PropTypes.string.isRequired,
+};
+
+JobsModal.defaultProps = {
+  open: false,
 };
 
 export default JobsModal;
