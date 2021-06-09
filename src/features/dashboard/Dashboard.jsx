@@ -80,11 +80,15 @@ const Dashboard = () => {
       <Box display="flex" flexDirection="row" width="100vw">
         <SideBar />
         <Box id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between">
-          <DashboardColumn items={interestedJobs} title="Interested" color="#ffe7d6" />
-          <DashboardColumn items={appliedJobs} title="Applied" color="#ffa7a5" />
-          <DashboardColumn items={interviewingJobs} title="Interviewing" color="#ee6a7c" />
-          <DashboardColumn items={offerJobs} title="Offer" color="#ab5675" />
-          <DashboardColumn items={rejectedJobs} title="Rejected" color="#73464f" />
+          {status === 'failed' ? 'Something went wrong' : (
+            <>
+              <DashboardColumn items={interestedJobs} title="Interested" color="#ffe7d6" />
+              <DashboardColumn items={appliedJobs} title="Applied" color="#ffa7a5" />
+              <DashboardColumn items={interviewingJobs} title="Interviewing" color="#ee6a7c" />
+              <DashboardColumn items={offerJobs} title="Offer" color="#ab5675" />
+              <DashboardColumn items={rejectedJobs} title="Rejected" color="#73464f" />
+            </>
+          )}
         </Box>
       </Box>
     </Container>
