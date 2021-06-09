@@ -58,7 +58,7 @@ export const JobsModal = () => {
   const [company, setCompany] = useState('');
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState(0);
-  const [salary, setSalary] = useState(0);
+  const [salary, setSalary] = useState(null);
   const [url, setUrl] = useState('');
   const [location, setLocation] = useState('');
   const [details, setDetails] = useState('');
@@ -74,7 +74,7 @@ export const JobsModal = () => {
   function reset() {
     setCompany('');
     setTitle('');
-    setSalary(0);
+    setSalary(null);
     setStatus(0);
     setUrl('');
     setLocation('');
@@ -209,21 +209,9 @@ export const JobsModal = () => {
                   <TextField id="standard-basic" type="number" label="Salary" className="modal-middle-salary" name="salary" style={{ marginLeft: 11.2 }} value={salary} onChange={(event) => setSalary(parseInt(event.target.value, 10))} />
                   <TextField id="standard-multiline-flexible" multiline label="Details" className="modal-middle-details" style={{ marginTop: 5 }} name="details" value={details} onChange={(event) => setDetails(event.target.value)} />
                 </div>
-                <h3 className="heading">Contact</h3>
-                <div className="contact-info">
-                  <TextField id="standard-basic" label="Contact Name" className="contact-name" name="contact_name" value={contact_name} onChange={(event) => setContact_name(event.target.value)} />
-                  <TextField id="standard-basic" label="Contact Email" className="contact-email" name="contact_email" value={contact_email} onChange={(event) => setContact_email(event.target.value)} />
-                  <TextField id="standard-basic" label="Contact Phone Number" className="contact-phone" style={{ marginTop: 5 }} name="contact_phone" value={contact_phone} onChange={(event) => setContact_phone(event.target.value)} />
-                  <TextField id="standard-basic" label="Contact Links (LinkedIn)" className="contact-social" style={{ marginTop: 5 }} name="contact_socialmedia" value={contact_socialmedia} onChange={(event) => setContact_socialmedia(event.target.value)} />
-                </div>
-                <div className="eventHeader">
-                  <h3 className="heading">Events</h3>
-                  <Button className="add-to-calendar" variant="contained" onClick={calendarButton} color="secondary" style={{ marginLeft: 10 }}>
-                    <InsertInvitationSharpIcon />
-                    <h5 style={{ marginLeft: 5 }}>Add to Google Calendar</h5>
-                  </Button>
-                </div>
+                <h3 className="heading">Events</h3>
                 <div className="event">
+
                   <TextField id="standard-basic" className="event-upcoming" label="Upcoming Event" value={events} onChange={(event) => setEvents(event.target.value)} />
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
@@ -245,19 +233,37 @@ export const JobsModal = () => {
                   <TextField id="standard-multiline-flexible" multiline label="Event Details" className="event-details" style={{ marginTop: 5 }} name="details" value={eventDetails} onChange={(event) => setEventDetails(event.target.value)} />
                   <TextField id="standard-basic" label="Event Location" className="event-location" style={{ marginTop: 5 }} name="event location" value={eventLocation} onChange={(event) => setEventLocation(event.target.value)} />
                 </div>
-              </DialogContent>
-              <DialogActions>
-                <div>
-                  <Button type="submit" variant="outlined" color="secondary" startIcon={<DeleteIcon />}>
-                    <h5 style={{ margin: 2 }}>Delete</h5>
+                <div className="eventHeader">
+                  <h3 className="heading">Contact</h3>
+                  <Button className="add-to-calendar" variant="contained" onClick={calendarButton} color="secondary" style={{ marginLeft: 10, backgroundColor: '#34acba' }}>
+                    <InsertInvitationSharpIcon />
+                    <h5 style={{ marginLeft: 5 }}>Add to Google Calendar</h5>
                   </Button>
                 </div>
-                <Button type="submit" autoFocus onClick={handleClose} variant="contained" color="default">
-                  <h5 style={{ margin: 2 }}>Cancel</h5>
-                </Button>
-                <Button type="submit" onClick={() => handleSubmit()} variant="contained" color="primary" startIcon={<SaveIcon />}>
-                  <h5 style={{ margin: 2 }}>Save</h5>
-                </Button>
+                <div className="contact-info">
+                  <TextField id="standard-basic" label="Contact Name" className="contact-name" name="contact_name" value={contact_name} onChange={(event) => setContact_name(event.target.value)} />
+                  <TextField id="standard-basic" label="Contact Email" className="contact-email" name="contact_email" value={contact_email} onChange={(event) => setContact_email(event.target.value)} />
+                  <TextField id="standard-basic" label="Contact Phone Number" className="contact-phone" style={{ marginTop: 5 }} name="contact_phone" value={contact_phone} onChange={(event) => setContact_phone(event.target.value)} />
+                  <TextField id="standard-basic" label="Contact Links (LinkedIn)" className="contact-social" style={{ marginTop: 5 }} name="contact_socialmedia" value={contact_socialmedia} onChange={(event) => setContact_socialmedia(event.target.value)} />
+                </div>
+
+              </DialogContent>
+              <DialogActions>
+                <div className="buttons-bottom">
+                  <div className="buttons-left">
+                    <Button type="click" variant="contained" style={{ backgroundColor: '#ee6a7c', color: 'white' }} startIcon={<DeleteIcon />}>
+                      <h5 style={{ margin: 2 }}>Delete</h5>
+                    </Button>
+                  </div>
+                  <div className="buttons-right">
+                    <Button type="submit" autoFocus onClick={handleClose} style={{ backgroundColor: '#ffe7d6' }} variant="contained" color="default">
+                      <h5 style={{ margin: 2 }}>Cancel</h5>
+                    </Button>
+                    <Button type="submit" style={{ backgroundColor: '#34acba' }} onClick={() => handleSubmit()} variant="contained" color="primary" startIcon={<SaveIcon />}>
+                      <h5 style={{ margin: 2 }}>Save</h5>
+                    </Button>
+                  </div>
+                </div>
               </DialogActions>
             </form>
           </Dialog>
