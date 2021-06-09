@@ -2,7 +2,7 @@
 
 .job-modal {
   &-box {
-    background-color: $white;
+    background-color: #F6F6F6;
     opacity: 100%;
   }
 }
@@ -46,6 +46,10 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.logo {
+  border-radius: 0%;
 }
 
 .modal-middle {
