@@ -52,6 +52,7 @@ export const JobsModal = (props) => {
   const {
     onClose,
     open,
+    // id,
     companyName,
     jobTitle,
     jobDetails,
@@ -134,11 +135,25 @@ export const JobsModal = (props) => {
     }
 
     let actionResult;
+
     if (!event.title && !event.date && !event.details && !event.location) {
       actionResult = await dispatch(addJob({ job }));
     } else {
       actionResult = await dispatch(addJob({ job, event }));
     }
+    // if (id) {
+    //   if (!event.title && !event.date && !event.details && !event.location) {
+    //     actionResult = await dispatch(editJob({ job }));
+    //   } else {
+    //     actionResult = await dispatch(editJob({ job, event }));
+    //   }
+    // } else if (!id) {
+    //   if (!event.title && !event.date && !event.details && !event.location) {
+    //     actionResult = await dispatch(addJob({ job }));
+    //   } else {
+    //     actionResult = await dispatch(addJob({ job, event }));
+    //   }
+    // }
 
     if (addJob.rejected.match(actionResult)) {
       setError('Adding new job failed, try again');
@@ -427,6 +442,7 @@ JobsModal.propTypes = {
   jobTitle: PropTypes.string.isRequired,
   jobDetails: PropTypes.string.isRequired,
   jobLocation: PropTypes.string.isRequired,
+  // id: PropTypes.number.isRequired,
   jobSalary: PropTypes.number.isRequired,
   jobStatus: PropTypes.number.isRequired,
   jobUrl: PropTypes.string.isRequired,
