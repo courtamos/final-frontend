@@ -76,7 +76,7 @@ export const JobsModal = (props) => {
   const [contact_email, setContact_email] = useState(jobContact_email || '');
   const [contact_phone, setContact_phone] = useState(jobContact_phone || '');
   const [contact_socialmedia, setContact_socialmedia] = useState(jobContact_socialmedia || '');
-  const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
+  const [selectedDate, setSelectedDate] = useState(null);
   const [events, setEvents] = useState('');
   const [eventDetails, setEventDetails] = useState('');
   const [eventLocation, setEventLocation] = useState('');
@@ -97,12 +97,8 @@ export const JobsModal = (props) => {
     setEvents('');
     setEventDetails('');
     setEventLocation('');
-    setSelectedDate(new Date(Date.now()));
+    setSelectedDate(null);
   }
-
-  const handleClose = () => {
-    reset();
-  };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -147,7 +143,8 @@ export const JobsModal = (props) => {
     if (addJob.rejected.match(actionResult)) {
       setError('Adding new job failed, try again');
     } else if (addJob.fulfilled.match(actionResult)) {
-      handleClose();
+      onClose(true);
+      reset();
     }
   };
 
