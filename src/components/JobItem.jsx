@@ -5,11 +5,14 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // MaterialUI Components
 import {
-  Box, Button, Typography,
+  Box, Button, IconButton, Typography,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 // Custom Components
+import ModalConfirm from './ModalConfirm';
 
 import './JobItem.scss';
 import { JobsModal } from '../features/dashboard/Jobs-modal';
@@ -21,6 +24,8 @@ const useStyles = makeStyles({
 
   panel: {
     backgroundColor: 'white',
+    width: '100%',
+    marginBottom: '5px',
   },
 
   logo: {
@@ -90,8 +95,23 @@ const JobItem = (props) => {
 
   // console.log(getCompanyLogo('Facebook'));
 
+  // const handleDeleteConfirmModal = () => {
+  //   setModalOpen(true);
+  // };
+
+  const handleEditConfirmModal = () => {};
+
+  const handleConfirmDelete = () => {
+    // Handle Delete Logic here
+    setModalOpen(false);
+  };
+
+  const handleDeclineDelete = () => {
+    setModalOpen(false);
+  };
+
   return (
-    <Button elevation={1} square className={classes.panel} onClick={openModal}>
+    <Button className={classes.panel} variant="contained" onClick={openModal}>
       <JobsModal
         open={modalOpen}
         onClose={closeModal}
@@ -108,23 +128,33 @@ const JobItem = (props) => {
         jobContact_phone={contact_phone}
         jobContact_socialmedia={contact_socialmedia}
       />
-      <Box
-        p={1}
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-      >
-        <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
-          {/* Fetch the icon from an api here */}
-          <img src={companyLogo(company)} alt="logo" width="45px" className={classes.image} />
-        </Box>
-        <Box display="flex" flexDirection="column" flexGrow={1}>
-          <Typography variant="h6" align="left" className={classes.heading}>{company}</Typography>
-          <Typography variant="h8" align="left" className={classes.heading}>{title}</Typography>
-          <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
-        </Box>
-        <Box id="end" display="flex" flexDirection="column" justifyContent="flex-start" alignItems="flex-start">
+      <Box display="flex" flexDirection="column" width="100%">
+        <Box
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          width="100%"
+        >
           <MenuIcon />
+          <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
+            {/* Fetch the icon from an api here */}
+            <img src={companyLogo(company)} alt="logo" width="45px" className={classes.image} />
+          </Box>
+          <Box display="flex" flexDirection="column" flexGrow={1}>
+            <Typography variant="h6" align="left" className={classes.heading}>{company}</Typography>
+            <Typography variant="h8" align="left" className={classes.heading}>{title}</Typography>
+            <Typography variant="body1" align="left" className={classes.content}>{description}</Typography>
+            <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
+          </Box>
+          <Box>
+            <IconButton aria-label="delete" onClick={() => { setModalOpen(true); }}>
+              <DeleteIcon />
+            </IconButton>
+            <IconButton aria-label="edit" onClick={handleEditConfirmModal}>
+              <EditIcon />
+            </IconButton>
+          </Box>
+          <ModalConfirm id="modal-confirm-delete" open={modalOpen} onConfirm={handleConfirmDelete} onDecline={handleDeclineDelete} />
         </Box>
       </Box>
     </Button>
