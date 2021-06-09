@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 // import axios from 'axios';
@@ -12,6 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
 // Custom Components
+import ModalConfirm from './ModalConfirm';
 
 import './JobItem.scss';
 
@@ -69,6 +70,23 @@ const JobItem = (props) => {
 
   // console.log(getCompanyLogo('Facebook'));
 
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // const handleDeleteConfirmModal = () => {
+  //   setModalOpen(true);
+  // };
+
+  const handleEditConfirmModal = () => {};
+
+  const handleConfirmDelete = () => {
+    // Handle Delete Logic here
+    setModalOpen(false);
+  };
+
+  const handleDeclineDelete = () => {
+    setModalOpen(false);
+  };
+
   return (
     <Button className={classes.panel} variant="contained">
       <Box display="flex" flexDirection="column" width="100%">
@@ -90,13 +108,14 @@ const JobItem = (props) => {
             <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
           </Box>
           <Box>
-            <IconButton aria-label="delete">
+            <IconButton aria-label="delete" onClick={() => { setModalOpen(true); }}>
               <DeleteIcon />
             </IconButton>
-            <IconButton aria-label="delete">
+            <IconButton aria-label="edit" onClick={handleEditConfirmModal}>
               <EditIcon />
             </IconButton>
           </Box>
+          <ModalConfirm id="modal-confirm-delete" open={modalOpen} onConfirm={handleConfirmDelete} onDecline={handleDeclineDelete} />
         </Box>
       </Box>
     </Button>

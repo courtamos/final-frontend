@@ -20,41 +20,6 @@ import {
 } from './jobs/jobsSlice';
 
 const Dashboard = () => {
-  // const { data } = props;
-  // Dummy Data
-  // const data = {
-  //   interested: [{
-  //     company: 'Facebook',
-  //     title: 'Full-Stack Web Developer',
-  //     description: 'Remote, Full Time',
-  //     location: 'Calgary, AB',
-  //   }],
-  //   applied: [{
-  //     company: 'Facebook',
-  //     title: 'Full-Stack Web Developer',
-  //     description: 'Remote, Full Time',
-  //     location: 'Calgary, AB',
-  //   }],
-  //   interviewing: [{
-  //     company: 'Facebook',
-  //     title: 'Full-Stack Web Developer',
-  //     description: 'Remote, Full Time',
-  //     location: 'Calgary, AB',
-  //   }],
-  //   offer: [{
-  //     company: 'Facebook',
-  //     title: 'Full-Stack Web Developer',
-  //     description: 'Remote, Full Time',
-  //     location: 'Calgary, AB',
-  //   }],
-  //   rejected: [{
-  //     company: 'Facebook',
-  //     title: 'Full-Stack Web Developer',
-  //     description: 'Remote, Full Time',
-  //     location: 'Calgary, AB',
-  //   }],
-  // };
-
   const dispatch = useDispatch();
   const { status } = useSelector(jobsSelector);
   const interestedJobs = useSelector(selectInterestedJobs);
@@ -86,6 +51,7 @@ const Dashboard = () => {
           <DashboardColumn items={offerJobs} title="Offer" color="#ab5675" />
           <DashboardColumn items={rejectedJobs} title="Rejected" color="#73464f" />
         </Box>
+
       </Box>
     </Container>
   );
