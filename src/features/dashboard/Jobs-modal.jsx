@@ -173,7 +173,7 @@ export const JobsModal = (props) => {
       <StylesProvider>
         <Grid container>
 
-          <Dialog className="job-modal-background" onClose={onClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="sm">
+          <Dialog className="job-modal-background" onBackdropClick={() => { alert(onClose); }} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="sm">
             <form className="job-modal-box" onSubmit={(event) => event.preventDefault()}>
               <DialogContent dividers>
                 <div className="modal-top">
@@ -255,7 +255,7 @@ export const JobsModal = (props) => {
                     </Button>
                   </div>
                   <div className="buttons-right">
-                    <Button type="submit" autoFocus onClick={onClose} style={{ backgroundColor: '#ffe7d6' }} variant="contained" color="default">
+                    <Button type="button" autoFocus onClick={onClose} style={{ backgroundColor: '#ffe7d6' }} variant="contained" color="default">
                       <h5 style={{ margin: 2 }}>Cancel</h5>
                     </Button>
                     <Button type="submit" style={{ backgroundColor: '#34acba' }} onClick={() => handleSubmit()} variant="contained" color="primary" startIcon={<SaveIcon />}>
@@ -273,7 +273,7 @@ export const JobsModal = (props) => {
 };
 
 JobsModal.propTypes = {
-  open: PropTypes.string.isRequired,
+  open: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
   companyName: PropTypes.string.isRequired,
@@ -287,6 +287,10 @@ JobsModal.propTypes = {
   jobContact_email: PropTypes.string.isRequired,
   jobContact_phone: PropTypes.string.isRequired,
   jobContact_socialmedia: PropTypes.string.isRequired,
+};
+
+JobsModal.defaultProps = {
+  open: false,
 };
 
 export default JobsModal;
