@@ -9,7 +9,6 @@ import JobItem from '../../components/JobItem';
 // Custom Components
 
 const DashboardColumn = (props) => {
-  console.log(props);
   const { title, color, items } = props;
   const jobItems = items.map((item) => (
     <JobItem
