@@ -1,9 +1,10 @@
 /* eslint-disable camelcase */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
 
 // MaterialUI Components
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Box, IconButton, Typography, Paper,
 } from '@material-ui/core';
@@ -16,6 +17,7 @@ import ModalConfirm from './ModalConfirm';
 
 import './JobItem.scss';
 import { JobsModal } from '../features/dashboard/Jobs-modal';
+import { deleteJob } from '../features/dashboard/jobs/jobsSlice';
 
 const useStyles = makeStyles({
   container: {
@@ -58,6 +60,7 @@ const useStyles = makeStyles({
 });
 
 const JobItem = (props) => {
+  const dispatch = useDispatch();
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -83,33 +86,15 @@ const JobItem = (props) => {
   };
 
   const openModal = () => {
-    if (!editModalOpen) {
-      setEditModalOpen(true);
-    }
+    setEditModalOpen(true);
   };
 
   const closeModal = () => {
-    if (editModalOpen) {
-      setEditModalOpen(false);
-    }
+    setEditModalOpen(false);
   };
 
-  // const getCompanyLogo = (logo) => {
-  //   axios.get(`https://autocomplete.clearbit.com/v1/companies/suggest?query=${logo}`).then((res) => res.data[0].logo).catch((err) => err);
-  // };
-
-  // console.log(getCompanyLogo('Facebook'));
-
-  // const handleDeleteConfirmModal = () => {
-  //   setModalOpen(true);
-  // };
-
-  // const handleEditConfirmModal = () => {
-  //   // No current functionality
-  // };
-
   const handleConfirmDelete = () => {
-    // Handle Delete Logic here
+    dispatch(deleteJob({ jobId: id }));
     setModalOpen(false);
   };
 

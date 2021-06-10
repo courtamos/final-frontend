@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable camelcase */
@@ -32,7 +33,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import './Jobs-modal.scss';
 import { authSelector } from '../auth/authSlice';
-import { addJob, editJob } from './jobs/jobsSlice';
+import { addJob, editJob, deleteJob } from './jobs/jobsSlice';
 
 const DialogContent = withStyles((theme) => ({
   root: {
@@ -160,6 +161,17 @@ export const JobsModal = (props) => {
       onClose();
       reset();
     }
+  };
+
+  const handleDelete = async () => {
+    const actionResult = await dispatch(deleteJob({ jobId: id }));
+
+    if (deleteJob.rejected.match(actionResult)) {
+      setError('Delete failed, try again');
+      return;
+    }
+
+    onClose();
   };
 
   const debouncedText = useDebounce(company.replace(/\s/g, ''), 10);
@@ -401,6 +413,7 @@ export const JobsModal = (props) => {
                       variant="contained"
                       style={{ backgroundColor: '#ee6a7c', color: 'white' }}
                       startIcon={<DeleteIcon />}
+                      onClick={handleDelete}
                     >
                       <h5 style={{ margin: 2 }}>
                         Delete
