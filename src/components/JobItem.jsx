@@ -55,6 +55,7 @@ const useStyles = makeStyles({
 });
 
 const JobItem = (props) => {
+  console.log(props);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
