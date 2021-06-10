@@ -94,8 +94,9 @@ export const JobsModal = (props) => {
   const [selectedDate, setSelectedDate] = useState(event_date || null);
   const [eventDetails, setEventDetails] = useState(event_details || '');
   const [eventLocation, setEventLocation] = useState(event_location || '');
-  const [linkOne, setLinkOne] = useState('');
-  const [linkTwo, setLinkTwo] = useState('');
+  const [resume, setResume] = useState('');
+  const [cover_letter, setCover_letter] = useState('');
+  const [linkRandom, setLinkRandom] = useState('');
   const [error, setError] = useState('');
 
   // useEffect(() => {
@@ -133,8 +134,9 @@ export const JobsModal = (props) => {
     setEventDetails('');
     setEventLocation('');
     setSelectedDate(null);
-    setLinkOne('');
-    setLinkTwo('');
+    setResume('');
+    setCover_letter('');
+    setLinkRandom('');
   }
 
   const handleDateChange = (date) => {
@@ -461,26 +463,33 @@ export const JobsModal = (props) => {
                   <h3 className="heading-links">
                     Links
                   </h3>
-                  <p className="sub-header">
-                    Add any links used in your application, such as resume, cover letter, portfolio, etc.
-                  </p>
                 </div>
                 <div className="links-input">
                   <TextField
                     id="standard-basic"
-                    label="Link"
+                    label="Resume Link"
                     className="links-inputfield"
-                    name="linkOne"
-                    value={linkOne}
-                    onChange={(event) => setLinkOne(event.target.value)}
+                    name="resume"
+                    value={resume}
+                    onChange={(event) => setResume(event.target.value)}
                   />
                   <TextField
                     id="standard-basic"
-                    label="Link"
+                    label="Cover Letter Link"
                     className="links-inputfield"
                     name="linkTwo"
-                    value={linkTwo}
-                    onChange={(event) => setLinkTwo(event.target.value)}
+                    value={cover_letter}
+                    onChange={(event) => setCover_letter(event.target.value)}
+                  />
+                </div>
+                <div>
+                  <TextField
+                    id="standard-basic"
+                    label="Additional Link (Portfolio, Transcript, Diploma, etc.)"
+                    className="links-inputfield-full"
+                    name="linkRandom"
+                    value={linkRandom}
+                    onChange={(event) => setLinkRandom(event.target.value)}
                   />
                 </div>
               </DialogContent>
