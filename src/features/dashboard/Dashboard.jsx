@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Box, Container } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 import PropTypes from 'prop-types';
-// import axios from 'axios';
 
 // Custom Components
 import SideBar from '../common/SideBar';
@@ -17,20 +18,43 @@ import {
   selectInterviewingJobs,
   selectOfferJobs,
   selectRejectedJobs,
+  resetAddJobStatus,
+  resetEditJobStatus,
+  resetDeleteJobStatus,
 } from './jobs/jobsSlice';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { status } = useSelector(jobsSelector);
+  const {
+    status, addJobStatus, editJobStatus, deleteJobStatus,
+  } = useSelector(jobsSelector);
   const interestedJobs = useSelector(selectInterestedJobs);
   const appliedJobs = useSelector(selectAppliedJobs);
   const interviewingJobs = useSelector(selectInterviewingJobs);
   const offerJobs = useSelector(selectOfferJobs);
   const rejectedJobs = useSelector(selectRejectedJobs);
+  const [snack, setSnack] = useState('');
 
   useEffect(() => {
     dispatch(fetchJobs());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (addJobStatus === 'succeeded') {
+      setSnack('Successfully Created!');
+      dispatch(resetAddJobStatus());
+    }
+    if (editJobStatus === 'succeeded') {
+      setSnack('Successfully Edited!');
+      dispatch(resetEditJobStatus());
+    }
+    if (deleteJobStatus === 'succeeded') {
+      setSnack('Successfully Deleted!');
+      dispatch(resetDeleteJobStatus());
+    }
+  }, [addJobStatus, editJobStatus, deleteJobStatus]);
+
+  const handleSnackClose = () => setSnack(false);
 
   if (status === 'loading') {
     return (
@@ -56,6 +80,11 @@ const Dashboard = () => {
           )}
         </Box>
       </Box>
+      <Snackbar open={snack} autoHideDuration={6000} onClose={handleSnackClose}>
+        <Alert onClose={handleSnackClose} severity="success">
+          {snack}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
