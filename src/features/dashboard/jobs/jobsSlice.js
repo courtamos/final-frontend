@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
@@ -11,53 +12,41 @@ const initialState = {
   deleteJobStatus: 'idle',
 };
 
-export const fetchJobs = createAsyncThunk(
-  'jobs/fetchJobs',
-  async (_undefined, { rejectWithValue }) => {
-    try {
-      const response = await axios.get('/api/jobs');
-      return response.data.jobs;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const fetchJobs = createAsyncThunk('jobs/fetchJobs', async (_undefined, { rejectWithValue }) => {
+  try {
+    const response = await axios.get('/api/jobs');
+    return response.data.jobs;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
-export const addJob = createAsyncThunk(
-  'jobs/addJob',
-  async ({ job, event }, { rejectWithValue }) => {
-    try {
-      const response = await axios.post('api/jobs', { job, event });
-      return response.data.job;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const addJob = createAsyncThunk('jobs/addJob', async ({ job, event }, { rejectWithValue }) => {
+  try {
+    const response = await axios.post('api/jobs', { job, event });
+    return response.data.job;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
-export const editJob = createAsyncThunk(
-  'jobs/editJob',
-  async ({ jobId, job, event }, { rejectWithValue }) => {
-    try {
-      const response = await axios.patch(`api/jobs/${jobId}`, { job, event });
-      return response.data.job;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const editJob = createAsyncThunk('jobs/editJob', async ({ jobId, job, event }, { rejectWithValue }) => {
+  try {
+    const response = await axios.patch(`api/jobs/${jobId}`, { job, event });
+    return response.data.job;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
-export const deleteJob = createAsyncThunk(
-  'jobs/deleteJob',
-  async ({ jobId }, { rejectWithValue }) => {
-    try {
-      await axios.delete(`/api/jobs/${jobId}`);
-      return jobId;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+export const deleteJob = createAsyncThunk('jobs/deleteJob', async ({ jobId }, { rejectWithValue }) => {
+  try {
+    await axios.delete(`/api/jobs/${jobId}`);
+    return jobId;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
 
 export const jobsSlice = createSlice({
   name: 'jobs',

@@ -24,12 +24,12 @@ const DashboardColumn = (props) => {
       contact_phone={item.contact_phone}
       contact_email={item.contact_email}
       contact_socialmedia={item.contact_socialmedia}
-      event_title={item.event_title}
-      event_details={item.event_details}
-      event_date={item.event_date}
-      event_location={item.event_location}
-      event_jobid={item.event_jobid}
-      event_id={item.event_id}
+      event_title={item.events.length > 0 ? item.events[0].title : ''}
+      event_details={item.events.length > 0 ? item.events[0].details : ''}
+      event_date={item.events.length > 0 ? item.events[0].date : ''}
+      event_location={item.events.length > 0 ? item.events[0].location : ''}
+      event_jobid={item.events.length > 0 ? item.events[0].job_id : ''}
+      event_id={item.events.length > 0 ? item.events[0].id : ''}
     />
   ));
 

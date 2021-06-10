@@ -159,6 +159,12 @@ const JobItem = (props) => {
                 jobContact_email={contact_email}
                 jobContact_phone={contact_phone}
                 jobContact_socialmedia={contact_socialmedia}
+                event_title={event_title}
+                event_details={event_details}
+                event_date={event_date}
+                event_location={event_location}
+                event_jobid={event_jobid}
+                event_id={event_id}
                 isEditModal
               />
               <EditIcon />
@@ -172,24 +178,45 @@ const JobItem = (props) => {
 };
 
 JobItem.propTypes = {
-  id: PropTypes.number.isRequired,
-  company: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
-  salary: PropTypes.number.isRequired,
-  status: PropTypes.number.isRequired,
-  url: PropTypes.string.isRequired,
-  contact_name: PropTypes.string.isRequired,
-  contact_email: PropTypes.string.isRequired,
-  contact_phone: PropTypes.string.isRequired,
-  contact_socialmedia: PropTypes.string.isRequired,
-  event_title: PropTypes.string.isRequired,
-  event_details: PropTypes.string.isRequired,
-  event_date: PropTypes.string.isRequired,
-  event_location: PropTypes.string.isRequired,
-  event_jobid: PropTypes.string.isRequired,
-  event_id: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  company: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  location: PropTypes.string,
+  salary: PropTypes.number,
+  status: PropTypes.number,
+  url: PropTypes.string,
+  contact_name: PropTypes.string,
+  contact_email: PropTypes.string,
+  contact_phone: PropTypes.string,
+  contact_socialmedia: PropTypes.string,
+  event_title: PropTypes.string,
+  event_details: PropTypes.string,
+  event_date: PropTypes.string,
+  event_location: PropTypes.string,
+  event_jobid: PropTypes.number,
+  event_id: PropTypes.number,
+};
+
+JobItem.defaultProps = {
+  id: undefined,
+  company: '',
+  title: '',
+  description: '',
+  location: '',
+  salary: undefined,
+  status: undefined,
+  url: '',
+  contact_name: '',
+  contact_email: '',
+  contact_phone: '',
+  contact_socialmedia: '',
+  event_title: '',
+  event_details: '',
+  event_date: '',
+  event_location: '',
+  event_jobid: '',
+  event_id: undefined,
 };
 
 export default JobItem;

@@ -1,9 +1,11 @@
-import React from 'react'
-import { TextField } from '@material-ui/core'
+import React from 'react';
+import { TextField } from '@material-ui/core';
 
 export default function input(props) {
-  const {name, label, value, onChange} = props;
-  
+  const {
+    name, label, value, onChange,
+  } = props;
+
   return (
     <TextField
       variant="outlined"
@@ -11,6 +13,6 @@ export default function input(props) {
       name={name}
       value={value}
       onChange={onChange}
-      />
-  )
+    />
+  );
 }
