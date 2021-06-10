@@ -156,7 +156,6 @@ export const JobsModal = (props) => {
       setError('Adding new job failed, try again');
     } else if (selectedAction.fulfilled.match(actionResult)) {
       onClose();
-      console.log('in else if by cloe....');
       reset();
     }
   };
