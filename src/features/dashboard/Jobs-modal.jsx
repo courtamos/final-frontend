@@ -18,6 +18,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Alert from '@material-ui/lab/Alert';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 // import GoogleMaps from '../../components/Location-input';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -95,25 +96,6 @@ export const JobsModal = (props) => {
   const [eventLocation, setEventLocation] = useState(event_location || '');
   const [error, setError] = useState('');
 
-  // useEffect(() => {
-  //   setCompany(companyName || '');
-  //   setTitle(jobTitle || '');
-  //   setStatus(jobStatus || 0);
-  //   setSalary(jobSalary || null);
-  //   setUrl(jobUrl || '');
-  //   setLocation(jobLocation || '');
-  //   setDetails(jobDetails || '');
-  //   setContact_name(jobContact_name || '');
-  //   setContact_email(jobContact_email || '');
-  //   setContact_phone(jobContact_phone || '');
-  //   setContact_socialmedia(jobContact_socialmedia || '');
-  //   setSelectedDate(null);
-  //   setEvents('');
-  //   setEventDetails('');
-  //   setEventLocation('');
-  //   setError('');
-  // }, []);
-
   function reset() {
     setCompany('');
     setTitle('');
@@ -138,7 +120,7 @@ export const JobsModal = (props) => {
 
   const handleSubmit = async () => {
     if (company === '' || title === '') {
-      setError('Must contain company name and job title');
+      setError('Must include both Company Name and Job Title');
       return;
     }
 
@@ -192,7 +174,7 @@ export const JobsModal = (props) => {
     }
 
     if (selectedAction.rejected.match(actionResult)) {
-      setError('Adding new job failed, try again');
+      setError('Action failed, please try again');
     } else if (selectedAction.fulfilled.match(actionResult)) {
       onClose();
       if (!isEditModal) {
@@ -205,7 +187,7 @@ export const JobsModal = (props) => {
     const actionResult = await dispatch(deleteJob({ jobId: id }));
 
     if (deleteJob.rejected.match(actionResult)) {
-      setError('Delete failed, try again');
+      setError('Delete failed, please try again');
       return;
     }
 
@@ -251,15 +233,14 @@ export const JobsModal = (props) => {
           >
             <form className="job-modal-box" onSubmit={(event) => event.preventDefault()}>
               <DialogContent dividers>
+                {error && (
+                <Alert severity="error" fullWidth style={{ marginBottom: '10px' }}>
+                  {error}
+                </Alert>
+                )}
                 <div className="modal-top">
-                  {error && (
-                  <Alert severity="error" fullWidth style={{ marginBottom: '10px' }}>
-                    {error}
-                  </Alert>
-                  )}
                   <img id="company-logo" src={companyLogo()} alt="" className="logo" />
                   <div className="modal-top-right">
-                    <CloseIcon className="close-icon" onClick={onClose} />
                     <TextField
                       required
                       id="standard-basic"
