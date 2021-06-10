@@ -50,6 +50,7 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 export const JobsModal = (props) => {
+  console.log('MODAL PROPS', props);
   const dispatch = useDispatch();
   const { user } = useSelector(authSelector);
 
@@ -77,6 +78,8 @@ export const JobsModal = (props) => {
     event_id,
   } = props;
 
+  console.log(event_jobid);
+
   // const user_id = id;
   const [company, setCompany] = useState(companyName || '');
   const [title, setTitle] = useState(jobTitle || '');
@@ -89,8 +92,8 @@ export const JobsModal = (props) => {
   const [contact_email, setContact_email] = useState(jobContact_email || '');
   const [contact_phone, setContact_phone] = useState(jobContact_phone || '');
   const [contact_socialmedia, setContact_socialmedia] = useState(jobContact_socialmedia || '');
-  const [selectedDate, setSelectedDate] = useState(null);
   const [events, setEvents] = useState(event_title || '');
+  const [selectedDate, setSelectedDate] = useState(event_date || null);
   const [eventDetails, setEventDetails] = useState(event_details || '');
   const [eventLocation, setEventLocation] = useState(event_location || '');
   const [error, setError] = useState('');
@@ -158,6 +161,7 @@ export const JobsModal = (props) => {
     };
 
     const event = {
+      job_id: id,
       title: events,
       date: selectedDate,
       details: eventDetails,
@@ -178,7 +182,9 @@ export const JobsModal = (props) => {
       if (!event.title && !event.date && !event.details && !event.location) {
         actionResult = await dispatch(selectedAction({ jobId: id, job }));
       } else {
-        actionResult = await dispatch(selectedAction({ jobId: id, job, event }));
+        actionResult = await dispatch(selectedAction({
+          jobId: id, job, event,
+        }));
       }
     } else if (!event.title && !event.date && !event.details && !event.location) {
       selectedAction = addJob;
@@ -472,32 +478,50 @@ export const JobsModal = (props) => {
 };
 
 JobsModal.propTypes = {
-  open: PropTypes.string,
+  open: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
-  companyName: PropTypes.string.isRequired,
-  jobTitle: PropTypes.string.isRequired,
-  jobDetails: PropTypes.string.isRequired,
-  jobLocation: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  jobSalary: PropTypes.number.isRequired,
-  jobStatus: PropTypes.number.isRequired,
-  jobUrl: PropTypes.string.isRequired,
-  jobContact_name: PropTypes.string.isRequired,
-  jobContact_email: PropTypes.string.isRequired,
-  jobContact_phone: PropTypes.string.isRequired,
-  jobContact_socialmedia: PropTypes.string.isRequired,
+  companyName: PropTypes.string,
+  jobTitle: PropTypes.string,
+  jobDetails: PropTypes.string,
+  jobLocation: PropTypes.string,
+  id: PropTypes.number,
+  jobSalary: PropTypes.number,
+  jobStatus: PropTypes.number,
+  jobUrl: PropTypes.string,
+  jobContact_name: PropTypes.string,
+  jobContact_email: PropTypes.string,
+  jobContact_phone: PropTypes.string,
+  jobContact_socialmedia: PropTypes.string,
   isEditModal: PropTypes.bool,
-  event_title: PropTypes.string.isRequired,
-  event_details: PropTypes.string.isRequired,
-  event_date: PropTypes.string.isRequired,
-  event_location: PropTypes.string.isRequired,
-  event_jobid: PropTypes.string.isRequired,
-  event_id: PropTypes.string.isRequired,
+  event_title: PropTypes.string,
+  event_details: PropTypes.string,
+  event_date: PropTypes.string,
+  event_location: PropTypes.string,
+  event_jobid: PropTypes.string,
+  event_id: PropTypes.string,
 };
 
 JobsModal.defaultProps = {
   open: false,
   isEditModal: false,
+  companyName: '',
+  jobTitle: '',
+  jobDetails: '',
+  jobLocation: '',
+  id: undefined,
+  jobSalary: undefined,
+  jobStatus: undefined,
+  jobUrl: '',
+  jobContact_name: '',
+  jobContact_email: '',
+  jobContact_phone: '',
+  jobContact_socialmedia: '',
+  event_title: '',
+  event_details: '',
+  event_date: '',
+  event_location: '',
+  event_jobid: '',
+  event_id: '',
 };
 
 export default JobsModal;
