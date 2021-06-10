@@ -30,6 +30,7 @@ import {
 import InsertInvitationSharpIcon from '@material-ui/icons/InsertInvitationSharp';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CloseIcon from '@material-ui/icons/Close';
 // import { SideBarButton } from '../common/SideBarButton';
 
 import './Jobs-modal.scss';
@@ -234,6 +235,7 @@ export const JobsModal = (props) => {
                   )}
                   <img id="company-logo" src={companyLogo()} alt="" className="logo" />
                   <div className="modal-top-right">
+                    <CloseIcon className="close-icon" onClick={onClose} />
                     <TextField
                       required
                       id="standard-basic"
