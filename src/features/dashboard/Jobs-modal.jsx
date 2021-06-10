@@ -240,14 +240,9 @@ export const JobsModal = (props) => {
 
           <Dialog
             className="job-modal-background"
-            onClose={(event) => {
-              event.preventDefault();
+            onBackdropClick={onClose}
+            onClick={(event) => {
               event.stopPropagation();
-            }}
-            onBackdropClick={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
-              onClose();
             }}
             aria-labelledby="customized-dialog-title"
             open={open}
@@ -477,10 +472,7 @@ export const JobsModal = (props) => {
                   <div className="buttons-right">
                     <Button
                       type="button"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onClose();
-                      }}
+                      onClick={onClose}
                       style={{ backgroundColor: '#ffe7d6' }}
                       variant="contained"
                       color="default"
