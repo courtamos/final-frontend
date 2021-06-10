@@ -457,17 +457,24 @@ export const JobsModal = (props) => {
               <DialogActions>
                 <div className="buttons-bottom">
                   <div className="buttons-left">
-                    <Button
-                      type="click"
-                      variant="contained"
-                      style={{ backgroundColor: '#ee6a7c', color: 'white' }}
-                      startIcon={<DeleteIcon />}
-                      onClick={handleDelete}
-                    >
-                      <h5 style={{ margin: 2 }}>
-                        Delete
-                      </h5>
-                    </Button>
+                    {
+                      isEditModal
+                        ? (
+                          <Button
+                            type="click"
+                            variant="contained"
+                            style={{ backgroundColor: '#ee6a7c', color: 'white' }}
+                            startIcon={<DeleteIcon />}
+                            onClick={handleDelete}
+                          >
+                            <h5 style={{ margin: 2 }}>
+                              Delete
+                            </h5>
+                          </Button>
+                        )
+                        : null
+                      }
+
                   </div>
                   <div className="buttons-right">
                     <Button

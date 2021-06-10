@@ -28,8 +28,8 @@ const DashboardColumn = (props) => {
       event_details={item.events.length > 0 ? item.events[0].details : ''}
       event_date={item.events.length > 0 ? item.events[0].date : ''}
       event_location={item.events.length > 0 ? item.events[0].location : ''}
-      event_jobid={item.events.length > 0 ? item.events[0].job_id : ''}
-      event_id={item.events.length > 0 ? item.events[0].id : ''}
+      event_jobid={item.events.length > 0 ? item.events[0].job_id : undefined}
+      event_id={item.events.length > 0 ? item.events[0].id : undefined}
     />
   ));
 
