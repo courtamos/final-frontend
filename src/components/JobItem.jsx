@@ -110,7 +110,6 @@ const JobItem = (props) => {
 
   const handleConfirmDelete = () => {
     // Handle Delete Logic here
-    alert('Deleting Item');
     setModalOpen(false);
   };
 
