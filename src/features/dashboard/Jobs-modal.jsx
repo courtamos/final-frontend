@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable camelcase */
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
@@ -65,6 +67,13 @@ export const JobsModal = (props) => {
     jobContact_email,
     jobContact_phone,
     jobContact_socialmedia,
+    isEditModal,
+    event_title,
+    event_details,
+    event_date,
+    event_location,
+    event_jobid,
+    event_id,
   } = props;
 
   // const user_id = id;
@@ -80,10 +89,29 @@ export const JobsModal = (props) => {
   const [contact_phone, setContact_phone] = useState(jobContact_phone || '');
   const [contact_socialmedia, setContact_socialmedia] = useState(jobContact_socialmedia || '');
   const [selectedDate, setSelectedDate] = useState(null);
-  const [events, setEvents] = useState('');
-  const [eventDetails, setEventDetails] = useState('');
-  const [eventLocation, setEventLocation] = useState('');
+  const [events, setEvents] = useState(event_title || '');
+  const [eventDetails, setEventDetails] = useState(event_details || '');
+  const [eventLocation, setEventLocation] = useState(event_location || '');
   const [error, setError] = useState('');
+
+  // useEffect(() => {
+  //   setCompany(companyName || '');
+  //   setTitle(jobTitle || '');
+  //   setStatus(jobStatus || 0);
+  //   setSalary(jobSalary || null);
+  //   setUrl(jobUrl || '');
+  //   setLocation(jobLocation || '');
+  //   setDetails(jobDetails || '');
+  //   setContact_name(jobContact_name || '');
+  //   setContact_email(jobContact_email || '');
+  //   setContact_phone(jobContact_phone || '');
+  //   setContact_socialmedia(jobContact_socialmedia || '');
+  //   setSelectedDate(null);
+  //   setEvents('');
+  //   setEventDetails('');
+  //   setEventLocation('');
+  //   setError('');
+  // }, []);
 
   function reset() {
     setCompany('');
@@ -108,6 +136,11 @@ export const JobsModal = (props) => {
   };
 
   const handleSubmit = async () => {
+    if (company === '' || title === '') {
+      setError('Must contain company name and job title');
+      return;
+    }
+
     const job = {
       user_id: user.id,
       company,
@@ -158,7 +191,9 @@ export const JobsModal = (props) => {
       setError('Adding new job failed, try again');
     } else if (selectedAction.fulfilled.match(actionResult)) {
       onClose();
-      reset();
+      if (!isEditModal) {
+        reset();
+      }
     }
   };
 
@@ -449,10 +484,18 @@ JobsModal.propTypes = {
   jobContact_email: PropTypes.string.isRequired,
   jobContact_phone: PropTypes.string.isRequired,
   jobContact_socialmedia: PropTypes.string.isRequired,
+  isEditModal: PropTypes.bool,
+  event_title: PropTypes.string.isRequired,
+  event_details: PropTypes.string.isRequired,
+  event_date: PropTypes.string.isRequired,
+  event_location: PropTypes.string.isRequired,
+  event_jobid: PropTypes.string.isRequired,
+  event_id: PropTypes.string.isRequired,
 };
 
 JobsModal.defaultProps = {
   open: false,
+  isEditModal: false,
 };
 
 export default JobsModal;
