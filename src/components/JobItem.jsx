@@ -146,37 +146,33 @@ const JobItem = (props) => {
             <IconButton
               id="icon-button"
               aria-label="edit-item"
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                openModal();
-              }}
+              onClick={openModal}
             >
-              <JobsModal
-                open={editModalOpen}
-                onClose={closeModal}
-                id={id}
-                companyName={company}
-                jobTitle={title}
-                jobDetails={description}
-                jobLocation={location}
-                jobSalary={salary}
-                jobStatus={status}
-                jobUrl={url}
-                jobContact_name={contact_name}
-                jobContact_email={contact_email}
-                jobContact_phone={contact_phone}
-                jobContact_socialmedia={contact_socialmedia}
-                event_title={event_title}
-                event_details={event_details}
-                event_date={event_date}
-                event_location={event_location}
-                event_jobid={event_jobid}
-                event_id={event_id}
-                isEditModal
-              />
               <EditIcon />
             </IconButton>
+            <JobsModal
+              open={editModalOpen}
+              onClose={closeModal}
+              id={id}
+              companyName={company}
+              jobTitle={title}
+              jobDetails={description}
+              jobLocation={location}
+              jobSalary={salary}
+              jobStatus={status}
+              jobUrl={url}
+              jobContact_name={contact_name}
+              jobContact_email={contact_email}
+              jobContact_phone={contact_phone}
+              jobContact_socialmedia={contact_socialmedia}
+              event_title={event_title}
+              event_details={event_details}
+              event_date={event_date}
+              event_location={event_location}
+              event_jobid={event_jobid}
+              event_id={event_id}
+              isEditModal
+            />
           </Box>
           <ModalConfirm id="modal-confirm-delete" open={modalOpen} onConfirm={handleConfirmDelete} onDecline={handleDeclineDelete} />
         </Box>
