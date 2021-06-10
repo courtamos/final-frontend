@@ -117,6 +117,13 @@ const JobItem = (props) => {
     setModalOpen(false);
   };
 
+  const handleRedirect = () => {
+    if (url !== '') {
+      return url;
+    }
+    return null;
+  };
+
   return (
     <Paper elevation={1} className={classes.panel} variant="contained">
       <Box display="flex" flexDirection="column" width="100%">
@@ -129,7 +136,9 @@ const JobItem = (props) => {
           <MenuIcon />
           <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
             {/* Fetch the icon from an api here */}
-            <img src={companyLogo(company)} alt="logo" width="45px" className={classes.image} />
+            <a href={handleRedirect()} target="_blank" rel="noreferrer">
+              <img src={companyLogo(company)} alt="logo" width="45px" className={classes.image} />
+            </a>
           </Box>
           <Box display="flex" flexDirection="column" flexGrow={1}>
             <Typography variant="h6" align="left" className={classes.heading}>{company}</Typography>

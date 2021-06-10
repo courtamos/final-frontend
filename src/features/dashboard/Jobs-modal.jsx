@@ -49,6 +49,7 @@ const DialogActions = withStyles((theme) => ({
 export const JobsModal = (props) => {
   const dispatch = useDispatch();
   const { user } = useSelector(authSelector);
+
   const {
     onClose,
     open,
@@ -66,6 +67,7 @@ export const JobsModal = (props) => {
     jobContact_socialmedia,
   } = props;
 
+  // const user_id = id;
   const [company, setCompany] = useState(companyName || '');
   const [title, setTitle] = useState(jobTitle || '');
   const [status, setStatus] = useState(jobStatus || 0);
@@ -406,7 +408,7 @@ export const JobsModal = (props) => {
                     </Button>
                   </div>
                   <div className="buttons-right">
-                    <Button type="button" autoFocus onClick={onClose} style={{ backgroundColor: '#ffe7d6' }} variant="contained" color="default">
+                    <Button type="submit" autoFocus onClick={onClose} style={{ backgroundColor: '#ffe7d6' }} variant="contained" color="default">
                       <h5 style={{ margin: 2 }}>Cancel</h5>
                     </Button>
                     <Button
