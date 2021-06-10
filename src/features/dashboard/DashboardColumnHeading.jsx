@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   root: {
-    height: '75px',
+    height: '100px',
     backgroundColor: '#ee6a7c',
     color: 'white',
   },
@@ -22,7 +22,7 @@ const DashboardColumnHeading = (props) => {
   return (
     <Paper className={classes.root} square elevation={0}>
       <Box display="flex" className={classes.root} width={1} justifyContent="center" alignItems="center" style={{ backgroundColor: color }}>
-        <Typography variant="h6">
+        <Typography variant="h5" style={{ textTransform: 'uppercase' }}>
           {title}
         </Typography>
       </Box>
