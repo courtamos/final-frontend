@@ -34,9 +34,9 @@ export const addJob = createAsyncThunk(
 
 export const editJob = createAsyncThunk(
   'jobs/editJob',
-  async ({ job, event }, { rejectWithValue }) => {
+  async ({ jobId, job, event }, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(`api/jobs/${job.id}`, { job, event });
+      const response = await axios.patch(`api/jobs/${jobId}`, { job, event });
       return response.data.job;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -80,7 +80,12 @@ export const jobsSlice = createSlice({
       })
       .addCase(editJob.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.jobs = [...state.jobs, action.payload];
+        state.jobs = state.jobs.map((job) => {
+          if (job.id === action.payload.id) {
+            return action.payload;
+          }
+          return job;
+        });
       })
       .addCase(editJob.rejected, (state) => {
         state.status = 'failed';

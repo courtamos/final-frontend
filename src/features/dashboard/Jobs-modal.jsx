@@ -32,7 +32,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import './Jobs-modal.scss';
 import { authSelector } from '../auth/authSlice';
-import { addJob } from './jobs/jobsSlice';
+import { addJob, editJob } from './jobs/jobsSlice';
 
 const DialogContent = withStyles((theme) => ({
   root: {
@@ -52,7 +52,7 @@ export const JobsModal = (props) => {
   const {
     onClose,
     open,
-    // id,
+    id,
     companyName,
     jobTitle,
     jobDetails,
@@ -135,30 +135,28 @@ export const JobsModal = (props) => {
     }
 
     let actionResult;
+    let selectedAction;
 
-    if (!event.title && !event.date && !event.details && !event.location) {
-      actionResult = await dispatch(addJob({ job }));
+    if (id) {
+      selectedAction = editJob;
+      if (!event.title && !event.date && !event.details && !event.location) {
+        actionResult = await dispatch(selectedAction({ jobId: id, job }));
+      } else {
+        actionResult = await dispatch(selectedAction({ jobId: id, job, event }));
+      }
+    } else if (!event.title && !event.date && !event.details && !event.location) {
+      selectedAction = addJob;
+      actionResult = await dispatch(selectedAction({ job }));
     } else {
-      actionResult = await dispatch(addJob({ job, event }));
+      selectedAction = addJob;
+      actionResult = await dispatch(selectedAction({ job, event }));
     }
-    // if (id) {
-    //   if (!event.title && !event.date && !event.details && !event.location) {
-    //     actionResult = await dispatch(editJob({ job }));
-    //   } else {
-    //     actionResult = await dispatch(editJob({ job, event }));
-    //   }
-    // } else if (!id) {
-    //   if (!event.title && !event.date && !event.details && !event.location) {
-    //     actionResult = await dispatch(addJob({ job }));
-    //   } else {
-    //     actionResult = await dispatch(addJob({ job, event }));
-    //   }
-    // }
 
-    if (addJob.rejected.match(actionResult)) {
+    if (selectedAction.rejected.match(actionResult)) {
       setError('Adding new job failed, try again');
-    } else if (addJob.fulfilled.match(actionResult)) {
-      onClose(true);
+    } else if (selectedAction.fulfilled.match(actionResult)) {
+      onClose();
+      console.log('in else if by cloe....');
       reset();
     }
   };
@@ -442,7 +440,7 @@ JobsModal.propTypes = {
   jobTitle: PropTypes.string.isRequired,
   jobDetails: PropTypes.string.isRequired,
   jobLocation: PropTypes.string.isRequired,
-  // id: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
   jobSalary: PropTypes.number.isRequired,
   jobStatus: PropTypes.number.isRequired,
   jobUrl: PropTypes.string.isRequired,
