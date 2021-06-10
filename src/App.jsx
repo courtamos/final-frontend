@@ -7,7 +7,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Dashboard from './features/dashboard/Dashboard';
 import Login from './features/auth/Login';
 import Signup from './features/auth/Signup';
-import Logout from './features/dashboard/Logout';
 
 import PrivateRoute from './components/PrivateRoute';
 import { authSelector, fetchLoggedInStatus } from './features/auth/authSlice';
@@ -33,7 +32,6 @@ function App() {
       <Switch>
         <PrivateRoute path="/dashboard">
           <Dashboard />
-          <Logout />
           <Switch>
             <Route path="/dashboard/profile">
               <h1>Profile</h1>
