@@ -32,6 +32,18 @@ export const addJob = createAsyncThunk(
   },
 );
 
+export const editJob = createAsyncThunk(
+  'jobs/editJob',
+  async ({ jobId, job, event }, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch(`api/jobs/${jobId}`, { job, event });
+      return response.data.job;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const jobsSlice = createSlice({
   name: 'jobs',
   initialState,
@@ -61,6 +73,21 @@ export const jobsSlice = createSlice({
         state.jobs = [...state.jobs, action.payload];
       })
       .addCase(addJob.rejected, (state) => {
+        state.status = 'failed';
+      })
+      .addCase(editJob.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(editJob.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.jobs = state.jobs.map((job) => {
+          if (job.id === action.payload.id) {
+            return action.payload;
+          }
+          return job;
+        });
+      })
+      .addCase(editJob.rejected, (state) => {
         state.status = 'failed';
       });
   },
