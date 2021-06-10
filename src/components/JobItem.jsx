@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // MaterialUI Components
 import {
-  Box, Button, IconButton, Typography,
+  Box, IconButton, Typography, Paper,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -24,8 +24,11 @@ const useStyles = makeStyles({
 
   panel: {
     backgroundColor: 'white',
-    width: '100%',
     marginBottom: '5px',
+    padding: '10px',
+    '&:hover': {
+      backgroundColor: '#f6f6f6',
+    },
   },
 
   logo: {
@@ -115,7 +118,7 @@ const JobItem = (props) => {
   };
 
   return (
-    <Button className={classes.panel} variant="contained">
+    <Paper elevation={1} className={classes.panel} variant="contained">
       <Box display="flex" flexDirection="column" width="100%">
         <Box
           display="flex"
@@ -160,7 +163,7 @@ const JobItem = (props) => {
           <ModalConfirm id="modal-confirm-delete" open={modalOpen} onConfirm={handleConfirmDelete} onDecline={handleDeclineDelete} />
         </Box>
       </Box>
-    </Button>
+    </Paper>
   );
 };
 

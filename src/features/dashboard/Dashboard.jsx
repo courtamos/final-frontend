@@ -55,7 +55,6 @@ const Dashboard = () => {
             </>
           )}
         </Box>
-
       </Box>
     </Container>
   );
