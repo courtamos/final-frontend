@@ -32,7 +32,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import './Jobs-modal.scss';
 import { authSelector } from '../auth/authSlice';
-import { addJob } from './jobs/jobsSlice';
+import { addJob, editJob } from './jobs/jobsSlice';
 
 const DialogContent = withStyles((theme) => ({
   root: {
@@ -52,6 +52,7 @@ export const JobsModal = (props) => {
   const {
     onClose,
     open,
+    id,
     companyName,
     jobTitle,
     jobDetails,
@@ -76,7 +77,7 @@ export const JobsModal = (props) => {
   const [contact_email, setContact_email] = useState(jobContact_email || '');
   const [contact_phone, setContact_phone] = useState(jobContact_phone || '');
   const [contact_socialmedia, setContact_socialmedia] = useState(jobContact_socialmedia || '');
-  const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
+  const [selectedDate, setSelectedDate] = useState(null);
   const [events, setEvents] = useState('');
   const [eventDetails, setEventDetails] = useState('');
   const [eventLocation, setEventLocation] = useState('');
@@ -97,12 +98,8 @@ export const JobsModal = (props) => {
     setEvents('');
     setEventDetails('');
     setEventLocation('');
-    setSelectedDate(new Date(Date.now()));
+    setSelectedDate(null);
   }
-
-  const handleClose = () => {
-    reset();
-  };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -138,16 +135,28 @@ export const JobsModal = (props) => {
     }
 
     let actionResult;
-    if (!event.title && !event.date && !event.details && !event.location) {
-      actionResult = await dispatch(addJob({ job }));
+    let selectedAction;
+
+    if (id) {
+      selectedAction = editJob;
+      if (!event.title && !event.date && !event.details && !event.location) {
+        actionResult = await dispatch(selectedAction({ jobId: id, job }));
+      } else {
+        actionResult = await dispatch(selectedAction({ jobId: id, job, event }));
+      }
+    } else if (!event.title && !event.date && !event.details && !event.location) {
+      selectedAction = addJob;
+      actionResult = await dispatch(selectedAction({ job }));
     } else {
-      actionResult = await dispatch(addJob({ job, event }));
+      selectedAction = addJob;
+      actionResult = await dispatch(selectedAction({ job, event }));
     }
 
-    if (addJob.rejected.match(actionResult)) {
+    if (selectedAction.rejected.match(actionResult)) {
       setError('Adding new job failed, try again');
-    } else if (addJob.fulfilled.match(actionResult)) {
-      handleClose();
+    } else if (selectedAction.fulfilled.match(actionResult)) {
+      onClose();
+      reset();
     }
   };
 
@@ -430,6 +439,7 @@ JobsModal.propTypes = {
   jobTitle: PropTypes.string.isRequired,
   jobDetails: PropTypes.string.isRequired,
   jobLocation: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   jobSalary: PropTypes.number.isRequired,
   jobStatus: PropTypes.number.isRequired,
   jobUrl: PropTypes.string.isRequired,
