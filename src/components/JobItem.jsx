@@ -194,8 +194,8 @@ JobItem.propTypes = {
   event_details: PropTypes.string,
   event_date: PropTypes.string,
   event_location: PropTypes.string,
-  event_jobid: PropTypes.string,
-  event_id: PropTypes.string,
+  event_jobid: PropTypes.number,
+  event_id: PropTypes.number,
 };
 
 JobItem.defaultProps = {
@@ -216,7 +216,7 @@ JobItem.defaultProps = {
   event_date: '',
   event_location: '',
   event_jobid: '',
-  event_id: '',
+  event_id: undefined,
 };
 
 export default JobItem;
