@@ -143,7 +143,15 @@ const JobItem = (props) => {
             <IconButton aria-label="delete" onClick={() => { setModalOpen(true); }}>
               <DeleteIcon />
             </IconButton>
-            <IconButton aria-label="edit" onClick={openModal}>
+            <IconButton
+              id="icon-button"
+              aria-label="edit-item"
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                openModal();
+              }}
+            >
               <JobsModal
                 open={editModalOpen}
                 onClose={closeModal}
