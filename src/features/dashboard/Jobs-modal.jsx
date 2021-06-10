@@ -50,7 +50,6 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 export const JobsModal = (props) => {
-  console.log('MODAL PROPS', props);
   const dispatch = useDispatch();
   const { user } = useSelector(authSelector);
 
@@ -77,8 +76,6 @@ export const JobsModal = (props) => {
     event_jobid,
     event_id,
   } = props;
-
-  console.log(event_jobid);
 
   // const user_id = id;
   const [company, setCompany] = useState(companyName || '');
