@@ -238,7 +238,22 @@ export const JobsModal = (props) => {
       <StylesProvider>
         <Grid container>
 
-          <Dialog className="job-modal-background" onBackdropClick={onClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="sm">
+          <Dialog
+            className="job-modal-background"
+            onClose={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onBackdropClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onClose();
+            }}
+            aria-labelledby="customized-dialog-title"
+            open={open}
+            fullWidth
+            maxWidth="sm"
+          >
             <form className="job-modal-box" onSubmit={(event) => event.preventDefault()}>
               <DialogContent dividers>
                 <div className="modal-top">
@@ -460,7 +475,16 @@ export const JobsModal = (props) => {
                     </Button>
                   </div>
                   <div className="buttons-right">
-                    <Button type="submit" autoFocus onClick={onClose} style={{ backgroundColor: '#ffe7d6' }} variant="contained" color="default">
+                    <Button
+                      type="button"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        onClose();
+                      }}
+                      style={{ backgroundColor: '#ffe7d6' }}
+                      variant="contained"
+                      color="default"
+                    >
                       <h5 style={{ margin: 2 }}>Cancel</h5>
                     </Button>
                     <Button
