@@ -1,4 +1,8 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
 /* eslint-disable camelcase */
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -60,7 +64,6 @@ const useStyles = makeStyles({
 const JobItem = (props) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-
   const classes = useStyles();
   const {
     id,
@@ -75,6 +78,12 @@ const JobItem = (props) => {
     contact_email,
     contact_phone,
     contact_socialmedia,
+    event_title,
+    event_details,
+    event_date,
+    event_location,
+    event_jobid,
+    event_id,
   } = props;
 
   const companyLogo = (logo) => {
@@ -156,6 +165,7 @@ const JobItem = (props) => {
                 jobContact_email={contact_email}
                 jobContact_phone={contact_phone}
                 jobContact_socialmedia={contact_socialmedia}
+                isEditModal
               />
               <EditIcon />
             </IconButton>
@@ -180,6 +190,12 @@ JobItem.propTypes = {
   contact_email: PropTypes.string.isRequired,
   contact_phone: PropTypes.string.isRequired,
   contact_socialmedia: PropTypes.string.isRequired,
+  event_title: PropTypes.string.isRequired,
+  event_details: PropTypes.string.isRequired,
+  event_date: PropTypes.string.isRequired,
+  event_location: PropTypes.string.isRequired,
+  event_jobid: PropTypes.string.isRequired,
+  event_id: PropTypes.string.isRequired,
 };
 
 export default JobItem;
