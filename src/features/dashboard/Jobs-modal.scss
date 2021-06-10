@@ -19,6 +19,11 @@
   padding-bottom: 0px;
   line-height: 1em;
   margin-top: 30px;
+  margin-bottom: 10px;
+
+  &-links {
+    margin-bottom: 0px;
+  }
 }
 
 .content{
@@ -144,6 +149,30 @@
   align-content: center;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.sub-header {
+  color: grey;
+  font-family: 'Source Sans Pro';
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 12px;
+}
+
+.links {
+  width: 99.5%;
+
+  &-input {
+    width: 99.5%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  &-inputfield {
+    width: 48%;
+  }
 }
 
 .buttons-bottom {

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
@@ -93,6 +94,8 @@ export const JobsModal = (props) => {
   const [selectedDate, setSelectedDate] = useState(event_date || null);
   const [eventDetails, setEventDetails] = useState(event_details || '');
   const [eventLocation, setEventLocation] = useState(event_location || '');
+  const [linkOne, setLinkOne] = useState('');
+  const [linkTwo, setLinkTwo] = useState('');
   const [error, setError] = useState('');
 
   // useEffect(() => {
@@ -130,6 +133,8 @@ export const JobsModal = (props) => {
     setEventDetails('');
     setEventLocation('');
     setSelectedDate(null);
+    setLinkOne('');
+    setLinkTwo('');
   }
 
   const handleDateChange = (date) => {
@@ -452,7 +457,32 @@ export const JobsModal = (props) => {
                     onChange={(event) => setContact_socialmedia(event.target.value)}
                   />
                 </div>
-
+                <div className="links">
+                  <h3 className="heading-links">
+                    Links
+                  </h3>
+                  <p className="sub-header">
+                    Add any links used in your application, such as resume, cover letter, portfolio, etc.
+                  </p>
+                </div>
+                <div className="links-input">
+                  <TextField
+                    id="standard-basic"
+                    label="Link"
+                    className="links-inputfield"
+                    name="linkOne"
+                    value={linkOne}
+                    onChange={(event) => setLinkOne(event.target.value)}
+                  />
+                  <TextField
+                    id="standard-basic"
+                    label="Link"
+                    className="links-inputfield"
+                    name="linkTwo"
+                    value={linkTwo}
+                    onChange={(event) => setLinkTwo(event.target.value)}
+                  />
+                </div>
               </DialogContent>
               <DialogActions>
                 <div className="buttons-bottom">
