@@ -6,9 +6,9 @@ import { useDispatch } from 'react-redux';
 // MaterialUI Components
 import { Box, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import FaceIcon from '@material-ui/icons/Face';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddIcon from '@material-ui/icons/Add';
+import EventIcon from '@material-ui/icons/Event';
 // import { authSelector } from '../auth/authSlice';
 
 // Custom Components
@@ -25,6 +25,12 @@ const useStyles = makeStyles({
   },
   add: {
     color: 'black',
+  },
+  imgicon: {
+    padding: '20px',
+  },
+  initialsicon: {
+    borderRadius: '50%',
   },
 });
 
@@ -56,22 +62,21 @@ const SideBar = () => {
   return (
     <Box id="sidebar" display="flex" height="100vh">
       <Paper elevation={1} square>
-        <Box display="flex" flexGrow={1} flexDirection="column" height="100%">
-          <SideBarButton>
-            <Link to="/" className="link">
-              <img src="../../img/Logo1.png" alt="logo" width="50px" />
-            </Link>
-          </SideBarButton>
+        <Box display="flex" flexGrow={1} flexDirection="column" height="100%" alignItems="center">
+          <img src="../../img/Logo1.png" alt="logo" width="50px" className={classes.imgicon} />
           {user
             ? (
               <>
                 <SideBarButton>
                   <Link to={`/users/${user.id}`} className="link">
-                    <FaceIcon className={classes.icon} />
+                    <img src="https://ui-avatars.com/api/?background=0D8ABC&color=fff" alt="initials" className={classes.initialsicon} />
                   </Link>
                 </SideBarButton>
                 <SideBarButton onClick={handleClickOpen}>
                   <AddIcon className={`${classes.icon} ${classes.add}`} />
+                </SideBarButton>
+                <SideBarButton onClick={() => { window.open('https://calendar.google.com/calendar/u/0/r', '_blank'); }}>
+                  <EventIcon className={`${classes.icon} ${classes.add}`} />
                 </SideBarButton>
                 <JobsModal open={open} onClose={handleClose} />
                 <SideBarButton onClick={handleLogOut}>
