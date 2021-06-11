@@ -76,6 +76,9 @@ export const JobsModal = (props) => {
     event_location,
     event_jobid,
     event_id,
+    jobResume_url,
+    jobCoverletter_url,
+    jobExtra_url,
   } = props;
 
   // const user_id = id;
@@ -94,9 +97,9 @@ export const JobsModal = (props) => {
   const [selectedDate, setSelectedDate] = useState(event_date || null);
   const [eventDetails, setEventDetails] = useState(event_details || '');
   const [eventLocation, setEventLocation] = useState(event_location || '');
-  const [resume, setResume] = useState('');
-  const [cover_letter, setCover_letter] = useState('');
-  const [linkRandom, setLinkRandom] = useState('');
+  const [resume_url, setResume_url] = useState(jobResume_url || '');
+  const [coverletter_url, setCoverletter_url] = useState(jobCoverletter_url || '');
+  const [extra_url, setExtra_url] = useState(jobExtra_url || '');
   const [error, setError] = useState('');
 
   // useEffect(() => {
@@ -134,9 +137,9 @@ export const JobsModal = (props) => {
     setEventDetails('');
     setEventLocation('');
     setSelectedDate(null);
-    setResume('');
-    setCover_letter('');
-    setLinkRandom('');
+    setResume_url('');
+    setCoverletter_url('');
+    setExtra_url('');
   }
 
   const handleDateChange = (date) => {
@@ -162,6 +165,9 @@ export const JobsModal = (props) => {
       contact_email,
       contact_phone,
       contact_socialmedia,
+      resume_url,
+      coverletter_url,
+      extra_url,
     };
 
     const event = {
@@ -238,6 +244,13 @@ export const JobsModal = (props) => {
 
   const calendarButton = () => {
     window.open(google(calendarEvent));
+  };
+
+  const clickLink = (link) => {
+    if (link.substring(0, 4) !== 'http') {
+      window.open(`http://${link}`);
+    }
+    return window.open(link);
   };
 
   return (
@@ -463,6 +476,41 @@ export const JobsModal = (props) => {
                   <h3 className="heading-links">
                     Links
                   </h3>
+                  <div>
+                    <Button
+                      className="links-buttons"
+                      variant="contained"
+                      onClick={() => clickLink(resume_url)}
+                      color="secondary"
+                      style={{ marginLeft: 10, backgroundColor: '#5bccd9' }}
+                    >
+                      <h5 style={{ marginLeft: 5 }}>
+                        Resume
+                      </h5>
+                    </Button>
+                    <Button
+                      className="links-buttons"
+                      variant="contained"
+                      onClick={() => clickLink(coverletter_url)}
+                      color="secondary"
+                      style={{ marginLeft: 10, backgroundColor: '#34c1d1' }}
+                    >
+                      <h5 style={{ marginLeft: 5 }}>
+                        Cover Letter
+                      </h5>
+                    </Button>
+                    <Button
+                      className="links-buttons"
+                      variant="contained"
+                      onClick={() => clickLink(extra_url)}
+                      color="secondary"
+                      style={{ marginLeft: 10, backgroundColor: '#34acba' }}
+                    >
+                      <h5 style={{ marginLeft: 5 }}>
+                        Additional
+                      </h5>
+                    </Button>
+                  </div>
                 </div>
                 <div className="links-input">
                   <TextField
@@ -470,16 +518,16 @@ export const JobsModal = (props) => {
                     label="Resume Link"
                     className="links-inputfield"
                     name="resume"
-                    value={resume}
-                    onChange={(event) => setResume(event.target.value)}
+                    value={resume_url}
+                    onChange={(event) => setResume_url(event.target.value)}
                   />
                   <TextField
                     id="standard-basic"
                     label="Cover Letter Link"
                     className="links-inputfield"
                     name="linkTwo"
-                    value={cover_letter}
-                    onChange={(event) => setCover_letter(event.target.value)}
+                    value={coverletter_url}
+                    onChange={(event) => setCoverletter_url(event.target.value)}
                   />
                 </div>
                 <div>
@@ -488,8 +536,8 @@ export const JobsModal = (props) => {
                     label="Additional Link (Portfolio, Transcript, Diploma, etc.)"
                     className="links-inputfield-full"
                     name="linkRandom"
-                    value={linkRandom}
-                    onChange={(event) => setLinkRandom(event.target.value)}
+                    value={extra_url}
+                    onChange={(event) => setExtra_url(event.target.value)}
                   />
                 </div>
               </DialogContent>
@@ -563,6 +611,9 @@ JobsModal.propTypes = {
   jobContact_email: PropTypes.string,
   jobContact_phone: PropTypes.string,
   jobContact_socialmedia: PropTypes.string,
+  jobResume_url: PropTypes.string,
+  jobCoverletter_url: PropTypes.string,
+  jobExtra_url: PropTypes.string,
   isEditModal: PropTypes.bool,
   event_title: PropTypes.string,
   event_details: PropTypes.string,
@@ -587,6 +638,9 @@ JobsModal.defaultProps = {
   jobContact_email: '',
   jobContact_phone: '',
   jobContact_socialmedia: '',
+  jobResume_url: '',
+  jobCoverletter_url: '',
+  jobExtra_url: '',
   event_title: '',
   event_details: '',
   event_date: '',

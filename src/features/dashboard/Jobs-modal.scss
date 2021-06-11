@@ -18,11 +18,12 @@
   padding-top: 0px;
   padding-bottom: 0px;
   line-height: 1em;
-  margin-top: 30px;
+  margin-top: 0px;
   margin-bottom: 10px;
 
   &-links {
     margin-bottom: 0px;
+    margin-top: 0px;
   }
 }
 
@@ -160,7 +161,17 @@
 }
 
 .links {
-  width: 99.5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+
+    &-buttons {
+      height: 30px;
+    }
 
   &-input {
     width: 99.5%;
