@@ -123,7 +123,6 @@ const JobItem = (props) => {
           `https://autocomplete.clearbit.com/v1/companies/suggest?query=${company}`,
         );
         setLogo(result.data[0].logo);
-        console.log(result.data[0].logo);
       } catch (err) {
         return 'https://i.imgur.com/n7X5rsl.png';
       }
