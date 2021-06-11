@@ -32,11 +32,6 @@ function App() {
       <Switch>
         <PrivateRoute path="/dashboard">
           <Dashboard />
-          <Switch>
-            <Route path="/dashboard/profile">
-              <h1>Profile</h1>
-            </Route>
-          </Switch>
         </PrivateRoute>
         <Route path="/signup">
           <Signup />
