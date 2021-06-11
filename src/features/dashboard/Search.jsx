@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
@@ -21,9 +22,12 @@ const Search = () => {
   useEffect(() => {
     const searchValueLowerCase = searchValue.toLocaleLowerCase();
     const filtered = jobs.filter((job) => {
-      if (searchValueLowerCase && (job.company.toLowerCase().includes(searchValueLowerCase)
-      || job.title.toLowerCase().includes(searchValueLowerCase))) {
-        return true;
+      for (const key in job) {
+        if (key !== 'events') {
+          if (job[key] && job[key].toString().toLowerCase().includes(searchValueLowerCase)) {
+            return true;
+          }
+        }
       }
       return false;
     });
@@ -99,7 +103,7 @@ const Search = () => {
           ))}
         </>
       ) : (
-        <Box paddingTop="20px">
+        <Box>
           <h3>No Results Found</h3>
         </Box>
       )}
