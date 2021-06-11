@@ -21,9 +21,13 @@ import {
   resetEditJobStatus,
   resetDeleteJobStatus,
 } from './jobs/jobsSlice';
+import {
+  authSelector,
+} from '../auth/authSlice';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  const { user } = useSelector(authSelector);
   const {
     status, addJobStatus, editJobStatus, deleteJobStatus,
   } = useSelector(jobsSelector);
@@ -66,7 +70,7 @@ const Dashboard = () => {
   return (
     <Container id="dashboard-container" disableGutters style={{ margin: '0px' }}>
       <Box display="flex" flexDirection="row" width="100vw">
-        <SideBar />
+        <SideBar userdata={user} />
         <Box id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between">
           {status === 'failed' ? 'Something went wrong' : (
             <>

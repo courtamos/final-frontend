@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 // import { useSelector } from 'react-redux';
 
 // MaterialUI Components
@@ -9,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddIcon from '@material-ui/icons/Add';
 import EventIcon from '@material-ui/icons/Event';
+import SearchIcon from '@material-ui/icons/Search';
 // import { authSelector } from '../auth/authSlice';
 
 // Custom Components
@@ -22,9 +24,10 @@ const useStyles = makeStyles({
   },
   icon: {
     fontSize: '50px',
+    color: '#AB5675',
   },
   add: {
-    color: 'black',
+    color: '#AB5675',
   },
   imgicon: {
     padding: '20px',
@@ -34,9 +37,11 @@ const useStyles = makeStyles({
   },
 });
 
-const SideBar = () => {
+const SideBar = (props) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
+
+  const { userdata } = props;
 
   // const { user } = useSelector(authSelector);
   const user = { id: '1' };
@@ -69,11 +74,16 @@ const SideBar = () => {
               <>
                 <SideBarButton>
                   <Link to={`/users/${user.id}`} className="link">
-                    <img src="https://ui-avatars.com/api/?background=0D8ABC&color=fff" alt="initials" className={classes.initialsicon} />
+                    <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
                   </Link>
                 </SideBarButton>
                 <SideBarButton onClick={handleClickOpen}>
                   <AddIcon className={`${classes.icon} ${classes.add}`} />
+                </SideBarButton>
+                <SideBarButton onClick={handleClickOpen}>
+                  <Link to="/search" className="link">
+                    <SearchIcon className={`${classes.icon} ${classes.add}`} />
+                  </Link>
                 </SideBarButton>
                 <SideBarButton onClick={() => { window.open('https://calendar.google.com/calendar/u/0/r', '_blank'); }}>
                   <EventIcon className={`${classes.icon} ${classes.add}`} />
@@ -93,8 +103,20 @@ const SideBar = () => {
   );
 };
 
+SideBar.propTypes = {
+  userdata: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+  }),
+};
+
 SideBar.defaultProps = {
-  onAddItem: () => {},
+  userdata: {
+    first_name: 'Dave',
+    last_name: 'Smith',
+    email: 'dave.smith@email.com',
+  },
 };
 
 export default SideBar;
