@@ -92,7 +92,7 @@ export const JobsModal = (props) => {
   function reset() {
     setCompany('');
     setTitle('');
-    setSalary(undefined);
+    setSalary(0);
     setStatus(0);
     setUrl('');
     setLocation('');
@@ -118,6 +118,11 @@ export const JobsModal = (props) => {
   const handleSubmit = async () => {
     if (company === '' || title === '') {
       setError('Must include both Company Name and Job Title');
+      return;
+    }
+
+    if (salary === undefined) {
+      setError('Salary Must be a Number');
       return;
     }
 
@@ -336,12 +341,11 @@ export const JobsModal = (props) => {
                   </Button>
                   <TextField
                     id="standard-basic"
-                    type="number"
+                    value={salary > 0 ? salary : ''}
                     label="Salary"
                     className="modal-middle-salary"
                     name="salary"
                     style={{ marginLeft: 11.2 }}
-                    value={salary}
                     onChange={(event) => setSalary(parseInt(event.target.value, 10))}
                   />
                   <TextField
@@ -648,7 +652,7 @@ JobsModal.defaultProps = {
   jobDetails: '',
   jobLocation: '',
   id: undefined,
-  jobSalary: undefined,
+  jobSalary: 0,
   jobStatus: undefined,
   jobUrl: '',
   jobContact_name: '',
