@@ -32,6 +32,8 @@ import InsertInvitationSharpIcon from '@material-ui/icons/InsertInvitationSharp'
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
+import OpenInNewSharpIcon from '@material-ui/icons/OpenInNewSharp';
+import InputAdornment from '@material-ui/core/InputAdornment';
 // import { SideBarButton } from '../common/SideBarButton';
 
 import './Jobs-modal.scss';
@@ -247,7 +249,9 @@ export const JobsModal = (props) => {
   };
 
   const clickLink = (link) => {
-    if (link.substring(0, 4) !== 'http') {
+    if (link === '') {
+      return null;
+    } if (link.substring(0, 4) !== 'http') {
       window.open(`http://${link}`);
     }
     return window.open(link);
@@ -349,6 +353,16 @@ export const JobsModal = (props) => {
                     value={url}
                     onChange={(event) => setUrl(event.target.value)}
                   />
+                  <Button
+                    className="links-buttonInline"
+                    style={{
+                      backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 8,
+                    }}
+                    onClick={() => clickLink(url)}
+                    variant="contained"
+                  >
+                    <OpenInNewSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
+                  </Button>
                   <TextField
                     id="standard-basic"
                     type="number"
@@ -476,7 +490,7 @@ export const JobsModal = (props) => {
                   <h3 className="heading-links">
                     Links
                   </h3>
-                  <div>
+                  {/* <div>
                     <Button
                       className="links-buttons"
                       variant="contained"
@@ -510,27 +524,51 @@ export const JobsModal = (props) => {
                         Additional
                       </h5>
                     </Button>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="links-input">
-                  <TextField
-                    id="standard-basic"
-                    label="Resume Link"
-                    className="links-inputfield"
-                    name="resume"
-                    value={resume_url}
-                    onChange={(event) => setResume_url(event.target.value)}
-                  />
-                  <TextField
-                    id="standard-basic"
-                    label="Cover Letter Link"
-                    className="links-inputfield"
-                    name="linkTwo"
-                    value={coverletter_url}
-                    onChange={(event) => setCoverletter_url(event.target.value)}
-                  />
+                  <div className="links-input-fields">
+                    <TextField
+                      id="standard-basic"
+                      label="Resume Link"
+                      className="links-inputfield"
+                      name="resume"
+                      value={resume_url}
+                      onChange={(event) => setResume_url(event.target.value)}
+                    />
+                    <Button
+                      className="links-buttonInline"
+                      style={{
+                        backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 1.0,
+                      }}
+                      onClick={() => clickLink(resume_url)}
+                      variant="contained"
+                    >
+                      <OpenInNewSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
+                    </Button>
+                  </div>
+                  <div className="links-input-fields">
+                    <TextField
+                      id="standard-basic"
+                      label="Cover Letter Link"
+                      className="links-inputfield"
+                      name="linkTwo"
+                      value={coverletter_url}
+                      onChange={(event) => setCoverletter_url(event.target.value)}
+                    />
+                    <Button
+                      className="links-buttonInline"
+                      style={{
+                        backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 1.0,
+                      }}
+                      onClick={() => clickLink(resume_url)}
+                      variant="contained"
+                    >
+                      <OpenInNewSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
+                    </Button>
+                  </div>
                 </div>
-                <div>
+                <div className="additional-link">
                   <TextField
                     id="standard-basic"
                     label="Additional Link (Portfolio, Transcript, Diploma, etc.)"
@@ -539,6 +577,16 @@ export const JobsModal = (props) => {
                     value={extra_url}
                     onChange={(event) => setExtra_url(event.target.value)}
                   />
+                  <Button
+                    className="links-buttonInline"
+                    style={{
+                      backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 1.0,
+                    }}
+                    onClick={() => clickLink(extra_url)}
+                    variant="contained"
+                  >
+                    <OpenInNewSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
+                  </Button>
                 </div>
               </DialogContent>
               <DialogActions>

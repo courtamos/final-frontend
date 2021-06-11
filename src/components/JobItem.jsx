@@ -116,6 +116,9 @@ const JobItem = (props) => {
 
   const handleRedirect = () => {
     if (url !== '') {
+      if (url.substring(0, 4) !== 'http') {
+        return `http://${url}`;
+      }
       return url;
     }
     return null;

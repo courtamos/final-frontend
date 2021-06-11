@@ -73,7 +73,7 @@
   flex-wrap: wrap;
 
   &-url {
-    width: 65%;
+    width: 56%;
   }
 
   &-salary {
@@ -169,25 +169,44 @@
   margin-top: 20px;
   margin-bottom: 10px;
 
-    &-buttons {
-      height: 30px;
-    }
+  &-buttons {
+    height: 30px;
+  }
+
+  &-buttonInline {
+    height: 40px;
+    width: 50px;
+    display: flex;
+    align-items: baseline;
+  }
 
   &-input {
     width: 99.5%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: baseline;
     margin-bottom: 10px;
+
+    &-fields {
+      width: 48%;
+      display: flex;
+      align-items:baseline;
+    }
   }
 
   &-inputfield {
-    width: 48%;
+    width: 80%;
 
     &-full {
-      width: 100%
+      width: 90%;
     }
   }
+}
+
+.additional-link {
+  display: flex;
+  align-items: baseline;
 }
 
 .buttons-bottom {
