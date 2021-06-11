@@ -80,8 +80,8 @@ const SideBar = (props) => {
                 <SideBarButton onClick={handleClickOpen}>
                   <AddIcon className={`${classes.icon} ${classes.add}`} />
                 </SideBarButton>
-                <SideBarButton onClick={handleClickOpen}>
-                  <Link to="/search" className="link">
+                <SideBarButton>
+                  <Link to="/dashboard/search" className="link">
                     <SearchIcon className={`${classes.icon} ${classes.add}`} />
                   </Link>
                 </SideBarButton>
