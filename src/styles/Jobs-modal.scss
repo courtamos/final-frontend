@@ -93,10 +93,16 @@
 }
 
 .contact-info {
-  width: 99.5%;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  &-email {
+    width: 48%;
+    display: flex;
+    align-items: baseline;
+  }
 }
 
 .contact {
@@ -107,7 +113,7 @@
     width: 48%;
   }
   &-email {
-    width: 48%;
+    width: 81%;
   }
   &-social {
     width: 48%;

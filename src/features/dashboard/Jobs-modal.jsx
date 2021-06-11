@@ -21,6 +21,8 @@ import InsertInvitationSharpIcon from '@material-ui/icons/InsertInvitationSharp'
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
 import OpenInNewSharpIcon from '@material-ui/icons/OpenInNewSharp';
+import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import MailOutlineSharpIcon from '@material-ui/icons/MailOutlineSharp';
 
 import '../../styles/Jobs-modal.scss';
 import { authSelector } from '../auth/authSlice';
@@ -434,14 +436,26 @@ export const JobsModal = (props) => {
                     value={contact_name}
                     onChange={(event) => setContact_name(event.target.value)}
                   />
-                  <TextField
-                    id="standard-basic"
-                    label="Contact Email"
-                    className="contact-email"
-                    name="contact_email"
-                    value={contact_email}
-                    onChange={(event) => setContact_email(event.target.value)}
-                  />
+                  <div className="contact-info-email">
+                    <TextField
+                      id="standard-basic"
+                      label="Contact Email"
+                      className="contact-email"
+                      name="contact_email"
+                      value={contact_email}
+                      onChange={(event) => setContact_email(event.target.value)}
+                    />
+                    <Button
+                      className="links-buttonInline"
+                      style={{
+                        backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 1.0,
+                      }}
+                      href={`mailto:${contact_email}?subject=${title} - ${company}&body=Hello ${contact_name},`}
+                      variant="contained"
+                    >
+                      <MailOutlineSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
+                    </Button>
+                  </div>
                   <TextField
                     id="standard-basic"
                     label="Contact Phone Number"
@@ -582,7 +596,19 @@ export const JobsModal = (props) => {
                             </h5>
                           </Button>
                         )
-                        : null
+                        : (
+                          <Button
+                            type="click"
+                            variant="contained"
+                            style={{ backgroundColor: '#ee6a7c', color: 'white' }}
+                            startIcon={<RotateLeftIcon />}
+                            onClick={() => reset()}
+                          >
+                            <h5 style={{ margin: 2 }}>
+                              Reset Form
+                            </h5>
+                          </Button>
+                        )
                       }
 
                   </div>
