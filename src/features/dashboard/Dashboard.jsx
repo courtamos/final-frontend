@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Box, Container } from '@material-ui/core';
+import { Box, Grid, Container } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import PropTypes from 'prop-types';
@@ -23,9 +23,13 @@ import {
   resetEditJobStatus,
   resetDeleteJobStatus,
 } from './jobs/jobsSlice';
+import {
+  authSelector,
+} from '../auth/authSlice';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  const { user } = useSelector(authSelector);
   const {
     status, addJobStatus, editJobStatus, deleteJobStatus,
   } = useSelector(jobsSelector);
@@ -68,20 +72,22 @@ const Dashboard = () => {
   return (
     <Container id="dashboard-container" disableGutters style={{ margin: '0px' }}>
       <Box display="flex" flexDirection="row" width="100vw">
-        <SideBar />
+        <SideBar userdata={user} />
         <Switch>
           <Route exact path="/dashboard">
-            <Box id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between">
+            <Grid container id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between">
               {status === 'failed' ? 'Something went wrong' : (
                 <>
-                  <DashboardColumn items={interestedJobs} title="Interested" color="#ffe7d6" />
-                  <DashboardColumn items={appliedJobs} title="Applied" color="#ffa7a5" />
-                  <DashboardColumn items={interviewingJobs} title="Interviewing" color="#ee6a7c" />
-                  <DashboardColumn items={offerJobs} title="Offer" color="#ab5675" />
-                  <DashboardColumn items={rejectedJobs} title="Rejected" color="#73464f" />
+                  <Grid item xs={12} xl><DashboardColumn items={interestedJobs} title="Interested" color="#ffe7d6" /></Grid>
+                  <Grid item xs={12} xl><DashboardColumn items={appliedJobs} title="Applied" color="#ffa7a5" /></Grid>
+                  <Grid item xs={12} xl><DashboardColumn items={interviewingJobs} title="Interviewing" color="#ee6a7c" /></Grid>
+                  <Grid item xs={12} xl>
+                    <DashboardColumn items={offerJobs} title="Offer" color="#ab5675" />
+                  </Grid>
+                  <Grid item xs={12} xl><DashboardColumn items={rejectedJobs} title="Rejected" color="#73464f" /></Grid>
                 </>
               )}
-            </Box>
+            </Grid>
           </Route>
           <Route path="/dashboard/search">
             <Search />
