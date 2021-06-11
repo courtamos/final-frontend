@@ -236,10 +236,6 @@ export const JobsModal = (props) => {
     return window.open(link);
   };
 
-  // const mailTo = (email) => {
-  //   window.open(`mailto:${email}?subject=Hello`);
-  // };
-
   return (
     <div>
       <StylesProvider>
