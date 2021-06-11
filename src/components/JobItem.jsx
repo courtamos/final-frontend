@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 
@@ -62,6 +63,7 @@ const JobItem = (props) => {
   const dispatch = useDispatch();
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [logo, setLogo] = useState('https://i.imgur.com/n7X5rsl.png');
   const classes = useStyles();
   const {
     id,
@@ -86,11 +88,6 @@ const JobItem = (props) => {
     coverletter_url,
     extra_url,
   } = props;
-
-  const companyLogo = (logo) => {
-    const logoImage = logo.replace(/\s/g, '');
-    return `//logo.clearbit.com/${logoImage}.com`;
-  };
 
   const openModal = () => {
     setEditModalOpen(true);
@@ -119,6 +116,20 @@ const JobItem = (props) => {
     return null;
   };
 
+  useEffect(async () => {
+    if (company.length > 0) {
+      try {
+        const result = await axios.get(
+          `https://autocomplete.clearbit.com/v1/companies/suggest?query=${company}`,
+        );
+        setLogo(result.data[0].logo);
+      } catch (err) {
+        return 'https://i.imgur.com/n7X5rsl.png';
+      }
+    }
+    return 'https://i.imgur.com/n7X5rsl.png';
+  }, [company]);
+
   return (
     <Paper elevation={1} className={classes.panel}>
       <Box display="flex" flexDirection="column" width="100%">
@@ -131,7 +142,7 @@ const JobItem = (props) => {
           <MenuIcon />
           <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
             <a href={handleRedirect()} target="_blank" rel="noreferrer">
-              <img src={companyLogo(company)} alt="logo" width="45px" className={classes.image} />
+              <img src={logo} alt="logo" width="45px" className={classes.image} />
             </a>
           </Box>
           <Box display="flex" flexDirection="column" flexGrow={1}>
