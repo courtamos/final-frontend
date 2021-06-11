@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
@@ -9,19 +10,13 @@ import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
-import { useDebounce } from 'use-debounce';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Alert from '@material-ui/lab/Alert';
 import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import {
-  google,
-} from 'calendar-link';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import { google } from 'calendar-link';
 import InsertInvitationSharpIcon from '@material-ui/icons/InsertInvitationSharp';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -92,6 +87,7 @@ export const JobsModal = (props) => {
   const [coverletter_url, setCoverletter_url] = useState(jobCoverletter_url || '');
   const [extra_url, setExtra_url] = useState(jobExtra_url || '');
   const [error, setError] = useState('');
+  const [logo, setLogo] = useState('https://i.imgur.com/n7X5rsl.png');
 
   function reset() {
     setCompany('');
@@ -112,6 +108,7 @@ export const JobsModal = (props) => {
     setResume_url('');
     setCoverletter_url('');
     setExtra_url('');
+    setLogo('https://i.imgur.com/n7X5rsl.png');
   }
 
   const handleDateChange = (date) => {
@@ -197,14 +194,19 @@ export const JobsModal = (props) => {
     onClose();
   };
 
-  const debouncedText = useDebounce(company.replace(/\s/g, ''), 10);
-
-  const companyLogo = () => {
+  useEffect(async () => {
     if (company.length > 0) {
-      return `//logo.clearbit.com/${debouncedText[0]}.com`;
+      try {
+        const result = await axios.get(
+          `https://autocomplete.clearbit.com/v1/companies/suggest?query=${company}`,
+        );
+        setLogo(result.data[0].logo);
+      } catch (err) {
+        return 'https://i.imgur.com/n7X5rsl.png';
+      }
     }
     return 'https://i.imgur.com/n7X5rsl.png';
-  };
+  }, [company]);
 
   const calendarEvent = {
     title: events,
@@ -251,7 +253,7 @@ export const JobsModal = (props) => {
                 </Alert>
                 )}
                 <div className="modal-top">
-                  <img id="company-logo" src={companyLogo()} alt="" className="logo" />
+                  <img id="company-logo" src={logo} alt="" className="logo" />
                   <div className="modal-top-right">
                     <TextField
                       required
