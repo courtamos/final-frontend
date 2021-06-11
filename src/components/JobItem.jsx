@@ -87,6 +87,9 @@ const JobItem = (props) => {
     event_location,
     event_jobid,
     event_id,
+    resume_url,
+    coverletter_url,
+    extra_url,
   } = props;
 
   const companyLogo = (logo) => {
@@ -113,6 +116,9 @@ const JobItem = (props) => {
 
   const handleRedirect = () => {
     if (url !== '') {
+      if (url.substring(0, 4) !== 'http') {
+        return `http://${url}`;
+      }
       return url;
     }
     return null;
@@ -165,6 +171,9 @@ const JobItem = (props) => {
               jobContact_email={contact_email}
               jobContact_phone={contact_phone}
               jobContact_socialmedia={contact_socialmedia}
+              jobResume_url={resume_url}
+              jobCoverletter_url={coverletter_url}
+              jobExtra_url={extra_url}
               event_title={event_title}
               event_details={event_details}
               event_date={event_date}
@@ -194,6 +203,9 @@ JobItem.propTypes = {
   contact_email: PropTypes.string,
   contact_phone: PropTypes.string,
   contact_socialmedia: PropTypes.string,
+  resume_url: PropTypes.string,
+  coverletter_url: PropTypes.string,
+  extra_url: PropTypes.string,
   event_title: PropTypes.string,
   event_details: PropTypes.string,
   event_date: PropTypes.string,
@@ -215,6 +227,9 @@ JobItem.defaultProps = {
   contact_email: '',
   contact_phone: '',
   contact_socialmedia: '',
+  resume_url: '',
+  coverletter_url: '',
+  extra_url: '',
   event_title: '',
   event_details: '',
   event_date: '',

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
@@ -32,6 +33,8 @@ import InsertInvitationSharpIcon from '@material-ui/icons/InsertInvitationSharp'
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
+import OpenInNewSharpIcon from '@material-ui/icons/OpenInNewSharp';
+import InputAdornment from '@material-ui/core/InputAdornment';
 // import { SideBarButton } from '../common/SideBarButton';
 
 import './Jobs-modal.scss';
@@ -76,6 +79,9 @@ export const JobsModal = (props) => {
     event_location,
     event_jobid,
     event_id,
+    jobResume_url,
+    jobCoverletter_url,
+    jobExtra_url,
   } = props;
 
   // const user_id = id;
@@ -94,6 +100,9 @@ export const JobsModal = (props) => {
   const [selectedDate, setSelectedDate] = useState(event_date || null);
   const [eventDetails, setEventDetails] = useState(event_details || '');
   const [eventLocation, setEventLocation] = useState(event_location || '');
+  const [resume_url, setResume_url] = useState(jobResume_url || '');
+  const [coverletter_url, setCoverletter_url] = useState(jobCoverletter_url || '');
+  const [extra_url, setExtra_url] = useState(jobExtra_url || '');
   const [error, setError] = useState('');
 
   function reset() {
@@ -112,6 +121,9 @@ export const JobsModal = (props) => {
     setEventDetails('');
     setEventLocation('');
     setSelectedDate(null);
+    setResume_url('');
+    setCoverletter_url('');
+    setExtra_url('');
   }
 
   const handleDateChange = (date) => {
@@ -137,6 +149,9 @@ export const JobsModal = (props) => {
       contact_email,
       contact_phone,
       contact_socialmedia,
+      resume_url,
+      coverletter_url,
+      extra_url,
     };
 
     const event = {
@@ -213,6 +228,15 @@ export const JobsModal = (props) => {
 
   const calendarButton = () => {
     window.open(google(calendarEvent));
+  };
+
+  const clickLink = (link) => {
+    if (link === '') {
+      return null;
+    } if (link.substring(0, 4) !== 'http') {
+      window.open(`http://${link}`);
+    }
+    return window.open(link);
   };
 
   return (
@@ -310,6 +334,16 @@ export const JobsModal = (props) => {
                     value={url}
                     onChange={(event) => setUrl(event.target.value)}
                   />
+                  <Button
+                    className="links-buttonInline"
+                    style={{
+                      backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 8,
+                    }}
+                    onClick={() => clickLink(url)}
+                    variant="contained"
+                  >
+                    <OpenInNewSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
+                  </Button>
                   <TextField
                     id="standard-basic"
                     type="number"
@@ -433,7 +467,108 @@ export const JobsModal = (props) => {
                     onChange={(event) => setContact_socialmedia(event.target.value)}
                   />
                 </div>
-
+                <div className="links">
+                  <h3 className="heading-links">
+                    Links
+                  </h3>
+                  {/* <div>
+                    <Button
+                      className="links-buttons"
+                      variant="contained"
+                      onClick={() => clickLink(resume_url)}
+                      color="secondary"
+                      style={{ marginLeft: 10, backgroundColor: '#5bccd9' }}
+                    >
+                      <h5 style={{ marginLeft: 5 }}>
+                        Resume
+                      </h5>
+                    </Button>
+                    <Button
+                      className="links-buttons"
+                      variant="contained"
+                      onClick={() => clickLink(coverletter_url)}
+                      color="secondary"
+                      style={{ marginLeft: 10, backgroundColor: '#34c1d1' }}
+                    >
+                      <h5 style={{ marginLeft: 5 }}>
+                        Cover Letter
+                      </h5>
+                    </Button>
+                    <Button
+                      className="links-buttons"
+                      variant="contained"
+                      onClick={() => clickLink(extra_url)}
+                      color="secondary"
+                      style={{ marginLeft: 10, backgroundColor: '#34acba' }}
+                    >
+                      <h5 style={{ marginLeft: 5 }}>
+                        Additional
+                      </h5>
+                    </Button>
+                  </div> */}
+                </div>
+                <div className="links-input">
+                  <div className="links-input-fields">
+                    <TextField
+                      id="standard-basic"
+                      label="Resume Link"
+                      className="links-inputfield"
+                      name="resume"
+                      value={resume_url}
+                      onChange={(event) => setResume_url(event.target.value)}
+                    />
+                    <Button
+                      className="links-buttonInline"
+                      style={{
+                        backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 1.0,
+                      }}
+                      onClick={() => clickLink(resume_url)}
+                      variant="contained"
+                    >
+                      <OpenInNewSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
+                    </Button>
+                  </div>
+                  <div className="links-input-fields">
+                    <TextField
+                      id="standard-basic"
+                      label="Cover Letter Link"
+                      className="links-inputfield"
+                      name="linkTwo"
+                      value={coverletter_url}
+                      onChange={(event) => setCoverletter_url(event.target.value)}
+                    />
+                    <Button
+                      className="links-buttonInline"
+                      style={{
+                        backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 1.0,
+                      }}
+                      onClick={() => clickLink(resume_url)}
+                      variant="contained"
+                    >
+                      <OpenInNewSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
+                    </Button>
+                  </div>
+                </div>
+                <div className="additional-link">
+                  <TextField
+                    id="standard-basic"
+                    label="Additional Link (Portfolio, Transcript, Diploma, etc.)"
+                    className="links-inputfield-full"
+                    name="linkRandom"
+                    value={extra_url}
+                    onChange={(event) => setExtra_url(event.target.value)}
+                  />
+                  <Button
+                    className="links-buttonInline"
+                    style={{
+                      backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 1.0,
+                    }}
+                    onClick={() => clickLink(extra_url)}
+                    variant="contained"
+                  >
+                    <OpenInNewSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
+                  </Button>
+                </div>
               </DialogContent>
               <DialogActions>
                 <div className="buttons-bottom">
@@ -505,6 +640,9 @@ JobsModal.propTypes = {
   jobContact_email: PropTypes.string,
   jobContact_phone: PropTypes.string,
   jobContact_socialmedia: PropTypes.string,
+  jobResume_url: PropTypes.string,
+  jobCoverletter_url: PropTypes.string,
+  jobExtra_url: PropTypes.string,
   isEditModal: PropTypes.bool,
   event_title: PropTypes.string,
   event_details: PropTypes.string,
@@ -529,6 +667,9 @@ JobsModal.defaultProps = {
   jobContact_email: '',
   jobContact_phone: '',
   jobContact_socialmedia: '',
+  jobResume_url: '',
+  jobCoverletter_url: '',
+  jobExtra_url: '',
   event_title: '',
   event_details: '',
   event_date: '',

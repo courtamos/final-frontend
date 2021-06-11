@@ -18,7 +18,13 @@
   padding-top: 0px;
   padding-bottom: 0px;
   line-height: 1em;
-  margin-top: 30px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+
+  &-links {
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
 }
 
 .content{
@@ -67,7 +73,7 @@
   flex-wrap: wrap;
 
   &-url {
-    width: 65%;
+    width: 56%;
   }
 
   &-salary {
@@ -144,6 +150,63 @@
   align-content: center;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.sub-header {
+  color: grey;
+  font-family: 'Source Sans Pro';
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 12px;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+
+  &-buttons {
+    height: 30px;
+  }
+
+  &-buttonInline {
+    height: 40px;
+    width: 50px;
+    display: flex;
+    align-items: baseline;
+  }
+
+  &-input {
+    width: 99.5%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+
+    &-fields {
+      width: 48%;
+      display: flex;
+      align-items:baseline;
+    }
+  }
+
+  &-inputfield {
+    width: 80%;
+
+    &-full {
+      width: 90%;
+    }
+  }
+}
+
+.additional-link {
+  display: flex;
+  align-items: baseline;
 }
 
 .buttons-bottom {

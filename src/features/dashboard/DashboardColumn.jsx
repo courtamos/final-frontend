@@ -24,6 +24,9 @@ const DashboardColumn = (props) => {
       contact_phone={item.contact_phone}
       contact_email={item.contact_email}
       contact_socialmedia={item.contact_socialmedia}
+      resume_url={item.resume_url}
+      coverletter_url={item.coverletter_url}
+      extra_url={item.extra_url}
       event_title={item.events.length > 0 ? item.events[0].title : ''}
       event_details={item.events.length > 0 ? item.events[0].details : ''}
       event_date={item.events.length > 0 ? item.events[0].date : ''}
