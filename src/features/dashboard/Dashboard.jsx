@@ -7,7 +7,6 @@ import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import PropTypes from 'prop-types';
 
-// Custom Components
 import SideBar from '../common/SideBar';
 import DashboardColumn from './DashboardColumn';
 import {
@@ -80,7 +79,7 @@ const Dashboard = () => {
           )}
         </Box>
       </Box>
-      <Snackbar open={snack} autoHideDuration={6000} onClose={handleSnackClose}>
+      <Snackbar open={!!snack} autoHideDuration={6000} onClose={handleSnackClose}>
         <Alert onClose={handleSnackClose} severity="success">
           {snack}
         </Alert>

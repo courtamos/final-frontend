@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// React Components
 import { Box } from '@material-ui/core';
 import DashboardColumnHeading from './DashboardColumnHeading';
 import JobItem from '../../components/JobItem';
-
-// Custom Components
 
 const DashboardColumn = (props) => {
   const { title, color, items } = props;
   const jobItems = items.map((item) => (
     <JobItem
+      key={item.id}
       id={item.id}
       company={item.company}
       title={item.title}

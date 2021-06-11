@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,7 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { authSelector, login } from './authSlice';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -34,14 +33,13 @@ const Login = () => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  // if statement to see if user exist -> if yes redirect to dashboard
   if (user) {
     return (
       <Redirect to="/dashboard" />
     );
   }
 
-  const handleLogin = async (event) => {
+  const handleLogin = async () => {
     if (!email || !password) {
       setError('Must include Email and Password');
       return;

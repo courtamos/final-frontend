@@ -1,13 +1,9 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable import/no-named-as-default */
 /* eslint-disable camelcase */
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 
-// MaterialUI Components
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Box, IconButton, Typography, Paper,
@@ -16,7 +12,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
-// Custom Components
 import ModalConfirm from './ModalConfirm';
 
 import './JobItem.scss';
@@ -125,7 +120,7 @@ const JobItem = (props) => {
   };
 
   return (
-    <Paper elevation={1} className={classes.panel} variant="contained">
+    <Paper elevation={1} className={classes.panel}>
       <Box display="flex" flexDirection="column" width="100%">
         <Box
           display="flex"
@@ -135,14 +130,13 @@ const JobItem = (props) => {
         >
           <MenuIcon />
           <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
-            {/* Fetch the icon from an api here */}
             <a href={handleRedirect()} target="_blank" rel="noreferrer">
               <img src={companyLogo(company)} alt="logo" width="45px" className={classes.image} />
             </a>
           </Box>
           <Box display="flex" flexDirection="column" flexGrow={1}>
             <Typography variant="h6" align="left" className={classes.heading}>{company}</Typography>
-            <Typography variant="h8" align="left" className={classes.heading}>{title}</Typography>
+            <Typography variant="body1" align="left" className={classes.heading}>{title}</Typography>
             <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
           </Box>
           <Box>
@@ -234,7 +228,7 @@ JobItem.defaultProps = {
   event_details: '',
   event_date: '',
   event_location: '',
-  event_jobid: '',
+  event_jobid: undefined,
   event_id: undefined,
 };
 

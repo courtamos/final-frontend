@@ -3,19 +3,13 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText, Button,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-// import axios from 'axios';
 
 const ModalConfirm = (props) => {
-  const handleClose = () => {
-    // Cleanup function
-  };
-
   const { open, onConfirm, onDecline } = props;
 
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >

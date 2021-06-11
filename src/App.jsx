@@ -36,20 +36,12 @@ function App() {
             <Route path="/dashboard/profile">
               <h1>Profile</h1>
             </Route>
-            <Route path="/dashboard/jobs">
-              <h1>Jobs</h1>
-            </Route>
           </Switch>
         </PrivateRoute>
-        <Route path="/profile">
-          <h1>Profile</h1>
-        </Route>
         <Route path="/signup">
-          <h1>Sign Up</h1>
           <Signup />
         </Route>
         <Route path={['/login', '/']}>
-          <h1>Login</h1>
           <Login />
         </Route>
       </Switch>

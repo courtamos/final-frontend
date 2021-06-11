@@ -1,10 +1,5 @@
-/* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable import/no-named-as-default */
 /* eslint-disable camelcase */
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
@@ -19,8 +14,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Alert from '@material-ui/lab/Alert';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-// import GoogleMaps from '../../components/Location-input';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -32,12 +25,9 @@ import {
 import InsertInvitationSharpIcon from '@material-ui/icons/InsertInvitationSharp';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
-import CloseIcon from '@material-ui/icons/Close';
 import OpenInNewSharpIcon from '@material-ui/icons/OpenInNewSharp';
-import InputAdornment from '@material-ui/core/InputAdornment';
-// import { SideBarButton } from '../common/SideBarButton';
 
-import './Jobs-modal.scss';
+import '../../styles/Jobs-modal.scss';
 import { authSelector } from '../auth/authSlice';
 import { addJob, editJob, deleteJob } from './jobs/jobsSlice';
 
@@ -77,8 +67,6 @@ export const JobsModal = (props) => {
     event_details,
     event_date,
     event_location,
-    event_jobid,
-    event_id,
     jobResume_url,
     jobCoverletter_url,
     jobExtra_url,
@@ -88,7 +76,7 @@ export const JobsModal = (props) => {
   const [company, setCompany] = useState(companyName || '');
   const [title, setTitle] = useState(jobTitle || '');
   const [status, setStatus] = useState(jobStatus || 0);
-  const [salary, setSalary] = useState(jobSalary || null);
+  const [salary, setSalary] = useState(jobSalary || undefined);
   const [url, setUrl] = useState(jobUrl || '');
   const [location, setLocation] = useState(jobLocation || '');
   const [details, setDetails] = useState(jobDetails || '');
@@ -108,7 +96,7 @@ export const JobsModal = (props) => {
   function reset() {
     setCompany('');
     setTitle('');
-    setSalary(null);
+    setSalary(undefined);
     setStatus(0);
     setUrl('');
     setLocation('');
@@ -648,8 +636,6 @@ JobsModal.propTypes = {
   event_details: PropTypes.string,
   event_date: PropTypes.string,
   event_location: PropTypes.string,
-  event_jobid: PropTypes.number,
-  event_id: PropTypes.number,
 };
 
 JobsModal.defaultProps = {
@@ -674,8 +660,6 @@ JobsModal.defaultProps = {
   event_details: '',
   event_date: '',
   event_location: '',
-  event_jobid: undefined,
-  event_id: undefined,
 };
 
 export default JobsModal;

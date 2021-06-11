@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
@@ -18,7 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { authSelector, signup } from './authSlice';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -45,7 +44,7 @@ const Signup = () => {
     );
   }
 
-  const handleSignup = async (event) => {
+  const handleSignup = async () => {
     if (!first_name || !last_name || !email || !password || !password_confirmation) {
       setError('All fields must be filled out');
       return;
