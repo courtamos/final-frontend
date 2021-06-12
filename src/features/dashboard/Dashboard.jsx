@@ -82,9 +82,7 @@ const Dashboard = () => {
                   <Grid item xs={12} xl><DashboardColumn items={interestedJobs} title="Interested" color="#ffe7d6" /></Grid>
                   <Grid item xs={12} xl><DashboardColumn items={appliedJobs} title="Applied" color="#ffa7a5" /></Grid>
                   <Grid item xs={12} xl><DashboardColumn items={interviewingJobs} title="Interviewing" color="#ee6a7c" /></Grid>
-                  <Grid item xs={12} xl>
-                    <DashboardColumn items={offerJobs} title="Offer" color="#ab5675" />
-                  </Grid>
+                  <Grid item xs={12} xl><DashboardColumn items={offerJobs} title="Offer" color="#ab5675" /></Grid>
                   <Grid item xs={12} xl><DashboardColumn items={rejectedJobs} title="Rejected" color="#73464f" /></Grid>
                 </>
               )}
