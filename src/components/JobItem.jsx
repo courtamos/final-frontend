@@ -149,15 +149,15 @@ const JobItem = (props) => {
             <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
           </Box>
           <Box display="flex" flexDirection="row">
-            <IconButton aria-label="delete" onClick={() => { setModalOpen(true); }}>
-              <DeleteIcon />
-            </IconButton>
             <IconButton
               id="icon-button"
               aria-label="edit-item"
               onClick={openModal}
             >
               <EditIcon />
+            </IconButton>
+            <IconButton aria-label="delete" onClick={() => { setModalOpen(true); }}>
+              <DeleteIcon />
             </IconButton>
             <JobsModal
               open={editModalOpen}
