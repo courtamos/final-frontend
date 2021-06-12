@@ -6,9 +6,10 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles({
   root: {
     margin: '5px',
-    width: '75px',
-    height: '75px',
+    width: '60px',
+    height: '60px',
     lineHeight: '0em',
+    minWidth: '30px',
   },
 });
 

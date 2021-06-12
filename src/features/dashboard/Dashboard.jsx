@@ -76,7 +76,7 @@ const Dashboard = () => {
         <SideBar userdata={user} />
         <Switch>
           <Route exact path="/dashboard">
-            <Grid container id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between" style={{ marginLeft: '90px' }}>
+            <Grid container id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between" style={{ marginLeft: '70px' }}>
               {status === 'failed' ? 'Something went wrong' : (
                 <>
                   <Grid item xs={12} lg><Box display="flex"><DashboardColumn items={interestedJobs} title="Interested" color="#ffe7d6" /></Box></Grid>
@@ -89,7 +89,7 @@ const Dashboard = () => {
             </Grid>
           </Route>
           <Route path="/dashboard/search">
-            <Grid style={{ marginLeft: '90px', width: '100vw' }} justifyContent="space-between">
+            <Grid style={{ marginLeft: '70px', width: '100vw' }} justifyContent="space-between">
               <Search />
             </Grid>
           </Route>
