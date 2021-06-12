@@ -177,7 +177,6 @@ const JobItem = (props) => {
               aria-label="edit-item"
               onClick={openModal}
               className={classes.iconbutton}
-
             >
               <EditIcon />
             </IconButton>
