@@ -26,6 +26,7 @@ import {
 import {
   authSelector,
 } from '../auth/authSlice';
+import JobResources from './Drawer';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -94,6 +95,7 @@ const Dashboard = () => {
           </Route>
         </Switch>
       </Box>
+      <JobResources />
       <Snackbar open={!!snack} autoHideDuration={6000} onClose={handleSnackClose}>
         <Alert onClose={handleSnackClose} severity="success">
           {snack}
