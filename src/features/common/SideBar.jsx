@@ -68,7 +68,7 @@ const SideBar = (props) => {
   };
 
   return (
-    <Box id="sidebar" display="flex" height="100vh">
+    <Box id="sidebar" display="flex" height="100vh" style={{ position: 'fixed' }}>
       <Paper elevation={1} square>
         <Box display="flex" flexGrow={1} flexDirection="column" height="100%" alignItems="center">
           <img src="../../img/Logo1.png" alt="logo" width="50px" className={classes.imgicon} />
