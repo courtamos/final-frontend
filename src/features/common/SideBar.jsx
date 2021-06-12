@@ -35,6 +35,9 @@ const useStyles = makeStyles({
   initialsicon: {
     borderRadius: '50%',
   },
+  rotate: {
+    transform: 'rotate(180deg)',
+  },
 });
 
 const SideBar = (props) => {
@@ -90,8 +93,8 @@ const SideBar = (props) => {
                 </SideBarButton>
                 <JobsModal open={open} onClose={handleClose} />
                 <SideBarButton onClick={handleLogOut}>
-                  <Link to={`/users/${user.id}`} className="link">
-                    <ExitToAppIcon className={classes.icon} />
+                  <Link to={`/users/${user.id}`}>
+                    <ExitToAppIcon className={`${classes.icon} ${classes.rotate}`} />
                   </Link>
                 </SideBarButton>
               </>
