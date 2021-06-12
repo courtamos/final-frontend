@@ -71,8 +71,8 @@ const Dashboard = () => {
   }
 
   return (
-    <Container id="dashboard-container" disableGutters style={{ margin: '0px' }}>
-      <Box display="flex" flexDirection="row" width="100vw">
+    <Container id="dashboard-container" disableGutters style={{ margin: '0px' }} maxWidth={false}>
+      <Box display="flex" flexDirection="row">
         <SideBar userdata={user} />
         <Switch>
           <Route exact path="/dashboard">
