@@ -23,17 +23,20 @@ const useStyles = makeStyles({
     color: 'black',
   },
   icon: {
-    fontSize: '50px',
+    fontSize: '45px',
     color: '#AB5675',
   },
   add: {
     color: '#AB5675',
   },
   imgicon: {
-    padding: '20px',
+    padding: '10px',
+    marginTop: '5px',
   },
   initialsicon: {
     borderRadius: '50%',
+    width: '45px',
+    height: '45px',
   },
   rotate: {
     transform: 'rotate(180deg)',
@@ -69,35 +72,40 @@ const SideBar = (props) => {
 
   return (
     <Box id="sidebar" display="flex" height="100vh" style={{ position: 'fixed' }}>
+      <JobsModal open={open} onClose={handleClose} />
       <Paper elevation={1} square>
         <Box display="flex" flexGrow={1} flexDirection="column" height="100%" alignItems="center">
-          <img src="../../img/Logo1.png" alt="logo" width="50px" className={classes.imgicon} />
+          <img src="../../img/Logo1.png" alt="logo" width="45px" className={classes.imgicon} />
           {user
             ? (
-              <>
-                <SideBarButton>
-                  <Link to={`/users/${user.id}`} className="link">
-                    <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
-                  </Link>
-                </SideBarButton>
-                <SideBarButton onClick={handleClickOpen}>
-                  <AddIcon className={`${classes.icon} ${classes.add}`} />
-                </SideBarButton>
-                <SideBarButton>
-                  <Link to="/dashboard/search" className="link">
-                    <SearchIcon className={`${classes.icon} ${classes.add}`} />
-                  </Link>
-                </SideBarButton>
-                <SideBarButton onClick={() => { window.open('https://calendar.google.com/calendar/u/0/r', '_blank'); }}>
-                  <EventIcon className={`${classes.icon} ${classes.add}`} />
-                </SideBarButton>
-                <JobsModal open={open} onClose={handleClose} />
-                <SideBarButton onClick={handleLogOut}>
-                  <Link to={`/users/${user.id}`}>
-                    <ExitToAppIcon className={`${classes.icon} ${classes.rotate}`} />
-                  </Link>
-                </SideBarButton>
-              </>
+              <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="space-between">
+                <Box display="flex" flexDirection="column">
+                  <SideBarButton>
+                    <Link to={`/users/${user.id}`} className="link">
+                      <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
+                    </Link>
+                  </SideBarButton>
+                  <SideBarButton onClick={handleClickOpen}>
+                    <AddIcon className={`${classes.icon} ${classes.add}`} />
+                  </SideBarButton>
+                  <SideBarButton>
+                    <Link to="/dashboard/search" className="link">
+                      <SearchIcon className={`${classes.icon} ${classes.add}`} />
+                    </Link>
+                  </SideBarButton>
+                  <SideBarButton onClick={() => { window.open('https://calendar.google.com/calendar/u/0/r', '_blank'); }}>
+                    <EventIcon className={`${classes.icon} ${classes.add}`} />
+                  </SideBarButton>
+                </Box>
+
+                <Box>
+                  <SideBarButton onClick={handleLogOut}>
+                    <Link to={`/users/${user.id}`}>
+                      <ExitToAppIcon className={`${classes.icon} ${classes.rotate}`} />
+                    </Link>
+                  </SideBarButton>
+                </Box>
+              </Box>
             )
             : <></>}
         </Box>

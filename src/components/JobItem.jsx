@@ -9,7 +9,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   Box, IconButton, Typography, Paper,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
@@ -37,10 +36,23 @@ const useStyles = makeStyles({
     width: '75px',
     minWidth: '75px',
     height: '75px',
+    '@media (max-width:1550px)': {
+      width: '50px',
+      minWidth: '50px',
+      height: '50px',
+    },
   },
 
   image: {
+    width: '50px',
+    minWidth: '50px',
+    height: '50px',
     borderRadius: '50%',
+    '@media (max-width:1550px)': {
+      width: '35px',
+      minWidth: '35px',
+      height: '35px',
+    },
   },
 
   heading: {
@@ -55,6 +67,18 @@ const useStyles = makeStyles({
     paddingTop: '5px',
     paddingBottom: '0px',
     lineHeight: '1em',
+  },
+
+  buttonbox: {
+    flexDirection: 'row',
+    '@media (max-width:1550px)': {
+      flexDirection: 'column',
+    },
+  },
+  iconbutton: {
+    width: '1.5em',
+    height: '1.5em',
+    color: '#d9d9d9',
   },
 });
 
@@ -137,7 +161,6 @@ const JobItem = (props) => {
           alignItems="center"
           width="100%"
         >
-          <MenuIcon />
           <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
             <a href={handleRedirect()} target="_blank" rel="noreferrer">
               <img src={logo} alt="logo" width="45px" className={classes.image} />
@@ -148,16 +171,23 @@ const JobItem = (props) => {
             <Typography variant="body1" align="left" className={classes.heading}>{title}</Typography>
             <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
           </Box>
-          <Box display="flex" flexDirection="row">
-            <IconButton aria-label="delete" onClick={() => { setModalOpen(true); }}>
-              <DeleteIcon />
-            </IconButton>
+          <Box className={classes.buttonbox} display="flex">
             <IconButton
               id="icon-button"
               aria-label="edit-item"
               onClick={openModal}
+              className={classes.iconbutton}
+
             >
               <EditIcon />
+            </IconButton>
+            <IconButton
+              aria-label="delete"
+              onClick={() => { setModalOpen(true); }}
+              className={classes.iconbutton}
+
+            >
+              <DeleteIcon />
             </IconButton>
             <JobsModal
               open={editModalOpen}
@@ -186,6 +216,7 @@ const JobItem = (props) => {
               isEditModal
             />
           </Box>
+
           <ModalConfirm id="modal-confirm-delete" open={modalOpen} onConfirm={handleConfirmDelete} onDecline={handleDeclineDelete} />
         </Box>
       </Box>
