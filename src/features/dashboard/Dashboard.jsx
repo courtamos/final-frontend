@@ -76,7 +76,7 @@ const Dashboard = () => {
         <SideBar userdata={user} />
         <Switch>
           <Route exact path="/dashboard">
-            <Grid container id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between" style={{ marginLeft: '90px' }}>
+            <Grid container id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between" style={{ marginLeft: '90px', marginRight: '10px' }}>
               {status === 'failed' ? 'Something went wrong' : (
                 <>
                   <Grid item xs={12} xl><DashboardColumn items={interestedJobs} title="Interested" color="#ffe7d6" /></Grid>
