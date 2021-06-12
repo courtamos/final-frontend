@@ -8,7 +8,9 @@ const useStyles = makeStyles({
   root: {
     height: '100px',
     backgroundColor: '#ee6a7c',
-    color: 'white',
+  },
+  text: {
+    fontFamily: 'Montserrat',
   },
 });
 
@@ -17,9 +19,9 @@ const DashboardColumnHeading = (props) => {
   const { title, color } = props;
 
   return (
-    <Paper className={classes.root} square elevation={0}>
+    <Paper square elevation={0}>
       <Box display="flex" className={classes.root} width={1} justifyContent="center" alignItems="center" style={{ backgroundColor: color }}>
-        <Typography variant="h5" style={{ textTransform: 'uppercase' }}>
+        <Typography variant="h5" className={classes.text}>
           {title}
         </Typography>
       </Box>
