@@ -6,11 +6,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   root: {
-    height: '100px',
-    backgroundColor: '#ee6a7c',
   },
   text: {
     fontFamily: 'Montserrat',
+  },
+  heading: {
+    height: '100px',
   },
 });
 
@@ -19,8 +20,8 @@ const DashboardColumnHeading = (props) => {
   const { title, color } = props;
 
   return (
-    <Paper square elevation={0}>
-      <Box display="flex" className={classes.root} width={1} justifyContent="center" alignItems="center" style={{ backgroundColor: color }}>
+    <Paper elevation={1} className={classes.heading} style={{ backgroundColor: color }}>
+      <Box display="flex" className={classes.heading} width={1} justifyContent="center" alignItems="center">
         <Typography variant="h5" className={classes.text}>
           {title}
         </Typography>

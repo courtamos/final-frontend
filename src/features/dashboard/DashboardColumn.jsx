@@ -35,12 +35,9 @@ const DashboardColumn = (props) => {
   ));
 
   return (
-    <Box width={1}>
+    <Box width={1} style={{ backgroundColor: color, height: '100%' }} p="5px">
       <DashboardColumnHeading title={title} color={color} />
-      <Box p={0.5}>
-        {jobItems}
-      </Box>
-
+      {jobItems}
     </Box>
   );
 };
