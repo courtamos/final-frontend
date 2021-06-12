@@ -48,7 +48,6 @@ const useStyles = makeStyles({
     paddingTop: '0px',
     paddingBottom: '0px',
     lineHeight: '1em',
-    margin: '0px',
   },
 
   content: {
@@ -56,7 +55,6 @@ const useStyles = makeStyles({
     paddingTop: '5px',
     paddingBottom: '0px',
     lineHeight: '1em',
-    margin: '0px',
   },
 });
 
