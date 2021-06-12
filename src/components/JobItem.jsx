@@ -9,7 +9,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   Box, IconButton, Typography, Paper,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
@@ -137,7 +136,6 @@ const JobItem = (props) => {
           alignItems="center"
           width="100%"
         >
-          <MenuIcon />
           <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
             <a href={handleRedirect()} target="_blank" rel="noreferrer">
               <img src={logo} alt="logo" width="45px" className={classes.image} />
@@ -153,6 +151,7 @@ const JobItem = (props) => {
               id="icon-button"
               aria-label="edit-item"
               onClick={openModal}
+              style={{ paddingRight: '0px' }}
             >
               <EditIcon />
             </IconButton>
