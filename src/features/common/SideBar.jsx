@@ -11,6 +11,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddIcon from '@material-ui/icons/Add';
 import EventIcon from '@material-ui/icons/Event';
 import SearchIcon from '@material-ui/icons/Search';
+import AssessmentIcon from '@material-ui/icons/Assessment';
 // import { authSelector } from '../auth/authSlice';
 
 // Custom Components
@@ -81,8 +82,14 @@ const SideBar = (props) => {
               <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="space-between">
                 <Box display="flex" flexDirection="column">
                   <SideBarButton>
-                    <Link to={`/users/${user.id}`} className="link">
+                    {/* <Link to={`/users/${user.id}`} className="link"> */}
+                    <Link to="/dashboard/user_profile" className="link">
                       <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
+                    </Link>
+                  </SideBarButton>
+                  <SideBarButton>
+                    <Link to="/dashboard/job_stats" className="link">
+                      <AssessmentIcon className={`${classes.icon} ${classes.add}`} />
                     </Link>
                   </SideBarButton>
                   <SideBarButton onClick={handleClickOpen}>
