@@ -68,7 +68,11 @@ const SideBar = (props) => {
     <Box id="sidebar" display="flex" height="100vh">
       <Paper elevation={1} square>
         <Box display="flex" flexGrow={1} flexDirection="column" height="100%" alignItems="center">
-          <img src="../../img/Logo1.png" alt="logo" width="50px" className={classes.imgicon} />
+          <SideBarButton>
+            <Link to="/dashboard" className="link">
+              <img src="../../img/Logo1.png" alt="logo" width="50px" className={classes.imgicon} />
+            </Link>
+          </SideBarButton>
           {user
             ? (
               <>

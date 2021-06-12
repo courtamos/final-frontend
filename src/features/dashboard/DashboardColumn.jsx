@@ -1,16 +1,21 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { Droppable } from 'react-beautiful-dnd';
 import { Box } from '@material-ui/core';
 import DashboardColumnHeading from './DashboardColumnHeading';
 import JobItem from '../../components/JobItem';
 
 const DashboardColumn = (props) => {
-  const { title, color, items } = props;
-  const jobItems = items.map((item) => (
+  const {
+    title, color, items, colId,
+  } = props;
+  const jobItems = items.map((item, index) => (
     <JobItem
       key={item.id}
       id={item.id}
+      index={index}
       company={item.company}
       title={item.title}
       description={item.details}
@@ -37,10 +42,19 @@ const DashboardColumn = (props) => {
   return (
     <Box width={1}>
       <DashboardColumnHeading title={title} color={color} />
-      <Box p={0.5}>
-        {jobItems}
-      </Box>
-
+      <Droppable droppableId={colId}>
+        {(provided) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            <Box p={0.5}>
+              {jobItems}
+              {provided.placeholder}
+            </Box>
+          </div>
+        )}
+      </Droppable>
     </Box>
   );
 };
@@ -48,6 +62,7 @@ const DashboardColumn = (props) => {
 DashboardColumn.propTypes = {
   title: PropTypes.string,
   color: PropTypes.string,
+  colId: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
 };
 

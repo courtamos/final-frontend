@@ -26,7 +26,16 @@ import MailOutlineSharpIcon from '@material-ui/icons/MailOutlineSharp';
 
 import '../../styles/Jobs-modal.scss';
 import { authSelector } from '../auth/authSlice';
-import { addJob, editJob, deleteJob } from './jobs/jobsSlice';
+import {
+  addJob,
+  editJob,
+  deleteJob,
+  selectInterestedJobs,
+  selectAppliedJobs,
+  selectInterviewingJobs,
+  selectOfferJobs,
+  selectRejectedJobs,
+} from './jobs/jobsSlice';
 
 const DialogContent = withStyles((theme) => ({
   root: {
@@ -43,6 +52,13 @@ const DialogActions = withStyles((theme) => ({
 export const JobsModal = (props) => {
   const dispatch = useDispatch();
   const { user } = useSelector(authSelector);
+  const interestedJobs = useSelector(selectInterestedJobs);
+  const appliedJobs = useSelector(selectAppliedJobs);
+  const interviewingJobs = useSelector(selectInterviewingJobs);
+  const offerJobs = useSelector(selectOfferJobs);
+  const rejectedJobs = useSelector(selectRejectedJobs);
+
+  const jobs = [interestedJobs, appliedJobs, interviewingJobs, offerJobs, rejectedJobs];
 
   const {
     onClose,
@@ -71,6 +87,7 @@ export const JobsModal = (props) => {
 
   // const user_id = id;
   const [company, setCompany] = useState(companyName || '');
+  const [index, setIndex] = useState(jobs[0].length);
   const [title, setTitle] = useState(jobTitle || '');
   const [status, setStatus] = useState(jobStatus || 0);
   const [salary, setSalary] = useState(jobSalary || undefined);
@@ -117,6 +134,11 @@ export const JobsModal = (props) => {
     setSelectedDate(date);
   };
 
+  const handleStatusChange = (event) => {
+    setStatus(event.target.value);
+    setIndex(jobs[status].length);
+  };
+
   const handleSubmit = async () => {
     if (company === '' || title === '') {
       setError('Must include both Company Name and Job Title');
@@ -129,6 +151,7 @@ export const JobsModal = (props) => {
     }
 
     const job = {
+      index,
       user_id: user.id,
       company,
       title,
@@ -240,7 +263,6 @@ export const JobsModal = (props) => {
     <div>
       <StylesProvider>
         <Grid container>
-
           <Dialog
             className="job-modal-background"
             onBackdropClick={onClose}
@@ -278,7 +300,7 @@ export const JobsModal = (props) => {
                       <Select
                         native
                         value={status}
-                        onChange={(event) => setStatus(event.target.value)}
+                        onChange={(event) => handleStatusChange(event)}
                         label="Status"
                         inputProps={{
                           name: 'status',

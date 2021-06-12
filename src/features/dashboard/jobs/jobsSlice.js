@@ -121,10 +121,20 @@ export const { resetAddJobStatus, resetEditJobStatus, resetDeleteJobStatus } = j
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const jobsSelector = (state) => state.jobs;
-export const selectInterestedJobs = (state) => state.jobs.jobs.filter((job) => job.status === 0);
-export const selectAppliedJobs = (state) => state.jobs.jobs.filter((job) => job.status === 1);
-export const selectInterviewingJobs = (state) => state.jobs.jobs.filter((job) => job.status === 2);
-export const selectOfferJobs = (state) => state.jobs.jobs.filter((job) => job.status === 3);
-export const selectRejectedJobs = (state) => state.jobs.jobs.filter((job) => job.status === 4);
+export const selectInterestedJobs = (state) => state.jobs.jobs
+  .filter((job) => job.status === 0)
+  .sort((job1, job2) => job1.index - job2.index);
+export const selectAppliedJobs = (state) => state.jobs.jobs
+  .filter((job) => job.status === 1)
+  .sort((job1, job2) => job1.index - job2.index);
+export const selectInterviewingJobs = (state) => state.jobs.jobs
+  .filter((job) => job.status === 2)
+  .sort((job1, job2) => job1.index - job2.index);
+export const selectOfferJobs = (state) => state.jobs.jobs
+  .filter((job) => job.status === 3)
+  .sort((job1, job2) => job1.index - job2.index);
+export const selectRejectedJobs = (state) => state.jobs.jobs
+  .filter((job) => job.status === 4)
+  .sort((job1, job2) => job1.index - job2.index);
 
 export default jobsSlice.reducer;

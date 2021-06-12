@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
-
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-
+import { Draggable } from 'react-beautiful-dnd';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Box, IconButton, Typography, Paper,
@@ -67,6 +67,7 @@ const JobItem = (props) => {
   const classes = useStyles();
   const {
     id,
+    index,
     company,
     title,
     description,
@@ -131,72 +132,86 @@ const JobItem = (props) => {
   }, [company]);
 
   return (
-    <Paper elevation={1} className={classes.panel}>
-      <Box display="flex" flexDirection="column" width="100%">
-        <Box
-          display="flex"
-          flexDirection="row"
-          alignItems="center"
-          width="100%"
-        >
-          <MenuIcon />
-          <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
-            <a href={handleRedirect()} target="_blank" rel="noreferrer">
-              <img src={logo} alt="logo" width="45px" className={classes.image} />
-            </a>
-          </Box>
-          <Box display="flex" flexDirection="column" flexGrow={1}>
-            <Typography variant="h6" align="left" className={classes.heading}>{company}</Typography>
-            <Typography variant="body1" align="left" className={classes.heading}>{title}</Typography>
-            <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
-          </Box>
-          <Box>
-            <IconButton aria-label="delete" onClick={() => { setModalOpen(true); }}>
-              <DeleteIcon />
-            </IconButton>
-            <IconButton
-              id="icon-button"
-              aria-label="edit-item"
-              onClick={openModal}
-            >
-              <EditIcon />
-            </IconButton>
-            <JobsModal
-              open={editModalOpen}
-              onClose={closeModal}
-              id={id}
-              companyName={company}
-              jobTitle={title}
-              jobDetails={description}
-              jobLocation={location}
-              jobSalary={salary}
-              jobStatus={status}
-              jobUrl={url}
-              jobContact_name={contact_name}
-              jobContact_email={contact_email}
-              jobContact_phone={contact_phone}
-              jobContact_socialmedia={contact_socialmedia}
-              jobResume_url={resume_url}
-              jobCoverletter_url={coverletter_url}
-              jobExtra_url={extra_url}
-              event_title={event_title}
-              event_details={event_details}
-              event_date={event_date}
-              event_location={event_location}
-              event_jobid={event_jobid}
-              event_id={event_id}
-              isEditModal
-            />
-          </Box>
-          <ModalConfirm id="modal-confirm-delete" open={modalOpen} onConfirm={handleConfirmDelete} onDecline={handleDeclineDelete} />
-        </Box>
-      </Box>
-    </Paper>
+    <Draggable draggableId={id.toString()} index={index}>
+      {(provided) => (
+        <div ref={provided.innerRef}>
+          <Paper
+            elevation={1}
+            className={classes.panel}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+          >
+            <Box display="flex" flexDirection="column" width="100%">
+              <Box
+                display="flex"
+                flexDirection="row"
+                alignItems="center"
+                width="100%"
+              >
+                <MenuIcon />
+
+                <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
+                  <a href={handleRedirect()} target="_blank" rel="noreferrer">
+                    <img src={logo} alt="logo" width="45px" className={classes.image} />
+                  </a>
+                </Box>
+                <Box display="flex" flexDirection="column" flexGrow={1}>
+                  <Typography variant="h6" align="left" className={classes.heading}>{company}</Typography>
+                  <Typography variant="body1" align="left" className={classes.heading}>{title}</Typography>
+                  <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
+                </Box>
+                <Box>
+                  <IconButton aria-label="delete" onClick={() => { setModalOpen(true); }}>
+                    <DeleteIcon />
+                  </IconButton>
+                  <IconButton
+                    id="icon-button"
+                    aria-label="edit-item"
+                    onClick={openModal}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <JobsModal
+                    open={editModalOpen}
+                    onClose={closeModal}
+                    id={id}
+                    companyName={company}
+                    jobTitle={title}
+                    jobDetails={description}
+                    jobLocation={location}
+                    jobSalary={salary}
+                    jobStatus={status}
+                    jobUrl={url}
+                    jobContact_name={contact_name}
+                    jobContact_email={contact_email}
+                    jobContact_phone={contact_phone}
+                    jobContact_socialmedia={contact_socialmedia}
+                    jobResume_url={resume_url}
+                    jobCoverletter_url={coverletter_url}
+                    jobExtra_url={extra_url}
+                    event_title={event_title}
+                    event_details={event_details}
+                    event_date={event_date}
+                    event_location={event_location}
+                    event_jobid={event_jobid}
+                    event_id={event_id}
+                    isEditModal
+                  />
+                </Box>
+                <ModalConfirm id="modal-confirm-delete" open={modalOpen} onConfirm={handleConfirmDelete} onDecline={handleDeclineDelete} />
+              </Box>
+            </Box>
+          </Paper>
+        </div>
+      )}
+
+    </Draggable>
   );
 };
 
 JobItem.propTypes = {
   id: PropTypes.number,
+  index: PropTypes.number.isRequired,
   company: PropTypes.string,
   title: PropTypes.string,
   description: PropTypes.string,
