@@ -9,30 +9,51 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
 
-import { jobsSelector } from './jobs/jobsSlice';
+import {
+  jobsSelector,
+  selectInterestedJobs,
+  selectAppliedJobs,
+  selectInterviewingJobs,
+  selectOfferJobs,
+  selectRejectedJobs,
+} from './jobs/jobsSlice';
 import JobItem from '../../components/JobItem';
 
 const Search = () => {
   const { jobs } = useSelector(jobsSelector);
+  const interestedJobs = useSelector(selectInterestedJobs);
+  const appliedJobs = useSelector(selectAppliedJobs);
+  const interviewingJobs = useSelector(selectInterviewingJobs);
+  const offerJobs = useSelector(selectOfferJobs);
+  const rejectedJobs = useSelector(selectRejectedJobs);
 
   const [searchValue, setSearchValue] = useState('');
   const [filteredJobs, setFilteredjobs] = useState([]);
+  const [filterStatus, setFilterStatus] = useState(undefined);
 
-  useEffect(() => {
+  const getFilteredJobs = (selectedJobs) => selectedJobs.filter((job) => {
     const searchValueLowerCase = searchValue.toLocaleLowerCase();
-    const filtered = jobs.filter((job) => {
-      for (const key in job) {
-        if (key !== 'events') {
-          if (job[key] && job[key].toString().toLowerCase().includes(searchValueLowerCase)) {
-            return true;
-          }
+    for (const key in job) {
+      if (key !== 'events') {
+        if (job[key] && job[key].toString().toLowerCase().includes(searchValueLowerCase)) {
+          return true;
         }
       }
-      return false;
-    });
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const statusObject = {
+      0: interestedJobs, 1: appliedJobs, 2: interviewingJobs, 3: offerJobs, 4: rejectedJobs,
+    };
+    const jobSelection = statusObject[filterStatus] || jobs;
+    const filtered = getFilteredJobs(jobSelection);
     setFilteredjobs(filtered);
-  }, [searchValue, jobs]);
+  }, [searchValue, filterStatus, jobs]);
 
   const handleSearchInput = (event) => {
     setSearchValue(event.target.value);
@@ -40,6 +61,10 @@ const Search = () => {
 
   const handleClearSearch = () => {
     setSearchValue('');
+  };
+
+  const handleSelectStatus = (event) => {
+    setFilterStatus(event.target.value);
   };
 
   return (
@@ -51,28 +76,56 @@ const Search = () => {
         paddingTop: '25px',
       }}
     >
-      <FormControl variant="outlined">
-        <OutlinedInput
-          fullWidth
-          placeholder="Search your jobs"
-          id="outlined-adornment-amount"
-          startAdornment={(
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-            )}
-          endAdornment={(
-            <InputAdornment position="end">
-              <IconButton onClick={handleClearSearch}>
-                <ClearIcon />
-              </IconButton>
-            </InputAdornment>
-            )}
-          value={searchValue}
-          onChange={handleSearchInput}
-          style={{ marginBottom: '25px' }}
-        />
-      </FormControl>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <FormControl variant="outlined" style={{ flexGrow: '1' }}>
+          <InputLabel style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+          >
+            <SearchIcon style={{ marginRight: '5px' }} />
+            {' '}
+            Search Your Jobs
+          </InputLabel>
+          <OutlinedInput
+            labelWidth={160}
+            fullWidth
+            id="outlined-adornment-amount"
+            endAdornment={(
+              <InputAdornment position="end">
+                <IconButton onClick={handleClearSearch}>
+                  <ClearIcon />
+                </IconButton>
+              </InputAdornment>
+              )}
+            value={searchValue}
+            onChange={handleSearchInput}
+            style={{ marginBottom: '25px' }}
+          />
+        </FormControl>
+
+        <FormControl variant="outlined" style={{ marginLeft: '25px', width: '250px' }}>
+          <InputLabel htmlFor="outlined-age-native-simple">Select Job Status</InputLabel>
+          <Select
+            native
+            value={filterStatus}
+            onChange={handleSelectStatus}
+            label="Select Job Status"
+            inputProps={{
+              name: 'status',
+              id: 'outlined-age-native-simple',
+            }}
+          >
+            <option aria-label="None" value={undefined} />
+            <option value={0}>Interested</option>
+            <option value={1}>Applied</option>
+            <option value={2}>Interviewing</option>
+            <option value={3}>Offers</option>
+            <option value={4}>Rejected</option>
+          </Select>
+        </FormControl>
+      </div>
+
       {filteredJobs.length ? (
         <>
           {filteredJobs.map((job) => (
