@@ -35,6 +35,7 @@ const useStyles = makeStyles({
 
   logo: {
     width: '75px',
+    minWidth: '75px',
     height: '75px',
   },
 
@@ -145,11 +146,11 @@ const JobItem = (props) => {
             </a>
           </Box>
           <Box display="flex" flexDirection="column" flexGrow={1}>
-            <Typography variant="h6" align="left" className={classes.heading}>{company}</Typography>
+            <Typography variant="h5" align="left" className={classes.heading}>{company}</Typography>
             <Typography variant="body1" align="left" className={classes.heading}>{title}</Typography>
             <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
           </Box>
-          <Box>
+          <Box display="flex" flexDirection="row">
             <IconButton aria-label="delete" onClick={() => { setModalOpen(true); }}>
               <DeleteIcon />
             </IconButton>
