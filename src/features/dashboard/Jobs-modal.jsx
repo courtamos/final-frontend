@@ -26,6 +26,7 @@ import MailOutlineSharpIcon from '@material-ui/icons/MailOutlineSharp';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
+import PhoneIcon from '@material-ui/icons/Phone';
 
 import '../../styles/Jobs-modal.scss';
 import { authSelector } from '../auth/authSlice';
@@ -232,9 +233,7 @@ export const JobsModal = (props) => {
   };
 
   const clickLink = (link) => {
-    if (link === '') {
-      return null;
-    } if (link.substring(0, 4) !== 'http') {
+    if (link.substring(0, 4) !== 'http') {
       window.open(`http://${link}`);
     }
     return window.open(link);
@@ -341,7 +340,7 @@ export const JobsModal = (props) => {
                                 >
                                   <OpenInNewSharpIcon />
                                 </IconButton>
-                              ) : null}
+                              ) : false}
                           </InputAdornment>
                       )}
                       />
@@ -459,30 +458,63 @@ export const JobsModal = (props) => {
                               <IconButton
                                 aria-label="toggle password visibility"
                                 href={`mailto:${contact_email}?subject=${title} - ${company}&body=Hello ${contact_name},`}
+                                target="_blank"
                               >
                                 <MailOutlineSharpIcon />
                               </IconButton>
-                            ) : null}
+                            ) : false}
                         </InputAdornment>
                       )}
                     />
                   </FormControl>
-                  <TextField
-                    id="standard-basic"
-                    label="Contact Phone Number"
-                    className="contact-phone"
-                    name="contact_phone"
-                    value={contact_phone}
-                    onChange={(event) => setContact_phone(event.target.value)}
-                  />
-                  <TextField
-                    id="standard-basic"
-                    label="Contact Links (LinkedIn)"
-                    className="contact-social"
-                    name="contact_socialmedia"
-                    value={contact_socialmedia}
-                    onChange={(event) => setContact_socialmedia(event.target.value)}
-                  />
+                  <FormControl className="contact-phone">
+                    <InputLabel>
+                      Contact Phone Number
+                    </InputLabel>
+                    <Input
+                      label="Contact Phone Number"
+                      name="contact_phone"
+                      value={contact_phone}
+                      onChange={(event) => setContact_phone(event.target.value)}
+                      endAdornment={(
+                        <InputAdornment position="end">
+                          {contact_phone
+                            ? (
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                href={`tel:${contact_phone}`}
+                              >
+                                <PhoneIcon />
+                              </IconButton>
+                            ) : false}
+                        </InputAdornment>
+                      )}
+                    />
+                  </FormControl>
+                  <FormControl className="contact-phone">
+                    <InputLabel>
+                      Contact Links
+                    </InputLabel>
+                    <Input
+                      label="Contact Links"
+                      name="contact_socialmedia"
+                      value={contact_socialmedia}
+                      onChange={(event) => setContact_socialmedia(event.target.value)}
+                      endAdornment={(
+                        <InputAdornment position="end">
+                          {contact_socialmedia
+                            ? (
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => clickLink(contact_socialmedia)}
+                              >
+                                <OpenInNewSharpIcon />
+                              </IconButton>
+                            ) : false}
+                        </InputAdornment>
+                      )}
+                    />
+                  </FormControl>
                 </div>
                 <h3 className="heading">
                   Links
@@ -507,7 +539,7 @@ export const JobsModal = (props) => {
                               >
                                 <OpenInNewSharpIcon />
                               </IconButton>
-                            ) : null}
+                            ) : false}
                         </InputAdornment>
                       )}
                     />
@@ -531,7 +563,7 @@ export const JobsModal = (props) => {
                               >
                                 <OpenInNewSharpIcon />
                               </IconButton>
-                            ) : null}
+                            ) : false}
                         </InputAdornment>
                       )}
                     />
@@ -555,7 +587,7 @@ export const JobsModal = (props) => {
                               >
                                 <OpenInNewSharpIcon />
                               </IconButton>
-                            ) : null}
+                            ) : false}
                         </InputAdornment>
                       )}
                     />
@@ -584,7 +616,7 @@ export const JobsModal = (props) => {
                           <Button
                             type="click"
                             variant="contained"
-                            style={{ backgroundColor: '#ee6a7c', color: 'white' }}
+                            style={{ backgroundColor: '#666666', color: 'white' }}
                             startIcon={<RotateLeftIcon />}
                             onClick={() => reset()}
                           >
@@ -600,7 +632,7 @@ export const JobsModal = (props) => {
                     <Button
                       type="button"
                       onClick={onClose}
-                      style={{ backgroundColor: '#ffe7d6' }}
+                      style={{ backgroundColor: '#ffa7a5', color: 'white' }}
                       variant="contained"
                       color="default"
                     >
