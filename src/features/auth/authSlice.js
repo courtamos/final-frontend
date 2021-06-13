@@ -8,6 +8,7 @@ const initialState = {
   status: 'loading',
   loggingInStatus: 'idle',
   signUpStatus: 'idle',
+  updateStatus: 'idle',
 };
 
 export const fetchLoggedInStatus = createAsyncThunk(
@@ -77,6 +78,29 @@ export const logout = createAsyncThunk(
   },
 );
 
+export const updateUser = createAsyncThunk(
+  'auth/updateUser',
+  async ({
+    userId, first_name, last_name, email, password, password_confirmation,
+  }, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch(`/api/users/${userId}`, {
+        user: {
+          first_name,
+          last_name,
+          email,
+          password,
+          password_confirmation,
+        },
+      }, { withCredentials: true });
+      // The value we return becomes the `fulfilled` action payload
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -126,6 +150,18 @@ export const authSlice = createSlice({
         if (action.payload.logged_out) {
           state.user = null;
         }
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.updateStatus = 'loading';
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.updateStatus = 'idle';
+        if (action.payload.user && action.payload.status === 'updated') {
+          state.user = action.payload.user;
+        }
+      })
+      .addCase(updateUser.rejected, (state) => {
+        state.updateStatus = 'failed';
       });
   },
 });
