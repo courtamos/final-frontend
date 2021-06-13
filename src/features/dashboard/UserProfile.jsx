@@ -91,7 +91,7 @@ const UserProfile = () => {
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <img
-            src={`https://ui-avatars.com/api/?name=${user.first_name}+${user.last_name}&background=AB5675&color=fff`}
+            src={`https://ui-avatars.com/api/?name=${user.first_name}+${user.last_name}&background=AB5675&color=fff&size=256`}
             alt="user initials"
             className={classes.initialsIcon}
           />
