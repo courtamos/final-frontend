@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { useSelector } from 'react-redux';
-
-// MaterialUI Components
 import { Box, Paper, withStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -12,11 +9,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
 import EventIcon from '@material-ui/icons/Event';
 import SearchIcon from '@material-ui/icons/Search';
+import AssessmentIcon from '@material-ui/icons/Assessment';
 
-// import { authSelector } from '../auth/authSlice';
 
-// Custom Components
-import { logout } from '../auth/authSlice';
+import { logout, authSelector } from '../auth/authSlice';
 import { SideBarButton } from './SideBarButton';
 import { JobsModal } from '../dashboard/Jobs-modal';
 
@@ -57,12 +53,8 @@ const useStyles = makeStyles({
 const SideBar = (props) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
-
   const { userdata } = props;
-
-  // const { user } = useSelector(authSelector);
-  const user = { id: '1' };
-
+  const { user } = useSelector(authSelector);
   const dispatch = useDispatch();
 
   const handleLogOut = () => {
@@ -86,49 +78,52 @@ const SideBar = (props) => {
       <JobsModal open={open} onClose={handleClose} />
       <Paper elevation={1} square>
         <Box display="flex" flexGrow={1} flexDirection="column" height="100%" alignItems="center">
-          <img src="../../img/Logo1.png" alt="logo" width="45px" className={classes.imgicon} />
-          {user
-            ? (
-              <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="space-between">
-                <Box display="flex" flexDirection="column">
-                  <SideBarButton>
-                    <LightTooltip title="Profile Page" aria-label="Profile" placement="right">
-                      <Link to={`/users/${user.id}`} className="link">
-                        <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
-                      </Link>
-                    </LightTooltip>
-                  </SideBarButton>
-                  <SideBarButton onClick={handleClickOpen}>
-                    <LightTooltip title="Add New Job" aria-label="Add New Job" placement="right">
-                      <AddIcon className={`${classes.icon} ${classes.add}`} />
-                    </LightTooltip>
-                  </SideBarButton>
-                  <SideBarButton>
-                    <LightTooltip title="Search Jobs" aria-label="Search Jobs" placement="right">
-                      <Link to="/dashboard/search" className="link">
-                        <SearchIcon className={`${classes.icon} ${classes.add}`} />
-                      </Link>
-                    </LightTooltip>
-                  </SideBarButton>
-                  <SideBarButton onClick={() => { window.open('https://calendar.google.com/calendar/u/0/r', '_blank'); }}>
-                    <LightTooltip title="Open Calendar" aria-label="Open Calendar" placement="right">
-                      <EventIcon className={`${classes.icon} ${classes.add}`} />
-                    </LightTooltip>
-                  </SideBarButton>
-                </Box>
+          <Link to="/dashboard">
+            <img src="../../img/Logo1.png" alt="logo" width="45px" className={classes.imgicon} />
+          </Link>
+          <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="space-between">
+            <Box display="flex" flexDirection="column">
+              <SideBarButton>
+                <LightTooltip title="Profile Page" aria-label="Profile" placement="right">
+                  <Link to={`/users/${user.id}`} className="link">
+                    <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
+                  </Link>
+                </LightTooltip>
+              </SideBarButton>
+             <SideBarButton>
+                <Link to="/dashboard/job_stats" className="link">
+                  <AssessmentIcon className={`${classes.icon} ${classes.add}`} />
+                </Link>
+              </SideBarButton>
+              <SideBarButton onClick={handleClickOpen}>
+                <LightTooltip title="Add New Job" aria-label="Add New Job" placement="right">
+                  <AddIcon className={`${classes.icon} ${classes.add}`} />
+                </LightTooltip>
+              </SideBarButton>
+              <SideBarButton>
+                <LightTooltip title="Search Jobs" aria-label="Search Jobs" placement="right">
+                  <Link to="/dashboard/search" className="link">
+                    <SearchIcon className={`${classes.icon} ${classes.add}`} />
+                  </Link>
+                </LightTooltip>
+              </SideBarButton>
+              <SideBarButton onClick={() => { window.open('https://calendar.google.com/calendar/u/0/r', '_blank'); }}>
+                <LightTooltip title="Open Calendar" aria-label="Open Calendar" placement="right">
+                  <EventIcon className={`${classes.icon} ${classes.add}`} />
+                </LightTooltip>
+              </SideBarButton>
+            </Box>
 
-                <Box>
-                  <SideBarButton onClick={handleLogOut}>
-                    <LightTooltip title="Log Out" aria-label="Log Out" placement="right">
-                      <Link to={`/users/${user.id}`}>
-                        <ExitToAppIcon className={`${classes.icon} ${classes.rotate}`} />
-                      </Link>
-                    </LightTooltip>
-                  </SideBarButton>
-                </Box>
-              </Box>
-            )
-            : <></>}
+            <Box>
+              <SideBarButton onClick={handleLogOut}>
+                <LightTooltip title="Log Out" aria-label="Log Out" placement="right">
+                  <Link to={`/users/${user.id}`}>
+                    <ExitToAppIcon className={`${classes.icon} ${classes.rotate}`} />
+                  </Link>
+                </LightTooltip>
+              </SideBarButton>
+            </Box>
+          </Box>
         </Box>
       </Paper>
     </Box>
