@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -9,6 +9,7 @@ const useStyles = makeStyles({
   },
   text: {
     fontFamily: 'Montserrat',
+    fontWeight: '500',
   },
   heading: {
     height: 'auto',
@@ -25,16 +26,18 @@ const DashboardColumnHeading = (props) => {
       display="flex"
       flexDirection="column"
       style={{
-        backgroundColor: color, padding: '10px', margin: '-5px', marginBottom: '5px',
+        padding: '5px',
+        margin: '-5px',
+        marginBottom: '5px',
       }}
     >
-      {/* <Paper elevation={1} className={classes.heading}> */}
-      <Box display="flex" className={classes.heading} width={1} justifyContent="center" alignItems="center">
-        <Typography variant="h4" className={classes.text}>
-          {title}
-        </Typography>
-      </Box>
-      {/* </Paper> */}
+      <Paper elevation={1} className={classes.heading}>
+        <Box display="flex" className={classes.heading} justifyContent="center" alignItems="center">
+          <Typography variant="h5" className={classes.text} style={{ color }}>
+            {title}
+          </Typography>
+        </Box>
+      </Paper>
     </Box>
   );
 };

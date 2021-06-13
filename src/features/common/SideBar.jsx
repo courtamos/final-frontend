@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Box, Paper } from '@material-ui/core';
+import { Box, Paper, withStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
 import EventIcon from '@material-ui/icons/Event';
 import SearchIcon from '@material-ui/icons/Search';
@@ -13,6 +14,15 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import { logout, authSelector } from '../auth/authSlice';
 import { SideBarButton } from './SideBarButton';
 import { JobsModal } from '../dashboard/Jobs-modal';
+
+const LightTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}))(Tooltip);
 
 const useStyles = makeStyles({
   link: {
@@ -73,9 +83,11 @@ const SideBar = (props) => {
           <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="space-between">
             <Box display="flex" flexDirection="column">
               <SideBarButton>
-                <Link to="/dashboard/user_profile" className="link">
-                  <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
-                </Link>
+                <LightTooltip title="Profile Page" aria-label="Profile" placement="right">
+                  <Link to={`/users/${user.id}`} className="link">
+                    <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
+                  </Link>
+                </LightTooltip>
               </SideBarButton>
               <SideBarButton>
                 <Link to="/dashboard/job_stats" className="link">
@@ -83,23 +95,30 @@ const SideBar = (props) => {
                 </Link>
               </SideBarButton>
               <SideBarButton onClick={handleClickOpen}>
-                <AddIcon className={`${classes.icon} ${classes.add}`} />
+                <LightTooltip title="Add New Job" aria-label="Add New Job" placement="right">
+                  <AddIcon className={`${classes.icon} ${classes.add}`} />
+                </LightTooltip>
               </SideBarButton>
               <SideBarButton>
-                <Link to="/dashboard/search" className="link">
-                  <SearchIcon className={`${classes.icon} ${classes.add}`} />
-                </Link>
+                <LightTooltip title="Search Jobs" aria-label="Search Jobs" placement="right">
+                  <Link to="/dashboard/search" className="link">
+                    <SearchIcon className={`${classes.icon} ${classes.add}`} />
+                  </Link>
+                </LightTooltip>
               </SideBarButton>
               <SideBarButton onClick={() => { window.open('https://calendar.google.com/calendar/u/0/r', '_blank'); }}>
-                <EventIcon className={`${classes.icon} ${classes.add}`} />
+                <LightTooltip title="Open Calendar" aria-label="Open Calendar" placement="right">
+                  <EventIcon className={`${classes.icon} ${classes.add}`} />
+                </LightTooltip>
               </SideBarButton>
             </Box>
-
             <Box>
               <SideBarButton onClick={handleLogOut}>
-                <Link to={`/users/${user.id}`}>
-                  <ExitToAppIcon className={`${classes.icon} ${classes.rotate}`} />
-                </Link>
+                <LightTooltip title="Log Out" aria-label="Log Out" placement="right">
+                  <Link to={`/users/${user.id}`}>
+                    <ExitToAppIcon className={`${classes.icon} ${classes.rotate}`} />
+                  </Link>
+                </LightTooltip>
               </SideBarButton>
             </Box>
           </Box>
