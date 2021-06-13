@@ -83,11 +83,9 @@ const SideBar = (props) => {
           <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="space-between">
             <Box display="flex" flexDirection="column">
               <SideBarButton>
-                <LightTooltip title="Profile Page" aria-label="Profile" placement="right">
-                  <Link to={`/users/${user.id}`} className="link">
-                    <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
-                  </Link>
-                </LightTooltip>
+                <Link to="/dashboard/user_profile" className="link">
+                  <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
+                </Link>
               </SideBarButton>
               <SideBarButton>
                 <Link to="/dashboard/job_stats" className="link">
