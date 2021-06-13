@@ -2,7 +2,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { FormControl, Button, Typography } from '@material-ui/core';
+import {
+  FormControl, Button, Typography, Grid, Box,
+} from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
@@ -91,124 +93,122 @@ const UserProfile = () => {
     <Container
       maxWidth="md"
       style={{
-        display: 'flex',
         flexDirection: 'column',
         paddingTop: '25px',
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <img
-            src={`https://ui-avatars.com/api/?name=${user.first_name}+${user.last_name}&background=AB5675&color=fff&size=256`}
-            alt="user initials"
-            className={classes.initialsIcon}
-          />
-          <Typography variant="h4" className={classes.nameTitle}>{`${user.first_name} ${user.last_name}`}</Typography>
-          <Typography variant="h5" style={{ marginBottom: '10px', marginTop: '0px' }}>
-            Active Since
-          </Typography>
-          <Typography variant="body1" style={{ margin: '0px' }}>
-            {formatDate(user.created_at)}
-          </Typography>
-          <Typography variant="h5" style={{ marginBottom: '10px', marginTop: '10px' }}>
-            Total Number of Jobs
-          </Typography>
-          <Typography variant="body1" style={{ margin: '0px' }}>
-            {jobs.length}
-          </Typography>
-        </div>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          flexGrow: '1',
-        }}
-        >
-          {error && (
-          <Alert severity="error" fullWidth style={{ marginBottom: '10px' }}>
-            {error}
-          </Alert>
-          )}
-          <Typography variant="h4" className={classes.sectionTitle} style={{ marginTop: '-5px' }}>Personal Information</Typography>
-          <FormControl>
-            <TextField
-              label="First Name"
-              value={first_name}
-              onChange={(event) => setFirstName(event.target.value)}
-              style={{ marginBottom: '10px' }}
+      <Grid container>
+        <Grid item xs={12} md={4}>
+          <Box display="flex" flexDirection="column" p={2}>
+            <img
+              src={`https://ui-avatars.com/api/?name=${user.first_name}+${user.last_name}&background=AB5675&color=fff&size=256`}
+              alt="user initials"
+              className={classes.initialsIcon}
             />
-          </FormControl>
-          <FormControl>
-            <TextField
-              label="Last Name"
-              value={last_name}
-              onChange={(event) => setLastName(event.target.value)}
-              style={{ marginBottom: '10px' }}
-            />
-          </FormControl>
-          <Typography variant="h4" className={classes.sectionTitle}>Email</Typography>
-          <FormControl>
-            <TextField
-              label="Email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              style={{ marginBottom: '10px' }}
-            />
-          </FormControl>
-          <Typography variant="h4" className={classes.sectionTitle}>Password</Typography>
-          <FormControl>
-            <InputLabel>Password</InputLabel>
-            <Input
-              label="Password"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              endAdornment={(
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
+            <Typography variant="h4" className={classes.nameTitle}>{`${user.first_name} ${user.last_name}`}</Typography>
+            <Typography variant="h5" style={{ marginBottom: '10px', marginTop: '0px' }}>
+              Active Since
+            </Typography>
+            <Typography variant="body1" style={{ margin: '0px' }}>
+              {formatDate(user.created_at)}
+            </Typography>
+            <Typography variant="h5" style={{ marginBottom: '10px', marginTop: '10px' }}>
+              Total Number of Jobs
+            </Typography>
+            <Typography variant="body1" style={{ margin: '0px' }}>
+              {jobs.length}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <Box display="flex" flexDirection="column" flexGrow={1} p={2}>
+            {error && (
+            <Alert severity="error" fullWidth style={{ marginBottom: '10px' }}>
+              {error}
+            </Alert>
+            )}
+            <Typography variant="h4" className={classes.sectionTitle} style={{ marginTop: '-5px' }}>Personal Information</Typography>
+            <FormControl>
+              <TextField
+                label="First Name"
+                value={first_name}
+                onChange={(event) => setFirstName(event.target.value)}
+                style={{ marginBottom: '10px' }}
+              />
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Last Name"
+                value={last_name}
+                onChange={(event) => setLastName(event.target.value)}
+                style={{ marginBottom: '10px' }}
+              />
+            </FormControl>
+            <Typography variant="h4" className={classes.sectionTitle}>Email</Typography>
+            <FormControl>
+              <TextField
+                label="Email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                style={{ marginBottom: '10px' }}
+              />
+            </FormControl>
+            <Typography variant="h4" className={classes.sectionTitle}>Password</Typography>
+            <FormControl>
+              <InputLabel>Password</InputLabel>
+              <Input
+                label="Password"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                endAdornment={(
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
               )}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel>Password Confirmation</InputLabel>
-            <Input
-              label="Password Confirmation"
-              type={showPasswordConfirmation ? 'text' : 'password'}
-              value={password_confirmation}
-              onChange={(event) => setPasswordConfirmation(event.target.value)}
-              endAdornment={(
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPasswordConfirmation((prev) => !prev)}
-                  >
-                    {showPasswordConfirmation ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel>Password Confirmation</InputLabel>
+              <Input
+                label="Password Confirmation"
+                type={showPasswordConfirmation ? 'text' : 'password'}
+                value={password_confirmation}
+                onChange={(event) => setPasswordConfirmation(event.target.value)}
+                endAdornment={(
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPasswordConfirmation((prev) => !prev)}
+                    >
+                      {showPasswordConfirmation ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
               )}
+              />
+            </FormControl>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => { setModalOpen(true); }}
+              style={{ marginTop: '25px' }}
+            >
+              Confirm Changes
+            </Button>
+            <UpdateModal
+              id="modal-confirm-delete"
+              open={modalOpen}
+              onConfirm={handleUpdateConfirm}
+              onDecline={handleUpdateDecline}
             />
-          </FormControl>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => { setModalOpen(true); }}
-            style={{ marginTop: '25px' }}
-          >
-            Confirm Changes
-          </Button>
-          <UpdateModal
-            id="modal-confirm-delete"
-            open={modalOpen}
-            onConfirm={handleUpdateConfirm}
-            onDecline={handleUpdateDecline}
-          />
-        </div>
-      </div>
+          </Box>
+        </Grid>
+      </Grid>
       <Snackbar open={!!snack} autoHideDuration={6000} onClose={() => setSnack(false)}>
         <Alert onClose={() => setSnack(false)} severity="success">
           {snack}
