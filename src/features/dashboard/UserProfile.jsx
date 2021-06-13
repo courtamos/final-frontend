@@ -14,10 +14,10 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import UpdateModal from '../../components/UpdateModal';
 import { authSelector } from '../auth/authSlice';
+import { jobsSelector } from './jobs/jobsSlice';
 
 const useStyles = makeStyles({
-  initialsicon: {
-    // borderRadius: '50%',
+  initialsIcon: {
     width: '225px',
     height: '225px',
     marginRight: '50px',
@@ -27,8 +27,7 @@ const useStyles = makeStyles({
 const UserProfile = () => {
   const classes = useStyles();
   const { user } = useSelector(authSelector);
-
-  console.log('user created', user.created_at);
+  const { jobs } = useSelector(jobsSelector);
 
   const [first_name, setFirstName] = useState(user.first_name);
   const [last_name, setLastName] = useState(user.last_name);
@@ -61,14 +60,13 @@ const UserProfile = () => {
           <img
             src={`https://ui-avatars.com/api/?name=${user.first_name}+${user.last_name}&background=AB5675&color=fff`}
             alt="user initials"
-            className={classes.initialsicon}
+            className={classes.initialsIcon}
           />
           <h2>{`${user.first_name} ${user.last_name}`}</h2>
-          <h4>
-            Active Since:
-            {user.created_at}
-          </h4>
-
+          <h4>Active Since</h4>
+          <p>{user.created_at}</p>
+          <h4>Total Number of Jobs</h4>
+          <p>{jobs.length}</p>
         </div>
         <div style={{
           display: 'flex',
