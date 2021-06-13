@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
-
 import {
   Chart,
   PieSeries,
@@ -52,12 +51,14 @@ const JobStats = () => {
     <Container
       maxWidth="md"
       style={{
+        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        paddingTop: '25px',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
-      <Paper>
+      <Paper style={{ width: '100%', padding: '25px' }}>
         <Chart
           data={chartData}
         >
