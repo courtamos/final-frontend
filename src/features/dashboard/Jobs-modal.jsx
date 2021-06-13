@@ -214,10 +214,9 @@ export const JobsModal = (props) => {
         );
         setLogo(result.data[0].logo);
       } catch (err) {
-        return 'https://i.imgur.com/n7X5rsl.png';
+        setLogo('https://i.imgur.com/n7X5rsl.png');
       }
     }
-    return 'https://i.imgur.com/n7X5rsl.png';
   }, [company]);
 
   const calendarEvent = {
