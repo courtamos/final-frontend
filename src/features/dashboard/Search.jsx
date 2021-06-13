@@ -78,32 +78,27 @@ const Search = () => {
     >
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <FormControl variant="outlined" style={{ flexGrow: '1' }}>
-          <InputLabel style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-          >
-            <SearchIcon style={{ marginRight: '5px' }} />
-            {' '}
+          <InputLabel>
             Search Your Jobs
           </InputLabel>
           <OutlinedInput
-            labelWidth={160}
             fullWidth
-            id="outlined-adornment-amount"
-            endAdornment={(
-              <InputAdornment position="end">
-                <IconButton onClick={handleClearSearch}>
-                  <ClearIcon />
-                </IconButton>
-              </InputAdornment>
-              )}
+            labelWidth={122}
             value={searchValue}
             onChange={handleSearchInput}
+            endAdornment={(
+              <InputAdornment position="end">
+                {searchValue ? (
+                  <IconButton onClick={handleClearSearch}>
+                    <ClearIcon />
+                  </IconButton>
+                ) : (
+                  <SearchIcon />)}
+              </InputAdornment>
+              )}
             style={{ marginBottom: '25px' }}
           />
         </FormControl>
-
         <FormControl variant="outlined" style={{ marginLeft: '25px', width: '250px' }}>
           <InputLabel htmlFor="outlined-age-native-simple">Select Job Status</InputLabel>
           <Select
