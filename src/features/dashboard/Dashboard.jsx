@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
@@ -9,6 +10,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import PropTypes from 'prop-types';
 
 import Search from './Search';
+import UserProfile from './UserProfile';
+import JobStats from './JobStats';
 import SideBar from '../common/SideBar';
 import DashboardColumn from './DashboardColumn';
 import {
@@ -91,6 +94,16 @@ const Dashboard = () => {
           <Route path="/dashboard/search">
             <Grid style={{ marginLeft: '70px', width: '100vw' }} justifyContent="space-between">
               <Search />
+            </Grid>
+          </Route>
+          <Route path="/dashboard/user_profile">
+            <Grid style={{ marginLeft: '70px', width: '100vw' }} justifyContent="space-between">
+              <UserProfile />
+            </Grid>
+          </Route>
+          <Route path="/dashboard/job_stats">
+            <Grid style={{ marginLeft: '70px', width: '100vw' }} justifyContent="space-between">
+              <JobStats />
             </Grid>
           </Route>
         </Switch>
