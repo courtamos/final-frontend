@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -33,7 +34,7 @@ const TextComponent = withStyles(styles)(({ classes, ...restProps }) => (
   <Title.Text {...restProps} className={classes.titleText} />
 ));
 
-const JobStats = () => {
+const SalaryStats = () => {
   const interestedJobs = useSelector(selectInterestedJobs);
   const appliedJobs = useSelector(selectAppliedJobs);
   const interviewingJobs = useSelector(selectInterviewingJobs);
@@ -83,4 +84,4 @@ const JobStats = () => {
   );
 };
 
-export default JobStats;
+export default SalaryStats;
