@@ -41,6 +41,7 @@ const useStyles = makeStyles({
       minWidth: '50px',
       height: '50px',
     },
+    fontSize: '0px',
   },
 
   image: {
@@ -57,6 +58,7 @@ const useStyles = makeStyles({
 
   heading: {
     fontFamily: 'Montserrat',
+    fontWeight: '400',
     paddingTop: '0px',
     paddingBottom: '0px',
     lineHeight: '1em',
@@ -86,7 +88,7 @@ const JobItem = (props) => {
   const dispatch = useDispatch();
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [logo, setLogo] = useState('https://i.imgur.com/n7X5rsl.png');
+  const [logo, setLogo] = useState('');
   const classes = useStyles();
   const {
     id,
