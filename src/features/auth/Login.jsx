@@ -53,7 +53,7 @@ const Login = () => {
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center">
+    <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
       <Paper className={classes.root}>
         {loggingInStatus === 'loading'
           && <LinearProgress />}
