@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { FormControl, Button } from '@material-ui/core';
+import { FormControl, Button, Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
@@ -23,6 +23,14 @@ const useStyles = makeStyles({
     width: '225px',
     height: '225px',
     marginRight: '50px',
+  },
+  sectionTitle: {
+    marginTop: '20px',
+    marginBottom: '10px',
+  },
+  nameTitle: {
+    marginTop: '20px',
+    marginBottom: '10px',
   },
 });
 
@@ -95,19 +103,19 @@ const UserProfile = () => {
             alt="user initials"
             className={classes.initialsIcon}
           />
-          <h2>{`${user.first_name} ${user.last_name}`}</h2>
-          <h4 style={{ marginBottom: '10px', marginTop: '0px' }}>
+          <Typography variant="h4" className={classes.nameTitle}>{`${user.first_name} ${user.last_name}`}</Typography>
+          <Typography variant="h5" style={{ marginBottom: '10px', marginTop: '0px' }}>
             Active Since
-          </h4>
-          <p style={{ margin: '0px' }}>
+          </Typography>
+          <Typography variant="body1" style={{ margin: '0px' }}>
             {formatDate(user.created_at)}
-          </p>
-          <h4 style={{ marginBottom: '10px', marginTop: '20px' }}>
+          </Typography>
+          <Typography variant="h5" style={{ marginBottom: '10px', marginTop: '10px' }}>
             Total Number of Jobs
-          </h4>
-          <p style={{ margin: '0px' }}>
+          </Typography>
+          <Typography variant="body1" style={{ margin: '0px' }}>
             {jobs.length}
-          </p>
+          </Typography>
         </div>
         <div style={{
           display: 'flex',
@@ -120,7 +128,7 @@ const UserProfile = () => {
             {error}
           </Alert>
           )}
-          <h3>Personal Information</h3>
+          <Typography variant="h4" className={classes.sectionTitle} style={{ marginTop: '-5px' }}>Personal Information</Typography>
           <FormControl>
             <TextField
               label="First Name"
@@ -137,7 +145,7 @@ const UserProfile = () => {
               style={{ marginBottom: '10px' }}
             />
           </FormControl>
-          <h3>Email</h3>
+          <Typography variant="h4" className={classes.sectionTitle}>Email</Typography>
           <FormControl>
             <TextField
               label="Email"
@@ -146,7 +154,7 @@ const UserProfile = () => {
               style={{ marginBottom: '10px' }}
             />
           </FormControl>
-          <h3>Password</h3>
+          <Typography variant="h4" className={classes.sectionTitle}>Password</Typography>
           <FormControl>
             <InputLabel>Password</InputLabel>
             <Input

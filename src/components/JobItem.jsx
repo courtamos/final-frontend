@@ -42,6 +42,7 @@ const useStyles = makeStyles({
       height: '50px',
     },
     fontSize: '0px',
+    paddingRight: '3px',
   },
 
   image: {
@@ -60,13 +61,21 @@ const useStyles = makeStyles({
     fontFamily: 'Montserrat',
     fontWeight: '400',
     paddingTop: '0px',
+    paddingBottom: '3px',
+    lineHeight: '1em',
+  },
+
+  subheading: {
+    fontFamily: 'Montserrat',
+    fontWeight: '400',
+    paddingTop: '0px',
     paddingBottom: '0px',
     lineHeight: '1em',
   },
 
   content: {
     fontFamily: 'Source Sans Pro',
-    paddingTop: '5px',
+    paddingTop: '3px',
     paddingBottom: '0px',
     lineHeight: '1em',
   },
@@ -170,7 +179,7 @@ const JobItem = (props) => {
           </Box>
           <Box display="flex" flexDirection="column" flexGrow={1}>
             <Typography variant="h5" align="left" className={classes.heading}>{company}</Typography>
-            <Typography variant="body1" align="left" className={classes.heading}>{title}</Typography>
+            <Typography variant="body1" align="left" className={classes.subheading}>{title}</Typography>
             <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
           </Box>
           <Box className={classes.buttonbox} display="flex">
