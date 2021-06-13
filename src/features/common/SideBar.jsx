@@ -83,14 +83,18 @@ const SideBar = (props) => {
           <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="space-between">
             <Box display="flex" flexDirection="column">
               <SideBarButton>
-                <Link to="/dashboard/user_profile" className="link">
-                  <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
-                </Link>
+                <LightTooltip title="User Profile" aria-label="User Profile" placement="right">
+                  <Link to="/dashboard/user_profile" className="link">
+                    <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
+                  </Link>
+                </LightTooltip>
               </SideBarButton>
               <SideBarButton>
-                <Link to="/dashboard/job_stats" className="link">
-                  <AssessmentIcon className={`${classes.icon} ${classes.add}`} />
-                </Link>
+                <LightTooltip title="Statistics" aria-label="Statistics" placement="right">
+                  <Link to="/dashboard/job_stats" className="link">
+                    <AssessmentIcon className={`${classes.icon} ${classes.add}`} />
+                  </Link>
+                </LightTooltip>
               </SideBarButton>
               <SideBarButton onClick={handleClickOpen}>
                 <LightTooltip title="Add New Job" aria-label="Add New Job" placement="right">
