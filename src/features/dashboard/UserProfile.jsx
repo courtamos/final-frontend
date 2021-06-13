@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { FormControl, Button } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
@@ -11,9 +11,11 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Alert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import UpdateModal from '../../components/UpdateModal';
-import { authSelector } from '../auth/authSlice';
+import { authSelector, updateUser } from '../auth/authSlice';
 import { jobsSelector } from './jobs/jobsSlice';
 
 const useStyles = makeStyles({
@@ -26,6 +28,7 @@ const useStyles = makeStyles({
 
 const UserProfile = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { user } = useSelector(authSelector);
   const { jobs } = useSelector(jobsSelector);
 
@@ -37,13 +40,43 @@ const UserProfile = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [error, setError] = useState('');
+  const [snack, setSnack] = useState('');
 
-  const handleUpdateConfirm = () => {
+  const handleUpdateConfirm = async () => {
     setModalOpen(false);
+
+    if (!first_name || !last_name || !email || !password || !password_confirmation) {
+      setError('All fields must be filled out');
+      return;
+    }
+
+    if (password !== password_confirmation) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    const actionResult = await dispatch(updateUser({
+      userId: user.id, first_name, last_name, email, password, password_confirmation,
+    }));
+
+    if (updateUser.rejected.match(actionResult)) {
+      setError('Updating failed, try again');
+      return;
+    }
+
+    setPassword('');
+    setPasswordConfirmation('');
+    setSnack('Successfully Updated User!');
   };
 
   const handleUpdateDecline = () => {
     setModalOpen(false);
+  };
+
+  const formatDate = (string) => {
+    const date = new Date(string);
+    return `${date.getMonth()}-${date.getDay()}-${date.getFullYear()}`;
   };
 
   return (
@@ -63,10 +96,18 @@ const UserProfile = () => {
             className={classes.initialsIcon}
           />
           <h2>{`${user.first_name} ${user.last_name}`}</h2>
-          <h4>Active Since</h4>
-          <p>{user.created_at}</p>
-          <h4>Total Number of Jobs</h4>
-          <p>{jobs.length}</p>
+          <h4 style={{ marginBottom: '10px', marginTop: '0px' }}>
+            Active Since
+          </h4>
+          <p style={{ margin: '0px' }}>
+            {formatDate(user.created_at)}
+          </p>
+          <h4 style={{ marginBottom: '10px', marginTop: '20px' }}>
+            Total Number of Jobs
+          </h4>
+          <p style={{ margin: '0px' }}>
+            {jobs.length}
+          </p>
         </div>
         <div style={{
           display: 'flex',
@@ -74,6 +115,11 @@ const UserProfile = () => {
           flexGrow: '1',
         }}
         >
+          {error && (
+          <Alert severity="error" fullWidth style={{ marginBottom: '10px' }}>
+            {error}
+          </Alert>
+          )}
           <h3>Personal Information</h3>
           <FormControl>
             <TextField
@@ -155,6 +201,11 @@ const UserProfile = () => {
           />
         </div>
       </div>
+      <Snackbar open={!!snack} autoHideDuration={6000} onClose={() => setSnack(false)}>
+        <Alert onClose={() => setSnack(false)} severity="success">
+          {snack}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
