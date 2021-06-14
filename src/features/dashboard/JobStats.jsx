@@ -2,18 +2,18 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import {
   Chart,
   PieSeries,
-  Title,
   Tooltip,
   Legend,
 } from '@devexpress/dx-react-chart-material-ui';
 import { Animation, EventTracker, HoverState } from '@devexpress/dx-react-chart';
-
+import SalaryStats from './SalaryStats';
 import {
   selectInterestedJobs,
   selectAppliedJobs,
@@ -22,18 +22,7 @@ import {
   selectRejectedJobs,
 } from './jobs/jobsSlice';
 
-const styles = {
-  titleText: {
-    width: '80%',
-    marginBottom: '30px',
-  },
-};
-
-const TextComponent = withStyles(styles)(({ classes, ...restProps }) => (
-  <Title.Text {...restProps} className={classes.titleText} />
-));
-
-const SalaryStats = () => {
+const JobStats = () => {
   const interestedJobs = useSelector(selectInterestedJobs);
   const appliedJobs = useSelector(selectAppliedJobs);
   const interviewingJobs = useSelector(selectInterviewingJobs);
@@ -57,32 +46,45 @@ const SalaryStats = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: '35px',
+        marginBottom: '35px',
       }}
     >
       <Paper style={{ width: '100%', padding: '25px' }}>
-        <Chart
-          data={chartData}
-        >
-          <PieSeries
-            name="Job Application Stats"
-            valueField="val"
-            argumentField="status"
-            innerRadius={0.6}
-            style={{ width: '80%' }}
-          />
-          <Legend />
-          <Title
-            text="Job Application Stats"
-            textComponent={TextComponent}
-          />
-          <Animation />
-          <EventTracker />
-          <HoverState />
-          <Tooltip />
-        </Chart>
+        <Box mb={4} display="flex" justifyContent="center" alignContent="center">
+          <Typography style={{ fontWeight: '600' }} variant="h4">
+            Job Application Status
+          </Typography>
+        </Box>
+        <Box mb={5}>
+          <Chart
+            data={chartData}
+          >
+            <PieSeries
+              name="Job Application Stats"
+              valueField="val"
+              argumentField="status"
+              innerRadius={0.6}
+              style={{ width: '80%' }}
+            />
+            <Legend />
+            <Animation />
+            <EventTracker />
+            <HoverState />
+            <Tooltip />
+          </Chart>
+        </Box>
+        <Box mb={4} display="flex" justifyContent="center" alignContent="center">
+          <Typography style={{ fontWeight: '600' }} variant="h4">
+            Salary Overview
+          </Typography>
+        </Box>
+        <Box>
+          <SalaryStats />
+        </Box>
       </Paper>
     </Container>
   );
 };
 
-export default SalaryStats;
+export default JobStats;

@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
 import Search from './Search';
 import UserProfile from './UserProfile';
 import JobStats from './JobStats';
-import SalaryStats from './SalaryStats';
 import SideBar from '../common/SideBar';
 import DashboardColumn from './DashboardColumn';
 import {
@@ -77,35 +76,37 @@ const Dashboard = () => {
   return (
     <Container id="dashboard-container" disableGutters style={{ margin: '0px' }} maxWidth={false}>
       <Box display="flex" flexDirection="row">
-        <SideBar userdata={user} />
         <Switch>
           <Route exact path="/dashboard">
+            <SideBar userdata={user} addButtonVisible />
             <Grid container id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between" style={{ marginLeft: '70px' }}>
               {status === 'failed' ? 'Something went wrong' : (
                 <>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn items={interestedJobs} title="Interested" color="#73464f" /></Box></Grid>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn items={appliedJobs} title="Applied" color="#73464f" /></Box></Grid>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn items={interviewingJobs} title="Interviewing" color="#73464f" /></Box></Grid>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn items={offerJobs} title="Offer" color="#73464f" /></Box></Grid>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn items={rejectedJobs} title="Rejected" color="#73464f" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn index={0} items={interestedJobs} title="Interested" color="#73464f" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn index={1} items={appliedJobs} title="Applied" color="#73464f" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn index={2} items={interviewingJobs} title="Interviewing" color="#73464f" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn index={3} items={offerJobs} title="Offer" color="#73464f" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn index={4} items={rejectedJobs} title="Rejected" color="#73464f" /></Box></Grid>
                 </>
               )}
             </Grid>
           </Route>
           <Route path="/dashboard/search">
+            <SideBar userdata={user} />
             <Grid style={{ marginLeft: '70px', width: '100vw' }} justifyContent="space-between">
               <Search />
             </Grid>
           </Route>
           <Route path="/dashboard/user_profile">
+            <SideBar userdata={user} />
             <Grid style={{ marginLeft: '70px', width: '100vw' }} justifyContent="space-between">
               <UserProfile />
             </Grid>
           </Route>
           <Route path="/dashboard/job_stats">
+            <SideBar userdata={user} />
             <Grid style={{ marginLeft: '70px', width: '100vw' }} justifyContent="space-between">
               <JobStats />
-              <SalaryStats />
             </Grid>
           </Route>
         </Switch>

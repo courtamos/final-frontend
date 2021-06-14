@@ -143,9 +143,14 @@ const Signup = () => {
               />
             </FormControl>
             <Box marginTop={5} marginBottom={3}>
-              <Button variant="contained" color="secondary" onClick={handleSignup} fullWidth>Sign Up</Button>
+              <Button variant="contained" color="secondary" onClick={handleSignup} fullWidth style={{ color: 'white' }}>Sign Up</Button>
             </Box>
-            <Link to="/login" style={{ textAlign: 'center' }}>
+            <Link
+              to="/login"
+              style={{
+                textAlign: 'center', color: '#577590',
+              }}
+            >
               Already have an account? Login!
             </Link>
           </FormControl>

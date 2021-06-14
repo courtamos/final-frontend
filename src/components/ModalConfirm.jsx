@@ -20,11 +20,11 @@ const ModalConfirm = (props) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onDecline} color="primary">
+        <Button onClick={onDecline} color="primary" variant="contained">
           Cancel
         </Button>
-        <Button onClick={onConfirm} color="primary" autoFocus>
-          Yes
+        <Button onClick={onConfirm} variant="contained" autoFocus style={{ backgroundColor: '#F94144', color: 'white' }}>
+          Delete
         </Button>
       </DialogActions>
     </Dialog>
