@@ -7,7 +7,7 @@ import JobItem from '../../components/JobItem';
 
 const DashboardColumn = (props) => {
   const {
-    title, color, items, index,
+    title, color, items, index, tickUrl,
   } = props;
   const jobItems = items.map((item) => (
     <JobItem
@@ -38,7 +38,7 @@ const DashboardColumn = (props) => {
 
   return (
     <Box width={1} style={{ height: '100%' }} p="5px">
-      <DashboardColumnHeading title={title} color={color} index={index} />
+      <DashboardColumnHeading title={title} color={color} index={index} tickUrl={tickUrl} />
       {jobItems}
     </Box>
   );
@@ -49,6 +49,7 @@ DashboardColumn.propTypes = {
   color: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.object),
   index: PropTypes.number,
+  tickUrl: PropTypes.string,
 };
 
 DashboardColumn.defaultProps = {
@@ -61,6 +62,7 @@ DashboardColumn.defaultProps = {
     location: 'Calgary, AB',
   }],
   index: 0,
+  tickUrl: 'https://i.imgur.com/rr4anU1.png',
 };
 
 export default DashboardColumn;

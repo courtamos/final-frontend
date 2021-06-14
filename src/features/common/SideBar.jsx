@@ -30,10 +30,7 @@ const useStyles = makeStyles({
   },
   icon: {
     fontSize: '45px',
-    color: '#43aa8b',
-  },
-  add: {
-    color: '#43aa8b',
+    color: '#3b3b3b',
   },
   imgicon: {
     padding: '10px',
@@ -78,7 +75,7 @@ const SideBar = (props) => {
       <Paper elevation={1} square>
         <Box display="flex" flexGrow={1} flexDirection="column" height="100%" alignItems="center">
           <Link to="/dashboard">
-            <img src="../../img/Logo1.png" alt="logo" width="45px" className={classes.imgicon} />
+            <img src="../../img/Logo2.png" alt="logo" width="45px" className={classes.imgicon} />
           </Link>
           <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="space-between">
             <Box display="flex" flexDirection="column">
@@ -86,7 +83,7 @@ const SideBar = (props) => {
               <SideBarButton>
                 <LightTooltip title="User Profile" aria-label="User Profile" placement="right">
                   <Link to="/dashboard/user_profile" className="link">
-                    <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=43aa8b&color=fff`} alt="initials" className={classes.initialsicon} />
+                    <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=3b3b3b&color=fff`} alt="initials" className={classes.initialsicon} />
                   </Link>
                 </LightTooltip>
               </SideBarButton>
