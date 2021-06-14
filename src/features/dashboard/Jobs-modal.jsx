@@ -29,6 +29,8 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
 import PhoneIcon from '@material-ui/icons/Phone';
+import Grow from '@material-ui/core/Grow';
+// import CancelIcon from '@material-ui/icons/Cancel';
 
 import '../../styles/Jobs-modal.scss';
 import { authSelector } from '../auth/authSlice';
@@ -79,7 +81,7 @@ export const JobsModal = (props) => {
   const [company, setCompany] = useState(companyName || '');
   const [title, setTitle] = useState(jobTitle || '');
   const [status, setStatus] = useState(jobStatus || 0);
-  const [salary, setSalary] = useState(jobSalary || undefined);
+  const [salary, setSalary] = useState(jobSalary || 0);
   const [url, setUrl] = useState(jobUrl || '');
   const [location, setLocation] = useState(jobLocation || '');
   const [details, setDetails] = useState(jobDetails || '');
@@ -419,17 +421,19 @@ export const JobsModal = (props) => {
                   />
                   {events
                     ? (
-                      <Button
-                        className="add-to-calendar"
-                        variant="contained"
-                        onClick={calendarButton}
-                        color="secondary"
-                        style={{ color: !events ? 'rgba(0,0,0,0.2)' : 'white' }}
-                        disabled={!events}
-                      >
-                        <InsertInvitationSharpIcon style={{ marginRight: '10px' }} />
-                        Add to Google Calendar
-                      </Button>
+                      <Grow in={events} timeout={500}>
+                        <Button
+                          className="add-to-calendar"
+                          variant="contained"
+                          onClick={calendarButton}
+                          color="secondary"
+                          style={{ color: !events ? 'rgba(0,0,0,0.2)' : 'white' }}
+                          disabled={!events}
+                        >
+                          <InsertInvitationSharpIcon style={{ marginRight: '10px' }} />
+                          Add to Google Calendar
+                        </Button>
+                      </Grow>
                     ) : null}
                 </div>
                 <h3 className="heading">
