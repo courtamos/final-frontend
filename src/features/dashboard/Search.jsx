@@ -96,7 +96,7 @@ const Search = () => {
                   <SearchIcon />)}
               </InputAdornment>
               )}
-            style={{ marginBottom: '25px' }}
+            style={{ marginBottom: '25px', backgroundColor: 'white' }}
           />
         </FormControl>
         <FormControl variant="outlined" style={{ marginLeft: '25px', width: '250px' }}>
@@ -110,6 +110,7 @@ const Search = () => {
               name: 'status',
               id: 'outlined-age-native-simple',
             }}
+            style={{ marginBottom: '25px', backgroundColor: 'white' }}
           >
             <option aria-label="None" value={undefined} />
             <option value={0}>Interested</option>

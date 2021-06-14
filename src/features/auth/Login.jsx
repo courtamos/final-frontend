@@ -94,9 +94,9 @@ const Login = () => {
             />
           </FormControl>
           <Box marginTop={5} marginBottom={3}>
-            <Button variant="contained" color="secondary" onClick={handleLogin} fullWidth>Login</Button>
+            <Button variant="contained" color="secondary" onClick={handleLogin} fullWidth style={{ color: 'white' }}>Login</Button>
           </Box>
-          <Link to="/signup" style={{ textAlign: 'center' }}>
+          <Link to="/signup" style={{ textAlign: 'center', color: '#577590' }}>
             Don&apos;t have an account? Sign Up!
           </Link>
         </Box>

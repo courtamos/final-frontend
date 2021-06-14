@@ -105,7 +105,7 @@ const UserProfile = () => {
           <Grid item xs={12} md={4}>
             <Box display="flex" flexDirection="column" p={2}>
               <img
-                src={`https://ui-avatars.com/api/?name=${user.first_name}+${user.last_name}&background=AB5675&color=fff&size=256`}
+                src={`https://ui-avatars.com/api/?name=${user.first_name}+${user.last_name}&background=43aa8b&color=fff&size=256`}
                 alt="user initials"
                 className={classes.initialsIcon}
               />
@@ -198,9 +198,9 @@ const UserProfile = () => {
               </FormControl>
               <Button
                 variant="contained"
-                color="primary"
+                color="secondary"
                 onClick={() => { setModalOpen(true); }}
-                style={{ marginTop: '25px' }}
+                style={{ marginTop: '25px', color: 'white' }}
               >
                 Confirm Changes
               </Button>

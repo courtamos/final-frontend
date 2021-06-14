@@ -4,7 +4,9 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
-import { withStyles, StylesProvider } from '@material-ui/core/styles';
+import {
+  withStyles, StylesProvider,
+} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -40,7 +42,7 @@ const DialogContent = withStyles((theme) => ({
 
 const DialogActions = withStyles((theme) => ({
   root: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(2),
   },
 }))(MuiDialogActions);
 
@@ -415,19 +417,20 @@ export const JobsModal = (props) => {
                     value={eventDetails}
                     onChange={(event) => setEventDetails(event.target.value)}
                   />
-                  <Button
-                    className="add-to-calendar"
-                    variant="contained"
-                    onClick={calendarButton}
-                    color="secondary"
-                    style={{ backgroundColor: '#34acba' }}
-                    disabled={!events}
-                  >
-                    <InsertInvitationSharpIcon />
-                    <h5 style={{ marginLeft: 5 }}>
-                      Add to Google Calendar
-                    </h5>
-                  </Button>
+                  {events
+                    ? (
+                      <Button
+                        className="add-to-calendar"
+                        variant="contained"
+                        onClick={calendarButton}
+                        color="secondary"
+                        style={{ color: !events ? 'rgba(0,0,0,0.2)' : 'white' }}
+                        disabled={!events}
+                      >
+                        <InsertInvitationSharpIcon style={{ marginRight: '10px' }} />
+                        Add to Google Calendar
+                      </Button>
+                    ) : null}
                 </div>
                 <h3 className="heading">
                   Contact
@@ -602,26 +605,22 @@ export const JobsModal = (props) => {
                           <Button
                             type="click"
                             variant="contained"
-                            style={{ backgroundColor: '#ee6a7c', color: 'white' }}
                             startIcon={<DeleteIcon />}
                             onClick={handleDelete}
+                            style={{ backgroundColor: '#F94144', color: 'white' }}
                           >
-                            <h5 style={{ margin: 2 }}>
-                              Delete
-                            </h5>
+                            Delete
                           </Button>
                         )
                         : (
                           <Button
                             type="click"
                             variant="contained"
-                            style={{ backgroundColor: '#666666', color: 'white' }}
+                            style={{ backgroundColor: '#a9a9a9', color: 'white' }}
                             startIcon={<RotateLeftIcon />}
                             onClick={() => reset()}
                           >
-                            <h5 style={{ margin: 2 }}>
-                              Reset Form
-                            </h5>
+                            Reset Form
                           </Button>
                         )
                       }
@@ -631,23 +630,20 @@ export const JobsModal = (props) => {
                     <Button
                       type="button"
                       onClick={onClose}
-                      style={{ backgroundColor: '#ffa7a5', color: 'white' }}
                       variant="contained"
-                      color="default"
+                      color="primary"
                     >
-                      <h5 style={{ margin: 2 }}>Cancel</h5>
+                      Cancel
                     </Button>
                     <Button
                       type="submit"
-                      style={{ backgroundColor: '#34acba' }}
                       onClick={handleSubmit}
                       variant="contained"
-                      color="primary"
+                      color="secondary"
+                      style={{ color: 'white' }}
                       startIcon={<SaveIcon />}
                     >
-                      <h5 style={{ margin: 2 }}>
-                        Save
-                      </h5>
+                      Save
                     </Button>
                   </div>
                 </div>

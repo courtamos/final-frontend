@@ -16,11 +16,32 @@ function App() {
   const dispatch = useDispatch();
   const { status } = useSelector(authSelector);
 
-  const theme = createMuiTheme();
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#577590',
+      },
+      secondary: {
+        main: '#43aa8b',
+      },
+      error: {
+        main: '#F94144',
+      },
+      warning: {
+        main: '#F3722C',
+      },
+      info: {
+        main: '##43aa8b',
+      },
+      success: {
+        main: '#90be6d',
+      },
+    },
+  });
 
   theme.typography.h4 = {
     fontSize: '1.2rem',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Montserrat, sans-serif',
     fontWeight: '400',
     '@media (min-width:600px)': {
       fontSize: '1.5rem',
@@ -33,8 +54,8 @@ function App() {
   theme.typography.h5 = {
     fontSize: '1.2rem',
     marginBottom: '0.1em',
-    fontFamily: 'Montserrat',
-    fontWeight: '400',
+    fontFamily: 'Montserrat, sans-serif',
+    fontWeight: '500',
     '@media (min-width:600px)': {
       fontSize: '1.2rem',
     },
@@ -45,13 +66,25 @@ function App() {
 
   theme.typography.body1 = {
     fontSize: '1.2rem',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Montserrat, sans-serif',
     fontWeight: '400',
     '@media (min-width:600px)': {
-      fontSize: '0.9rem',
+      fontSize: '0.8rem',
     },
     [theme.breakpoints.up('xl')]: {
       fontSize: '1.0rem',
+    },
+  };
+
+  theme.typography.body2 = {
+    fontSize: '1.2rem',
+    fontFamily: 'Montserrat, sans-serif',
+    fontWeight: '400',
+    '@media (min-width:600px)': {
+      fontSize: '0.7rem',
+    },
+    [theme.breakpoints.up('xl')]: {
+      fontSize: '0.9rem',
     },
   };
 
