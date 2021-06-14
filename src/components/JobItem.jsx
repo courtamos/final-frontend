@@ -13,8 +13,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
 import ModalConfirm from './ModalConfirm';
-
-import './JobItem.scss';
 import { JobsModal } from '../features/dashboard/Jobs-modal';
 import { deleteJob } from '../features/dashboard/jobs/jobsSlice';
 
@@ -58,23 +56,23 @@ const useStyles = makeStyles({
   },
 
   heading: {
-    fontFamily: 'Montserrat',
-    fontWeight: '400',
+    fontFamily: 'Montserrat, sans-serif',
+    fontWeight: '600',
     paddingTop: '0px',
     paddingBottom: '3px',
     lineHeight: '1em',
   },
 
   subheading: {
-    fontFamily: 'Montserrat',
-    fontWeight: '400',
+    fontFamily: 'Montserrat, sans-serif',
+    fontWeight: '500',
     paddingTop: '0px',
     paddingBottom: '0px',
     lineHeight: '1em',
   },
 
   content: {
-    fontFamily: 'Source Sans Pro',
+    fontFamily: 'Source Sans Pro, sans-serif',
     paddingTop: '3px',
     paddingBottom: '0px',
     lineHeight: '1em',

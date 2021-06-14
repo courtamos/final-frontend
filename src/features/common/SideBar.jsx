@@ -30,10 +30,10 @@ const useStyles = makeStyles({
   },
   icon: {
     fontSize: '45px',
-    color: '#AB5675',
+    color: '#43aa8b',
   },
   add: {
-    color: '#AB5675',
+    color: '#43aa8b',
   },
   imgicon: {
     padding: '10px',
@@ -52,7 +52,7 @@ const useStyles = makeStyles({
 const SideBar = (props) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
-  const { userdata } = props;
+  const { userdata, addButtonVisible } = props;
   const { user } = useSelector(authSelector);
   const dispatch = useDispatch();
 
@@ -82,10 +82,11 @@ const SideBar = (props) => {
           </Link>
           <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="space-between">
             <Box display="flex" flexDirection="column">
+
               <SideBarButton>
                 <LightTooltip title="User Profile" aria-label="User Profile" placement="right">
                   <Link to="/dashboard/user_profile" className="link">
-                    <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=AB5675&color=fff`} alt="initials" className={classes.initialsicon} />
+                    <img src={`https://ui-avatars.com/api/?name=${userdata.first_name}+${userdata.last_name}&background=43aa8b&color=fff`} alt="initials" className={classes.initialsicon} />
                   </Link>
                 </LightTooltip>
               </SideBarButton>
@@ -96,9 +97,9 @@ const SideBar = (props) => {
                   </Link>
                 </LightTooltip>
               </SideBarButton>
-              <SideBarButton onClick={handleClickOpen}>
-                <LightTooltip title="Add New Job" aria-label="Add New Job" placement="right">
-                  <AddIcon className={`${classes.icon} ${classes.add}`} />
+              <SideBarButton onClick={() => { window.open('https://calendar.google.com/calendar/u/0/r', '_blank'); }}>
+                <LightTooltip title="Open Calendar" aria-label="Open Calendar" placement="right">
+                  <EventIcon className={`${classes.icon} ${classes.add}`} />
                 </LightTooltip>
               </SideBarButton>
               <SideBarButton>
@@ -108,11 +109,15 @@ const SideBar = (props) => {
                   </Link>
                 </LightTooltip>
               </SideBarButton>
-              <SideBarButton onClick={() => { window.open('https://calendar.google.com/calendar/u/0/r', '_blank'); }}>
-                <LightTooltip title="Open Calendar" aria-label="Open Calendar" placement="right">
-                  <EventIcon className={`${classes.icon} ${classes.add}`} />
-                </LightTooltip>
-              </SideBarButton>
+              { addButtonVisible
+                ? (
+                  <SideBarButton onClick={handleClickOpen}>
+                    <LightTooltip title="Add New Job" aria-label="Add New Job" placement="right">
+                      <AddIcon className={`${classes.icon} ${classes.add}`} />
+                    </LightTooltip>
+                  </SideBarButton>
+                )
+                : null}
             </Box>
             <Box>
               <SideBarButton onClick={handleLogOut}>
@@ -136,6 +141,7 @@ SideBar.propTypes = {
     last_name: PropTypes.string,
     email: PropTypes.string,
   }),
+  addButtonVisible: PropTypes.bool,
 };
 
 SideBar.defaultProps = {
@@ -144,6 +150,7 @@ SideBar.defaultProps = {
     last_name: 'Smith',
     email: 'dave.smith@email.com',
   },
+  addButtonVisible: false,
 };
 
 export default SideBar;

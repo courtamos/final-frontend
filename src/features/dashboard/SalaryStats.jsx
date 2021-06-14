@@ -2,14 +2,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
 
 import {
   Chart,
   BarSeries,
-  Title,
   ArgumentAxis,
   ValueAxis,
   Tooltip,
@@ -24,18 +20,7 @@ import {
   selectRejectedJobs,
 } from './jobs/jobsSlice';
 
-const styles = {
-  titleText: {
-    width: '80%',
-    marginBottom: '30px',
-  },
-};
-
-const TextComponent = withStyles(styles)(({ classes, ...restProps }) => (
-  <Title.Text {...restProps} className={classes.titleText} />
-));
-
-const JobStats = () => {
+const SalaryStats = () => {
   const interestedJobs = useSelector(selectInterestedJobs);
   const appliedJobs = useSelector(selectAppliedJobs);
   const interviewingJobs = useSelector(selectInterviewingJobs);
@@ -96,39 +81,24 @@ const JobStats = () => {
   ];
 
   return (
-    <Container
-      maxWidth="md"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        paddingTop: '25px',
-      }}
+    <Chart
+      data={chartData}
     >
-      <Paper>
-        <Chart
-          data={chartData}
-        >
-          <ArgumentAxis />
-          <ValueAxis />
+      <ArgumentAxis />
+      <ValueAxis />
 
-          <BarSeries
-            name="Interested Jobs"
-            valueField="val"
-            argumentField="status"
-            color="#ee6a7c"
-          />
-          <Title
-            text="Salary Overview"
-            textComponent={TextComponent}
-          />
-          <Animation />
-          <EventTracker />
-          <HoverState />
-          <Tooltip />
-        </Chart>
-      </Paper>
-    </Container>
+      <BarSeries
+        name="Interested Jobs"
+        valueField="val"
+        argumentField="status"
+        color="#ee6a7c"
+      />
+      <Animation />
+      <EventTracker />
+      <HoverState />
+      <Tooltip />
+    </Chart>
   );
 };
 
-export default JobStats;
+export default SalaryStats;

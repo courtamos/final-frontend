@@ -22,17 +22,18 @@ const UpdateModal = (props) => {
       <DialogActions>
         <Button
           variant="contained"
-          color="secondary"
+          color="primary"
           onClick={onDecline}
         >
           Cancel
         </Button>
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           onClick={onConfirm}
+          style={{ color: 'white' }}
         >
-          Yes
+          CONFIRM
         </Button>
       </DialogActions>
     </Dialog>
