@@ -148,7 +148,6 @@ const UserProfile = () => {
                   style={{ marginBottom: '10px' }}
                 />
               </FormControl>
-              <Typography variant="h4" className={classes.sectionTitle}>Email</Typography>
               <FormControl>
                 <TextField
                   label="Email"
