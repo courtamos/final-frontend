@@ -27,6 +27,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
 import PhoneIcon from '@material-ui/icons/Phone';
+// import CancelIcon from '@material-ui/icons/Cancel';
 
 import '../../styles/Jobs-modal.scss';
 import { authSelector } from '../auth/authSlice';
@@ -77,7 +78,7 @@ export const JobsModal = (props) => {
   const [company, setCompany] = useState(companyName || '');
   const [title, setTitle] = useState(jobTitle || '');
   const [status, setStatus] = useState(jobStatus || 0);
-  const [salary, setSalary] = useState(jobSalary || undefined);
+  const [salary, setSalary] = useState(jobSalary || 0);
   const [url, setUrl] = useState(jobUrl || '');
   const [location, setLocation] = useState(jobLocation || '');
   const [details, setDetails] = useState(jobDetails || '');
