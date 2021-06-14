@@ -42,6 +42,7 @@ const JobStats = () => {
   const offerJobs = useSelector(selectOfferJobs);
   const rejectedJobs = useSelector(selectRejectedJobs);
 
+  const salariesNone = [];
   const salaries0 = [];
   const salaries1 = [];
   const salaries2 = [];
@@ -49,112 +50,49 @@ const JobStats = () => {
   const salaries4 = [];
   const salaries5 = [];
   const salaries6 = [];
+  const salaries7 = [];
 
-  interestedJobs.forEach((data) => {
-    if (data.salary < 35000) {
-      salaries0.push(data.salary);
-    } else if (data.salary >= 35000 && data.salary < 50000) {
-      salaries1.push(data.salary);
-    } else if (data.salary >= 50000 && data.salary < 75000) {
-      salaries2.push(data.salary);
-    } else if (data.salary >= 75000 && data.salary < 90000) {
-      salaries3.push(data.salary);
-    } else if (data.salary >= 90000 && data.salary < 105000) {
-      salaries4.push(data.salary);
-    } else if (data.salary > 105000 && data.salary < 135000) {
-      salaries5.push(data.salary);
-    } else if (data.salary > 135000) {
-      salaries6.push(data.salary);
-    }
-  });
+  const salaryCount = (category) => {
+    category.forEach((data) => {
+      if (data.salary === null) {
+        salariesNone.push(data.salary);
+      }
+      if (data.salary > 0 && data.salary < 25000) {
+        salaries0.push(data.salary);
+      } else if (data.salary >= 25000 && data.salary < 50000) {
+        salaries1.push(data.salary);
+      } else if (data.salary >= 50000 && data.salary < 75000) {
+        salaries2.push(data.salary);
+      } else if (data.salary >= 75000 && data.salary < 100000) {
+        salaries3.push(data.salary);
+      } else if (data.salary >= 100000 && data.salary < 125000) {
+        salaries4.push(data.salary);
+      } else if (data.salary >= 125000 && data.salary < 150000) {
+        salaries5.push(data.salary);
+      } else if (data.salary > 150000 && data.salary < 175000) {
+        salaries6.push(data.salary);
+      } else if (data.salary > 175000) {
+        salaries7.push(data.salary);
+      }
+    });
+  };
 
-  appliedJobs.forEach((data) => {
-    if (data.salary < 35000) {
-      salaries0.push(data.salary);
-    } else if (data.salary >= 35000 && data.salary < 50000) {
-      salaries1.push(data.salary);
-    } else if (data.salary >= 50000 && data.salary < 75000) {
-      salaries2.push(data.salary);
-    } else if (data.salary >= 75000 && data.salary < 90000) {
-      salaries3.push(data.salary);
-    } else if (data.salary >= 90000 && data.salary < 105000) {
-      salaries4.push(data.salary);
-    } else if (data.salary > 105000 && data.salary < 135000) {
-      salaries5.push(data.salary);
-    } else if (data.salary > 135000) {
-      salaries6.push(data.salary);
-    }
-  });
-
-  interviewingJobs.forEach((data) => {
-    if (data.salary < 35000) {
-      salaries0.push(data.salary);
-    } else if (data.salary >= 35000 && data.salary < 50000) {
-      salaries1.push(data.salary);
-    } else if (data.salary >= 50000 && data.salary < 75000) {
-      salaries2.push(data.salary);
-    } else if (data.salary >= 75000 && data.salary < 90000) {
-      salaries3.push(data.salary);
-    } else if (data.salary >= 90000 && data.salary < 105000) {
-      salaries4.push(data.salary);
-    } else if (data.salary > 105000 && data.salary < 135000) {
-      salaries5.push(data.salary);
-    } else if (data.salary > 135000) {
-      salaries6.push(data.salary);
-    }
-  });
-
-  offerJobs.forEach((data) => {
-    if (data.salary < 35000) {
-      salaries0.push(data.salary);
-    } else if (data.salary >= 35000 && data.salary < 50000) {
-      salaries1.push(data.salary);
-    } else if (data.salary >= 50000 && data.salary < 75000) {
-      salaries2.push(data.salary);
-    } else if (data.salary >= 75000 && data.salary < 90000) {
-      salaries3.push(data.salary);
-    } else if (data.salary >= 90000 && data.salary < 105000) {
-      salaries4.push(data.salary);
-    } else if (data.salary > 105000 && data.salary < 135000) {
-      salaries5.push(data.salary);
-    } else if (data.salary > 135000) {
-      salaries6.push(data.salary);
-    }
-  });
-
-  rejectedJobs.forEach((data) => {
-    if (data.salary < 50000) {
-      salaries0.push({ val: data.salary });
-    } else if (data.salary >= 50000 && data.salary < 75000) {
-      salaries1.push(data.salary);
-    } else if (data.salary >= 75000 && data.salary < 100000) {
-      salaries2.push(data.salary);
-    } else if (data.salary >= 100000 && data.salary < 125000) {
-      salaries3.push(data.salary);
-    } else if (data.salary >= 125000 && data.salary < 150000) {
-      salaries4.push(data.salary);
-    } else if (data.salary > 150000 && data.salary < 175000) {
-      salaries5.push(data.salary);
-    } else if (data.salary > 175000) {
-      salaries6.push(data.salary);
-    }
-  });
-
-  console.log(salaries0);
-  console.log(salaries1);
-  console.log(salaries2);
-  console.log(salaries3);
-  console.log(salaries4);
-  console.log(salaries6);
+  salaryCount(interestedJobs);
+  salaryCount(appliedJobs);
+  salaryCount(interviewingJobs);
+  salaryCount(offerJobs);
+  salaryCount(rejectedJobs);
 
   const chartData = [
-    { status: '$0 - $50,000', val: salaries0.length },
-    { status: '$50,000 - $750,000', val: salaries1.length },
-    { status: '$750,000 - $100,000', val: salaries2.length },
-    { status: '$100,000 - $125,000', val: salaries3.length },
-    { status: '$125,000 - $150,000', val: salaries4.length },
-    { status: '$150,000 - $175,000', val: salaries5.length },
-    { status: '$175,000+', val: salaries6.length },
+    { status: 'No Salary Data', val: salariesNone.length },
+    { status: '$0 - $25k', val: salaries0.length },
+    { status: '$25k - $50k', val: salaries1.length },
+    { status: '$50k - $75k', val: salaries2.length },
+    { status: '$75k - $100k', val: salaries3.length },
+    { status: '$100k - $125k', val: salaries4.length },
+    { status: '$125k - $150k', val: salaries5.length },
+    { status: '$150k - $175k', val: salaries6.length },
+    { status: '$175k+', val: salaries7.length },
   ];
 
   return (
@@ -177,6 +115,7 @@ const JobStats = () => {
             name="Interested Jobs"
             valueField="val"
             argumentField="status"
+            color="#ee6a7c"
           />
           <Title
             text="Salary Overview"
