@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,6 +11,7 @@ const useStyles = makeStyles({
   text: {
     fontFamily: 'Montserrat, sans-serif',
     fontWeight: '500',
+    color: '#3b3b3b',
   },
   heading: {
     height: 'auto',
@@ -19,7 +21,7 @@ const useStyles = makeStyles({
 
 const DashboardColumnHeading = (props) => {
   const classes = useStyles();
-  const { title } = props;
+  const { title, tickUrl, color } = props;
 
   return (
     <Box
@@ -36,7 +38,7 @@ const DashboardColumnHeading = (props) => {
         <Box display="flex" alignContent="center" justifyContent="space-between">
 
           <Box position="absolute" style={{ marginTop: '-5px', marginLeft: '-5px' }}>
-            <img src="https://i.imgur.com/tJjekCJ.png" alt="tick" height="20em" />
+            <img src={tickUrl} alt="tick" height="20em" />
           </Box>
 
           <Box display="flex" flexGrow={1} className={classes.heading} justifyContent="center" alignItems="center">
@@ -44,7 +46,7 @@ const DashboardColumnHeading = (props) => {
               variant="h5"
               className={classes.text}
               style={{
-                color: 'black', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 3, fontFamily: 'Montserrat',
+                color: '3b3b3b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 3, fontFamily: 'Montserrat',
               }}
             >
               {title}
@@ -59,10 +61,14 @@ const DashboardColumnHeading = (props) => {
 
 DashboardColumnHeading.propTypes = {
   title: PropTypes.string,
+  tickUrl: PropTypes.string,
+  color: PropTypes.string,
 };
 
 DashboardColumnHeading.defaultProps = {
   title: 'Heading',
+  tickUrl: 'https://i.imgur.com/rr4anU1.png',
+  color: 'black',
 };
 
 export default DashboardColumnHeading;

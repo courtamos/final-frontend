@@ -40,6 +40,7 @@ function App() {
   });
 
   theme.typography.h4 = {
+    color: '#2e2e2e',
     fontSize: '1.2rem',
     fontFamily: 'Montserrat, sans-serif',
     fontWeight: '400',
@@ -52,6 +53,7 @@ function App() {
   };
 
   theme.typography.h5 = {
+    color: '#2e2e2e',
     fontSize: '1.2rem',
     marginBottom: '0.1em',
     fontFamily: 'Montserrat, sans-serif',
@@ -65,6 +67,7 @@ function App() {
   };
 
   theme.typography.body1 = {
+    color: '#2e2e2e',
     fontSize: '1.2rem',
     fontFamily: 'Montserrat, sans-serif',
     fontWeight: '400',

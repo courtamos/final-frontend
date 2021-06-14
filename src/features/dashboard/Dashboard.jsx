@@ -82,11 +82,11 @@ const Dashboard = () => {
             <Grid container id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between" style={{ marginLeft: '70px' }}>
               {status === 'failed' ? 'Something went wrong' : (
                 <>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn index={0} items={interestedJobs} title="Interested" color="#73464f" /></Box></Grid>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn index={1} items={appliedJobs} title="Applied" color="#73464f" /></Box></Grid>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn index={2} items={interviewingJobs} title="Interviewing" color="#73464f" /></Box></Grid>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn index={3} items={offerJobs} title="Offer" color="#73464f" /></Box></Grid>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn index={4} items={rejectedJobs} title="Rejected" color="#73464f" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/zOfNZr4.png" index={0} items={interestedJobs} title="Interested" color="#F9C74F" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/Ay2YdTb.png" index={1} items={appliedJobs} title="Applied" color="#f8961e" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/D54n1zR.png" index={2} items={interviewingJobs} title="Interviewing" color="#90be6d" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/rr4anU1.png" index={3} items={offerJobs} title="Offer" color="#43aa8b" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/36wyVZ1.png" index={4} items={rejectedJobs} title="Rejected" color="#f94144" /></Box></Grid>
                 </>
               )}
             </Grid>
