@@ -29,6 +29,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
 import PhoneIcon from '@material-ui/icons/Phone';
+import Grow from '@material-ui/core/Grow';
 // import CancelIcon from '@material-ui/icons/Cancel';
 
 import '../../styles/Jobs-modal.scss';
@@ -420,17 +421,19 @@ export const JobsModal = (props) => {
                   />
                   {events
                     ? (
-                      <Button
-                        className="add-to-calendar"
-                        variant="contained"
-                        onClick={calendarButton}
-                        color="secondary"
-                        style={{ color: !events ? 'rgba(0,0,0,0.2)' : 'white' }}
-                        disabled={!events}
-                      >
-                        <InsertInvitationSharpIcon style={{ marginRight: '10px' }} />
-                        Add to Google Calendar
-                      </Button>
+                      <Grow in={events} timeout={500}>
+                        <Button
+                          className="add-to-calendar"
+                          variant="contained"
+                          onClick={calendarButton}
+                          color="secondary"
+                          style={{ color: !events ? 'rgba(0,0,0,0.2)' : 'white' }}
+                          disabled={!events}
+                        >
+                          <InsertInvitationSharpIcon style={{ marginRight: '10px' }} />
+                          Add to Google Calendar
+                        </Button>
+                      </Grow>
                     ) : null}
                 </div>
                 <h3 className="heading">
