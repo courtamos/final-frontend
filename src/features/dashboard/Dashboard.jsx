@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import Search from './Search';
 import UserProfile from './UserProfile';
 import JobStats from './JobStats';
+import SalaryStats from './SalaryStats';
 import SideBar from '../common/SideBar';
 import DashboardColumn from './DashboardColumn';
 import {
@@ -104,6 +105,7 @@ const Dashboard = () => {
           <Route path="/dashboard/job_stats">
             <Grid style={{ marginLeft: '70px', width: '100vw' }} justifyContent="space-between">
               <JobStats />
+              <SalaryStats />
             </Grid>
           </Route>
         </Switch>

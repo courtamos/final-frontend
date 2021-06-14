@@ -77,7 +77,7 @@ export default function TemporaryDrawer() {
               variant="extended"
               onClick={toggleDrawer(anchor, true)}
               style={{
-                position: 'fixed', bottom: 30, right: 30, height: 70, width: 70, borderRadius: 50, backgroundColor: '#34acba',
+                position: 'fixed', bottom: 30, right: 30, height: 70, width: 70, borderRadius: 50, backgroundColor: '#34acba', zIndex: 1,
               }}
             >
               <WorkOutlineIcon fontSize="medium" style={{ color: '#FFFFFF' }} />
