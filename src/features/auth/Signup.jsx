@@ -70,7 +70,7 @@ const Signup = () => {
         {signUpStatus === 'loading'
           && <LinearProgress />}
         <Box display="flex" justifyContent="center" mt={5}>
-          <img src="../../img/Logo1.png" alt="logo" />
+          <img src="../../img/Logo2-lg.png" alt="logo" height="200px" />
         </Box>
         <Box display="flex" justifyContent="center" alignItems="center" p={5} width={300}>
           <FormControl fullWidth>

@@ -58,7 +58,7 @@ const Login = () => {
         {loggingInStatus === 'loading'
           && <LinearProgress />}
         <Box display="flex" justifyContent="center" mt={5}>
-          <img src="../../img/Logo2-lg.png" alt="logo" />
+          <img src="../../img/Logo2-lg.png" alt="logo" height="200px" />
         </Box>
         <Box display="flex" flexDirection="column" justifyContent="center" p={5} width={300}>
           {error && (
