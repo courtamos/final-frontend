@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
 
 import ModalConfirm from './ModalConfirm';
 import { JobsModal } from '../features/dashboard/Jobs-modal';
@@ -95,6 +96,7 @@ const JobItem = (props) => {
   const dispatch = useDispatch();
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [eventExpired, setEventExpired] = useState(false);
   const [logo, setLogo] = useState('');
   const classes = useStyles();
   const {
@@ -111,6 +113,7 @@ const JobItem = (props) => {
     contact_phone,
     contact_socialmedia,
     event_title,
+    event_expired,
     event_details,
     event_date,
     event_location,
@@ -148,6 +151,17 @@ const JobItem = (props) => {
     return null;
   };
 
+  useEffect(() => {
+    const expirydate = new Date(event_date);
+    const currentdate = Date.now();
+
+    setEventExpired(false);
+
+    if (expirydate < currentdate) {
+      setEventExpired(true);
+    }
+  }, [event_date]);
+
   useEffect(async () => {
     if (company.length > 0) {
       try {
@@ -163,6 +177,11 @@ const JobItem = (props) => {
 
   return (
     <Paper elevation={1} className={classes.panel}>
+      {eventExpired ? (
+        <Box position="absolute" style={{ marginTop: '-7px', marginLeft: '-7px' }}>
+          <NewReleasesIcon style={{ color: '#f94144', fontSize: '1.5em' }} />
+        </Box>
+      ) : null}
       <Box display="flex" flexDirection="column" width="100%">
         <Box
           display="flex"
@@ -216,6 +235,7 @@ const JobItem = (props) => {
               jobCoverletter_url={coverletter_url}
               jobExtra_url={extra_url}
               event_title={event_title}
+              event_expired={event_expired}
               event_details={event_details}
               event_date={event_date}
               event_location={event_location}
@@ -249,6 +269,7 @@ JobItem.propTypes = {
   coverletter_url: PropTypes.string,
   extra_url: PropTypes.string,
   event_title: PropTypes.string,
+  event_expired: PropTypes.bool,
   event_details: PropTypes.string,
   event_date: PropTypes.string,
   event_location: PropTypes.string,
@@ -273,6 +294,7 @@ JobItem.defaultProps = {
   coverletter_url: '',
   extra_url: '',
   event_title: '',
+  event_expired: false,
   event_details: '',
   event_date: '',
   event_location: '',

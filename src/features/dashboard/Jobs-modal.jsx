@@ -8,6 +8,7 @@ import {
   withStyles, StylesProvider,
 } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
@@ -15,6 +16,7 @@ import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
@@ -22,6 +24,7 @@ import { google } from 'calendar-link';
 import InsertInvitationSharpIcon from '@material-ui/icons/InsertInvitationSharp';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import OpenInNewSharpIcon from '@material-ui/icons/OpenInNewSharp';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import MailOutlineSharpIcon from '@material-ui/icons/MailOutlineSharp';
@@ -70,6 +73,7 @@ export const JobsModal = (props) => {
     jobContact_socialmedia,
     isEditModal,
     event_title,
+    event_expired,
     event_details,
     event_date,
     event_location,
@@ -93,6 +97,7 @@ export const JobsModal = (props) => {
   const [events, setEvents] = useState(event_title || '');
   const [selectedDate, setSelectedDate] = useState(event_date || null);
   const [eventDetails, setEventDetails] = useState(event_details || '');
+  const [eventExpired, setEventExpired] = useState(event_expired || false);
   const [eventLocation, setEventLocation] = useState(event_location || '');
   const [resume_url, setResume_url] = useState(jobResume_url || '');
   const [coverletter_url, setCoverletter_url] = useState(jobCoverletter_url || '');
@@ -114,6 +119,7 @@ export const JobsModal = (props) => {
     setContact_phone('');
     setContact_socialmedia('');
     setEvents('');
+    setEventExpired(false);
     setEventDetails('');
     setEventLocation('');
     setSelectedDate(null);
@@ -160,6 +166,7 @@ export const JobsModal = (props) => {
     const event = {
       job_id: id,
       title: events,
+      expired: eventExpired,
       date: selectedDate,
       details: eventDetails,
       location: eventLocation,
@@ -212,6 +219,17 @@ export const JobsModal = (props) => {
     onClose();
   };
 
+  useEffect(() => {
+    const expirydate = new Date(selectedDate);
+    const currentdate = Date.now();
+
+    setEventExpired(false);
+
+    if (expirydate < currentdate) {
+      setEventExpired(true);
+    }
+  }, [selectedDate]);
+
   useEffect(async () => {
     if (company.length > 0) {
       try {
@@ -246,7 +264,9 @@ export const JobsModal = (props) => {
 
   return (
     <div>
+
       <StylesProvider>
+
         <Grid container>
           <Dialog
             className="job-modal-background"
@@ -259,7 +279,9 @@ export const JobsModal = (props) => {
             fullWidth
             maxWidth="md"
           >
+
             <form className="job-modal-box" onSubmit={(event) => event.preventDefault()}>
+
               <DialogContent dividers style={{ padding: '20px' }}>
                 {error && (
                 <Alert severity="error" fullWidth style={{ marginBottom: '10px' }}>
@@ -376,9 +398,25 @@ export const JobsModal = (props) => {
                     onChange={(event) => setDetails(event.target.value)}
                   />
                 </div>
-                <h3 className="heading">
-                  Events
-                </h3>
+                <Box display="flex" flexDirection="row" pt={2}>
+                  <Box display="flex" alignItems="center">
+                    <h3 className="heading" style={{ padding: '0px' }}>
+                      Events
+                    </h3>
+                  </Box>
+                  { eventExpired && selectedDate ? (
+                    <Box display="flex" alignContent="center" alignItems="center" mb={0.5}>
+                      <NewReleasesIcon style={{
+                        color: '#f94144', zIndex: 10, fontSize: '1em', marginLeft: '10px',
+                      }}
+                      />
+                      <Typography variant="caption" style={{ marginTop: '3px', marginLeft: '3px', color: '#f94144' }}>The date for this event has passed</Typography>
+                    </Box>
+                  ) : null}
+                </Box>
+                {true ? (
+                  <Box style={{ marginTop: '0px', marginLeft: '0px', zIndex: 10 }} />
+                ) : null}
                 <div className="event">
                   <TextField
                     id="standard-basic"
@@ -683,6 +721,7 @@ JobsModal.propTypes = {
   jobExtra_url: PropTypes.string,
   isEditModal: PropTypes.bool,
   event_title: PropTypes.string,
+  event_expired: PropTypes.bool,
   event_details: PropTypes.string,
   event_date: PropTypes.string,
   event_location: PropTypes.string,
@@ -707,6 +746,7 @@ JobsModal.defaultProps = {
   jobCoverletter_url: '',
   jobExtra_url: '',
   event_title: '',
+  event_expired: false,
   event_details: '',
   event_date: '',
   event_location: '',

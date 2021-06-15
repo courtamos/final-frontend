@@ -28,6 +28,7 @@ const DashboardColumn = (props) => {
       coverletter_url={item.coverletter_url}
       extra_url={item.extra_url}
       event_title={item.events.length > 0 ? item.events[0].title : ''}
+      event_expired={item.events.length > 0 ? item.events[0].expired : false}
       event_details={item.events.length > 0 ? item.events[0].details : ''}
       event_date={item.events.length > 0 ? item.events[0].date : ''}
       event_location={item.events.length > 0 ? item.events[0].location : ''}
