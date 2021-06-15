@@ -47,6 +47,9 @@ function App() {
     '@media (min-width:600px)': {
       fontSize: '1.5rem',
     },
+    '@media (max-width:600px)': {
+      fontSize: '1.2rem',
+    },
     [theme.breakpoints.up('xl')]: {
       fontSize: '1.8rem',
     },
@@ -61,6 +64,9 @@ function App() {
     '@media (min-width:600px)': {
       fontSize: '1.2rem',
     },
+    '@media (max-width:600px)': {
+      fontSize: '1.1rem',
+    },
     [theme.breakpoints.up('xl')]: {
       fontSize: '1.4rem',
     },
@@ -74,6 +80,9 @@ function App() {
     '@media (min-width:600px)': {
       fontSize: '0.8rem',
     },
+    '@media (max-width:600px)': {
+      fontSize: '0.9rem',
+    },
     [theme.breakpoints.up('xl')]: {
       fontSize: '1.0rem',
     },
@@ -84,6 +93,9 @@ function App() {
     fontFamily: 'Montserrat, sans-serif',
     fontWeight: '400',
     '@media (min-width:600px)': {
+      fontSize: '0.7rem',
+    },
+    '@media (max-width:600px)': {
       fontSize: '0.7rem',
     },
     [theme.breakpoints.up('xl')]: {
