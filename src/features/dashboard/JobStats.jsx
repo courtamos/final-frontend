@@ -80,7 +80,7 @@ const JobStats = () => {
             <Tooltip />
           </Chart>
         </Box>
-        <Box mb={4} display="flex" justifyContent="center" alignContent="center">
+        <Box mb={4} display="flex" justifyContent="center" alignContent="center" marginTop={15}>
           <Typography style={{ fontWeight: '600' }} variant="h4">
             Salary Overview
           </Typography>
