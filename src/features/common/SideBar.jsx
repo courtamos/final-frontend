@@ -74,9 +74,11 @@ const SideBar = (props) => {
       <JobsModal open={open} onClose={handleClose} />
       <Paper elevation={1} square>
         <Box display="flex" flexGrow={1} flexDirection="column" height="100%" alignItems="center">
-          <Link to="/dashboard">
-            <img src="../../img/Logo2.png" alt="logo" width="45px" className={classes.imgicon} />
-          </Link>
+          <LightTooltip title="Dashboard" aria-label="Dashboard" placement="right">
+            <Link to="/dashboard">
+              <img src="../../img/Logo2.png" alt="logo" width="45px" className={classes.imgicon} />
+            </Link>
+          </LightTooltip>
           <Box display="flex" flexGrow={1} flexDirection="column" justifyContent="space-between">
             <Box display="flex" flexDirection="column">
 
