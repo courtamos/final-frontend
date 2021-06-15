@@ -31,10 +31,10 @@ import Input from '@material-ui/core/Input';
 import PhoneIcon from '@material-ui/icons/Phone';
 import Grow from '@material-ui/core/Grow';
 import CancelIcon from '@material-ui/icons/Cancel';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 import ModalConfirm from '../../components/ModalConfirm';
 
 import '../../styles/Jobs-modal.scss';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { authSelector } from '../auth/authSlice';
 import { addJob, editJob, deleteJob } from './jobs/jobsSlice';
 
@@ -245,6 +245,30 @@ export const JobsModal = (props) => {
     return window.open(link);
   };
 
+  const locationRender = () => {
+    if (eventLocation.substring(0, 4) === 'http' || eventLocation.includes('.com') || eventLocation.includes('.ca') || eventLocation.includes('www.')) {
+      return (
+        <IconButton
+          aria-label="click event location"
+          onClick={() => clickLink(eventLocation)}
+        >
+          <OpenInNewSharpIcon />
+        </IconButton>
+      );
+    } if (eventLocation !== '') {
+      return (
+        <IconButton
+          aria-label="click event location"
+          href={`https://www.google.com/maps/place/${eventLocation}`}
+          target="_blank"
+        >
+          <LocationOnIcon />
+        </IconButton>
+      );
+    }
+    return null;
+  };
+
   return (
     <div>
       <StylesProvider>
@@ -416,23 +440,7 @@ export const JobsModal = (props) => {
                       onChange={(event) => setEventLocation(event.target.value)}
                       endAdornment={(
                         <InputAdornment position="end">
-                          {eventLocation.substring(0, 4) === 'http' || eventLocation.includes('.com') || eventLocation.includes('.ca') || eventLocation.includes('www.')
-                            ? (
-                              <IconButton
-                                aria-label="click event location"
-                                onClick={() => clickLink(eventLocation)}
-                              >
-                                <OpenInNewSharpIcon />
-                              </IconButton>
-                            ) : (
-                              <IconButton
-                                aria-label="click event location"
-                                href={`https://www.google.com/maps/place/${eventLocation}`}
-                                target="_blank"
-                              >
-                                <LocationOnIcon />
-                              </IconButton>
-                            )}
+                          {locationRender()}
                         </InputAdornment>
                       )}
                     />
