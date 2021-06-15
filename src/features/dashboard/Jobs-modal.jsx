@@ -456,9 +456,6 @@ export const JobsModal = (props) => {
                     </Box>
                   ) : null}
                 </Box>
-                {true ? (
-                  <Box style={{ marginTop: '0px', marginLeft: '0px', zIndex: 10 }} />
-                ) : null}
                 <div className="event">
                   <TextField
                     id="standard-basic"
