@@ -12,7 +12,10 @@ import {
   Tooltip,
   Legend,
 } from '@devexpress/dx-react-chart-material-ui';
-import { Animation, EventTracker, HoverState } from '@devexpress/dx-react-chart';
+import {
+  Animation, EventTracker, HoverState, Palette,
+} from '@devexpress/dx-react-chart';
+
 import SalaryStats from './SalaryStats';
 import {
   selectInterestedJobs,
@@ -37,6 +40,8 @@ const JobStats = () => {
     { status: 'Rejected Jobs', val: rejectedJobs.length },
   ];
 
+  const jobPalette = ['#F9C74F', '#F8961E', '#90BE6D', '#43AA8B', '#F94144'];
+
   return (
     <Container
       maxWidth="md"
@@ -60,6 +65,7 @@ const JobStats = () => {
           <Chart
             data={chartData}
           >
+            <Palette scheme={jobPalette} />
             <PieSeries
               name="Job Application Stats"
               valueField="val"
