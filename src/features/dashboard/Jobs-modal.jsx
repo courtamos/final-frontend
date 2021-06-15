@@ -497,31 +497,34 @@ export const JobsModal = (props) => {
                       }}
                     />
                   </MuiPickersUtilsProvider>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    label="Event Details"
-                    className="event-details"
-                    name="details"
-                    value={eventDetails}
-                    onChange={(event) => setEventDetails(event.target.value)}
-                  />
-                  {events
-                    ? (
-                      <Grow in={events} timeout={500}>
-                        <Button
-                          className="add-to-calendar"
-                          variant="contained"
-                          onClick={calendarButton}
-                          color="secondary"
-                          style={{ color: !events ? 'rgba(0,0,0,0.2)' : 'white' }}
-                          disabled={!events}
-                        >
-                          <InsertInvitationSharpIcon style={{ marginRight: '10px' }} />
-                          Add to Google Calendar
-                        </Button>
-                      </Grow>
-                    ) : null}
+                  <div className="event-bottom">
+                    <TextField
+                      id="standard-multiline-flexible"
+                      multiline
+                      rowsMax={2}
+                      label="Event Details"
+                      className="event-details"
+                      name="details"
+                      value={eventDetails}
+                      onChange={(event) => setEventDetails(event.target.value)}
+                    />
+                    {events
+                      ? (
+                        <Grow in={events} timeout={500}>
+                          <Button
+                            className="add-to-calendar"
+                            variant="contained"
+                            onClick={calendarButton}
+                            color="secondary"
+                            style={{ color: !events ? 'rgba(0,0,0,0.2)' : 'white' }}
+                            disabled={!events}
+                          >
+                            <InsertInvitationSharpIcon style={{ marginRight: '10px' }} />
+                            Add to Google Calendar
+                          </Button>
+                        </Grow>
+                      ) : null}
+                  </div>
                 </div>
                 <h3 className="heading">
                   Contact

@@ -95,10 +95,17 @@
   &-location {
     width: 31%;
   }
+
+  &-bottom {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .add-to-calendar {
-  right: 10px;
+  right: 15px;
   width: 50%;
   height: 40px;
   margin-top: 15px;
