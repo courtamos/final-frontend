@@ -170,7 +170,7 @@ const JobItem = (props) => {
         );
         setLogo(result.data[0].logo);
       } catch (err) {
-        setLogo('https://i.imgur.com/n7X5rsl.png');
+        setLogo('../img/Logo2.png');
       }
     }
   }, [company]);
