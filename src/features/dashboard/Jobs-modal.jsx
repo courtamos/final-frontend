@@ -31,6 +31,8 @@ import Input from '@material-ui/core/Input';
 import PhoneIcon from '@material-ui/icons/Phone';
 import Grow from '@material-ui/core/Grow';
 import CancelIcon from '@material-ui/icons/Cancel';
+import ModalConfirm from '../../components/ModalConfirm';
+
 import '../../styles/Jobs-modal.scss';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { authSelector } from '../auth/authSlice';
@@ -98,6 +100,7 @@ export const JobsModal = (props) => {
   const [extra_url, setExtra_url] = useState(jobExtra_url || '');
   const [error, setError] = useState('');
   const [logo, setLogo] = useState('../../img/Logo2.png');
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
   function reset() {
     setCompany('');
@@ -651,7 +654,7 @@ export const JobsModal = (props) => {
                             type="click"
                             variant="contained"
                             startIcon={<DeleteIcon />}
-                            onClick={handleDelete}
+                            onClick={() => setConfirmModalOpen(true)}
                             style={{ backgroundColor: '#F94144', color: 'white' }}
                           >
                             Delete
@@ -698,6 +701,7 @@ export const JobsModal = (props) => {
             </form>
           </Dialog>
         </Grid>
+        <ModalConfirm id="modal-confirm-delete" open={confirmModalOpen} onConfirm={handleDelete} onDecline={() => setConfirmModalOpen(false)} />
       </StylesProvider>
     </div>
   );

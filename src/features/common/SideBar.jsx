@@ -116,7 +116,7 @@ const SideBar = (props) => {
                 )
                 : null}
             </Box>
-            <Box>
+            <Box pb={2}>
               <SideBarButton onClick={handleLogOut}>
                 <LightTooltip title="Log Out" aria-label="Log Out" placement="right">
                   <Link to={`/users/${user.id}`}>

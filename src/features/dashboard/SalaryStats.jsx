@@ -91,7 +91,7 @@ const SalaryStats = () => {
         name="Interested Jobs"
         valueField="val"
         argumentField="status"
-        color="#ee6a7c"
+        color="#577590"
       />
       <Animation />
       <EventTracker />
