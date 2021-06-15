@@ -30,8 +30,9 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
 import PhoneIcon from '@material-ui/icons/Phone';
 import Grow from '@material-ui/core/Grow';
+import CancelIcon from '@material-ui/icons/Cancel';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 import ModalConfirm from '../../components/ModalConfirm';
-// import CancelIcon from '@material-ui/icons/Cancel';
 
 import '../../styles/Jobs-modal.scss';
 import { authSelector } from '../auth/authSlice';
@@ -98,7 +99,7 @@ export const JobsModal = (props) => {
   const [coverletter_url, setCoverletter_url] = useState(jobCoverletter_url || '');
   const [extra_url, setExtra_url] = useState(jobExtra_url || '');
   const [error, setError] = useState('');
-  const [logo, setLogo] = useState('https://i.imgur.com/n7X5rsl.png');
+  const [logo, setLogo] = useState('../../img/Logo2.png');
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
   function reset() {
@@ -120,7 +121,7 @@ export const JobsModal = (props) => {
     setResume_url('');
     setCoverletter_url('');
     setExtra_url('');
-    setLogo('https://i.imgur.com/n7X5rsl.png');
+    setLogo('../../img/Logo2.png');
     setError('');
   }
 
@@ -220,7 +221,7 @@ export const JobsModal = (props) => {
         );
         setLogo(result.data[0].logo);
       } catch (err) {
-        setLogo('https://i.imgur.com/n7X5rsl.png');
+        setLogo('../../img/Logo2.png');
       }
     }
   }, [company]);
@@ -242,6 +243,30 @@ export const JobsModal = (props) => {
       window.open(`http://${link}`);
     }
     return window.open(link);
+  };
+
+  const locationRender = () => {
+    if (eventLocation.substring(0, 4) === 'http' || eventLocation.includes('.com') || eventLocation.includes('.ca') || eventLocation.includes('www.')) {
+      return (
+        <IconButton
+          aria-label="click event location"
+          onClick={() => clickLink(eventLocation)}
+        >
+          <OpenInNewSharpIcon />
+        </IconButton>
+      );
+    } if (eventLocation !== '') {
+      return (
+        <IconButton
+          aria-label="click event location"
+          href={`https://www.google.com/maps/place/${eventLocation}`}
+          target="_blank"
+        >
+          <LocationOnIcon />
+        </IconButton>
+      );
+    }
+    return null;
   };
 
   return (
@@ -318,14 +343,31 @@ export const JobsModal = (props) => {
                         </option>
                       </Select>
                     </FormControl>
-                    <TextField
-                      id="standard-basic"
-                      label="Location"
-                      name="location"
-                      className="modal-top-right-location"
-                      value={location}
-                      onChange={(event) => setLocation(event.target.value)}
-                    />
+                    <FormControl className="modal-top-right-location">
+                      <InputLabel>
+                        Location
+                      </InputLabel>
+                      <Input
+                        label="Location"
+                        name="location"
+                        value={location}
+                        onChange={(event) => setLocation(event.target.value)}
+                        endAdornment={(
+                          <InputAdornment position="end">
+                            {location
+                              ? (
+                                <IconButton
+                                  aria-label="click event location"
+                                  href={`https://www.google.com/maps/place/${location}`}
+                                  target="_blank"
+                                >
+                                  <LocationOnIcon />
+                                </IconButton>
+                              ) : false}
+                          </InputAdornment>
+                      )}
+                      />
+                    </FormControl>
                     <FormControl className="modal-top-right-url">
                       <InputLabel>
                         Job Link Url
@@ -340,7 +382,7 @@ export const JobsModal = (props) => {
                             {url
                               ? (
                                 <IconButton
-                                  aria-label="toggle password visibility"
+                                  aria-label="click url"
                                   onClick={() => clickLink(url)}
                                 >
                                   <OpenInNewSharpIcon />
@@ -387,14 +429,22 @@ export const JobsModal = (props) => {
                     value={events}
                     onChange={(event) => setEvents(event.target.value)}
                   />
-                  <TextField
-                    id="standard-basic"
-                    label="Event Location"
-                    className="event-location"
-                    name="event location"
-                    value={eventLocation}
-                    onChange={(event) => setEventLocation(event.target.value)}
-                  />
+                  <FormControl className="event-location">
+                    <InputLabel>
+                      Event Location
+                    </InputLabel>
+                    <Input
+                      label="Event Location"
+                      name="event location"
+                      value={eventLocation}
+                      onChange={(event) => setEventLocation(event.target.value)}
+                      endAdornment={(
+                        <InputAdornment position="end">
+                          {locationRender()}
+                        </InputAdornment>
+                      )}
+                    />
+                  </FormControl>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       className="event-calendar"
@@ -464,7 +514,7 @@ export const JobsModal = (props) => {
                           {contact_email
                             ? (
                               <IconButton
-                                aria-label="toggle password visibility"
+                                aria-label="click contact email"
                                 href={`mailto:${contact_email}?subject=${title} - ${company}&body=Hello ${contact_name},`}
                                 target="_blank"
                               >
@@ -489,7 +539,7 @@ export const JobsModal = (props) => {
                           {contact_phone
                             ? (
                               <IconButton
-                                aria-label="toggle password visibility"
+                                aria-label="click contact phone"
                                 href={`tel:${contact_phone}`}
                               >
                                 <PhoneIcon />
@@ -513,7 +563,7 @@ export const JobsModal = (props) => {
                           {contact_socialmedia
                             ? (
                               <IconButton
-                                aria-label="toggle password visibility"
+                                aria-label="click contact social media"
                                 onClick={() => clickLink(contact_socialmedia)}
                               >
                                 <OpenInNewSharpIcon />
@@ -638,6 +688,8 @@ export const JobsModal = (props) => {
                       onClick={onClose}
                       variant="contained"
                       color="primary"
+                      style={{ marginRight: '10px' }}
+                      startIcon={<CancelIcon />}
                     >
                       Cancel
                     </Button>
