@@ -4,8 +4,11 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
-import { withStyles, StylesProvider } from '@material-ui/core/styles';
+import {
+  withStyles, StylesProvider,
+} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
@@ -13,6 +16,7 @@ import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
@@ -20,9 +24,18 @@ import { google } from 'calendar-link';
 import InsertInvitationSharpIcon from '@material-ui/icons/InsertInvitationSharp';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import OpenInNewSharpIcon from '@material-ui/icons/OpenInNewSharp';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import MailOutlineSharpIcon from '@material-ui/icons/MailOutlineSharp';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Input from '@material-ui/core/Input';
+import PhoneIcon from '@material-ui/icons/Phone';
+import Grow from '@material-ui/core/Grow';
+import CancelIcon from '@material-ui/icons/Cancel';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import ModalConfirm from '../../components/ModalConfirm';
 
 import '../../styles/Jobs-modal.scss';
 import { authSelector } from '../auth/authSlice';
@@ -45,7 +58,7 @@ const DialogContent = withStyles((theme) => ({
 
 const DialogActions = withStyles((theme) => ({
   root: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(2),
   },
 }))(MuiDialogActions);
 
@@ -77,6 +90,7 @@ export const JobsModal = (props) => {
     jobContact_socialmedia,
     isEditModal,
     event_title,
+    event_expired,
     event_details,
     event_date,
     event_location,
@@ -90,7 +104,7 @@ export const JobsModal = (props) => {
   const [index, setIndex] = useState(jobs[0].length);
   const [title, setTitle] = useState(jobTitle || '');
   const [status, setStatus] = useState(jobStatus || 0);
-  const [salary, setSalary] = useState(jobSalary || undefined);
+  const [salary, setSalary] = useState(jobSalary || 0);
   const [url, setUrl] = useState(jobUrl || '');
   const [location, setLocation] = useState(jobLocation || '');
   const [details, setDetails] = useState(jobDetails || '');
@@ -101,12 +115,14 @@ export const JobsModal = (props) => {
   const [events, setEvents] = useState(event_title || '');
   const [selectedDate, setSelectedDate] = useState(event_date || null);
   const [eventDetails, setEventDetails] = useState(event_details || '');
+  const [eventExpired, setEventExpired] = useState(event_expired || false);
   const [eventLocation, setEventLocation] = useState(event_location || '');
   const [resume_url, setResume_url] = useState(jobResume_url || '');
   const [coverletter_url, setCoverletter_url] = useState(jobCoverletter_url || '');
   const [extra_url, setExtra_url] = useState(jobExtra_url || '');
   const [error, setError] = useState('');
-  const [logo, setLogo] = useState('https://i.imgur.com/n7X5rsl.png');
+  const [logo, setLogo] = useState('../../img/Logo2.png');
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
   function reset() {
     setCompany('');
@@ -121,13 +137,15 @@ export const JobsModal = (props) => {
     setContact_phone('');
     setContact_socialmedia('');
     setEvents('');
+    setEventExpired(false);
     setEventDetails('');
     setEventLocation('');
     setSelectedDate(null);
     setResume_url('');
     setCoverletter_url('');
     setExtra_url('');
-    setLogo('https://i.imgur.com/n7X5rsl.png');
+    setLogo('../../img/Logo2.png');
+    setError('');
   }
 
   const handleDateChange = (date) => {
@@ -172,6 +190,7 @@ export const JobsModal = (props) => {
     const event = {
       job_id: id,
       title: events,
+      expired: eventExpired,
       date: selectedDate,
       details: eventDetails,
       location: eventLocation,
@@ -224,6 +243,17 @@ export const JobsModal = (props) => {
     onClose();
   };
 
+  useEffect(() => {
+    const expirydate = new Date(selectedDate);
+    const currentdate = Date.now();
+
+    setEventExpired(false);
+
+    if (expirydate < currentdate) {
+      setEventExpired(true);
+    }
+  }, [selectedDate]);
+
   useEffect(async () => {
     if (company.length > 0) {
       try {
@@ -232,10 +262,9 @@ export const JobsModal = (props) => {
         );
         setLogo(result.data[0].logo);
       } catch (err) {
-        return 'https://i.imgur.com/n7X5rsl.png';
+        setLogo('../../img/Logo2.png');
       }
     }
-    return 'https://i.imgur.com/n7X5rsl.png';
   }, [company]);
 
   const calendarEvent = {
@@ -251,16 +280,39 @@ export const JobsModal = (props) => {
   };
 
   const clickLink = (link) => {
-    if (link === '') {
-      return null;
-    } if (link.substring(0, 4) !== 'http') {
+    if (link.substring(0, 4) !== 'http') {
       window.open(`http://${link}`);
     }
     return window.open(link);
   };
 
+  const locationRender = () => {
+    if (eventLocation.substring(0, 4) === 'http' || eventLocation.includes('.com') || eventLocation.includes('.ca') || eventLocation.includes('www.')) {
+      return (
+        <IconButton
+          aria-label="click event location"
+          onClick={() => clickLink(eventLocation)}
+        >
+          <OpenInNewSharpIcon />
+        </IconButton>
+      );
+    } if (eventLocation !== '') {
+      return (
+        <IconButton
+          aria-label="click event location"
+          href={`https://www.google.com/maps/place/${eventLocation}`}
+          target="_blank"
+        >
+          <LocationOnIcon />
+        </IconButton>
+      );
+    }
+    return null;
+  };
+
   return (
     <div>
+
       <StylesProvider>
         <Grid container>
           <Dialog
@@ -272,10 +324,12 @@ export const JobsModal = (props) => {
             aria-labelledby="customized-dialog-title"
             open={open}
             fullWidth
-            maxWidth="sm"
+            maxWidth="md"
           >
+
             <form className="job-modal-box" onSubmit={(event) => event.preventDefault()}>
-              <DialogContent dividers>
+
+              <DialogContent dividers style={{ padding: '20px' }}>
                 {error && (
                 <Alert severity="error" fullWidth style={{ marginBottom: '10px' }}>
                   {error}
@@ -288,13 +342,22 @@ export const JobsModal = (props) => {
                       required
                       id="standard-basic"
                       label="Company Name"
-                      className="content"
+                      className="modal-top-right-company"
                       name="company"
                       value={company}
                       onChange={(event) => setCompany(event.target.value)}
                     />
-                    <FormControl id="demo-simple-select" className="status-selector" style={{ marginLeft: 15 }}>
-                      <InputLabel htmlFor="outlined-age-native-simple">
+                    <TextField
+                      required
+                      id="standard-basic"
+                      label="Job Title"
+                      className="modal-top-right-title"
+                      name="title"
+                      value={title}
+                      onChange={(event) => setTitle(event.target.value)}
+                    />
+                    <FormControl className="modal-top-right-status">
+                      <InputLabel>
                         Status
                       </InputLabel>
                       <Select
@@ -304,7 +367,7 @@ export const JobsModal = (props) => {
                         label="Status"
                         inputProps={{
                           name: 'status',
-                          id: 'outlined-age-native-simple',
+                          id: 'outlined-status-native-simple',
                         }}
                       >
                         <option value={0}>
@@ -324,70 +387,98 @@ export const JobsModal = (props) => {
                         </option>
                       </Select>
                     </FormControl>
-                    <TextField
-                      required
-                      id="standard-basic"
-                      label="Job Title"
-                      className="content"
-                      name="title"
-                      value={title}
-                      onChange={(event) => setTitle(event.target.value)}
-                    />
-                    <TextField
-                      id="standard-basic"
-                      label="Location"
-                      className="content-location"
-                      style={{ marginLeft: 15 }}
-                      name="location"
-                      value={location}
-                      onChange={(event) => setLocation(event.target.value)}
-                    />
+                    <FormControl className="modal-top-right-location">
+                      <InputLabel>
+                        Location
+                      </InputLabel>
+                      <Input
+                        label="Location"
+                        name="location"
+                        value={location}
+                        onChange={(event) => setLocation(event.target.value)}
+                        endAdornment={(
+                          <InputAdornment position="end">
+                            {location
+                              ? (
+                                <IconButton
+                                  aria-label="click event location"
+                                  href={`https://www.google.com/maps/place/${location}`}
+                                  target="_blank"
+                                >
+                                  <LocationOnIcon />
+                                </IconButton>
+                              ) : false}
+                          </InputAdornment>
+                      )}
+                      />
+                    </FormControl>
+                    <FormControl className="modal-top-right-url">
+                      <InputLabel>
+                        Job Link Url
+                      </InputLabel>
+                      <Input
+                        label="Job Link Url"
+                        name="url"
+                        value={url}
+                        onChange={(event) => setUrl(event.target.value)}
+                        endAdornment={(
+                          <InputAdornment position="end">
+                            {url
+                              ? (
+                                <IconButton
+                                  aria-label="click url"
+                                  onClick={() => clickLink(url)}
+                                >
+                                  <OpenInNewSharpIcon />
+                                </IconButton>
+                              ) : false}
+                          </InputAdornment>
+                      )}
+                      />
+                    </FormControl>
+                    <FormControl className="modal-top-right-salary">
+                      <InputLabel>
+                        Salary
+                      </InputLabel>
+                      <Input
+                        id="standard-basic"
+                        value={salary > 0 ? salary : ''}
+                        label="Salary"
+                        name="salary"
+                        onChange={(event) => setSalary(parseInt(event.target.value, 10))}
+                        startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                      />
+                    </FormControl>
                   </div>
                 </div>
                 <div className="modal-middle">
-                  <TextField
-                    id="standard-basic"
-                    label="Job Link Url"
-                    className="modal-middle-url"
-                    name="url"
-                    value={url}
-                    onChange={(event) => setUrl(event.target.value)}
-                  />
-                  <Button
-                    className="links-buttonInline"
-                    style={{
-                      backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 8,
-                    }}
-                    onClick={() => clickLink(url)}
-                    variant="contained"
-                  >
-                    <OpenInNewSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
-                  </Button>
-                  <TextField
-                    id="standard-basic"
-                    value={salary > 0 ? salary : ''}
-                    label="Salary"
-                    className="modal-middle-salary"
-                    name="salary"
-                    style={{ marginLeft: 11.2 }}
-                    onChange={(event) => setSalary(parseInt(event.target.value, 10))}
-                  />
                   <TextField
                     id="standard-multiline-flexible"
                     multiline
                     label="Details"
                     className="modal-middle-details"
-                    style={{ marginTop: 5 }}
                     name="details"
                     value={details}
                     onChange={(event) => setDetails(event.target.value)}
                   />
                 </div>
-                <h3 className="heading">
-                  Events
-                </h3>
+                <Box display="flex" flexDirection="row" pt={2}>
+                  <Box display="flex" alignItems="center">
+                    <h3 className="heading" style={{ padding: '0px' }}>
+                      Events
+                    </h3>
+                  </Box>
+                  { eventExpired && selectedDate ? (
+                    <Box display="flex" alignContent="center" alignItems="center" mb={0.5}>
+                      <NewReleasesIcon style={{
+                        color: '#f94144', zIndex: 10, fontSize: '1em', marginLeft: '10px',
+                      }}
+                      />
+                      <Typography variant="caption" style={{ marginTop: '3px', marginLeft: '3px', color: '#f94144' }}>The date for this event has passed</Typography>
+                    </Box>
+                  ) : null}
+                </Box>
                 <div className="event">
-
                   <TextField
                     id="standard-basic"
                     className="event-upcoming"
@@ -395,6 +486,22 @@ export const JobsModal = (props) => {
                     value={events}
                     onChange={(event) => setEvents(event.target.value)}
                   />
+                  <FormControl className="event-location">
+                    <InputLabel>
+                      Event Location
+                    </InputLabel>
+                    <Input
+                      label="Event Location"
+                      name="event location"
+                      value={eventLocation}
+                      onChange={(event) => setEventLocation(event.target.value)}
+                      endAdornment={(
+                        <InputAdornment position="end">
+                          {locationRender()}
+                        </InputAdornment>
+                      )}
+                    />
+                  </FormControl>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       className="event-calendar"
@@ -412,43 +519,38 @@ export const JobsModal = (props) => {
                       }}
                     />
                   </MuiPickersUtilsProvider>
-                  <TextField
-                    id="standard-multiline-flexible"
-                    multiline
-                    label="Event Details"
-                    className="event-details"
-                    style={{ marginTop: 5 }}
-                    name="details"
-                    value={eventDetails}
-                    onChange={(event) => setEventDetails(event.target.value)}
-                  />
-                  <TextField
-                    id="standard-basic"
-                    label="Event Location"
-                    className="event-location"
-                    style={{ marginTop: 5 }}
-                    name="event location"
-                    value={eventLocation}
-                    onChange={(event) => setEventLocation(event.target.value)}
-                  />
+                  <div className="event-bottom">
+                    <TextField
+                      id="standard-multiline-flexible"
+                      multiline
+                      rowsMax={2}
+                      label="Event Details"
+                      className="event-details"
+                      name="details"
+                      value={eventDetails}
+                      onChange={(event) => setEventDetails(event.target.value)}
+                    />
+                    {events
+                      ? (
+                        <Grow in={events} timeout={500}>
+                          <Button
+                            className="add-to-calendar"
+                            variant="contained"
+                            onClick={calendarButton}
+                            color="secondary"
+                            style={{ color: !events ? 'rgba(0,0,0,0.2)' : 'white' }}
+                            disabled={!events}
+                          >
+                            <InsertInvitationSharpIcon style={{ marginRight: '10px' }} />
+                            Add to Google Calendar
+                          </Button>
+                        </Grow>
+                      ) : null}
+                  </div>
                 </div>
-                <div className="eventHeader">
-                  <h3 className="heading">
-                    Contact
-                  </h3>
-                  <Button
-                    className="add-to-calendar"
-                    variant="contained"
-                    onClick={calendarButton}
-                    color="secondary"
-                    style={{ marginLeft: 10, backgroundColor: '#34acba' }}
-                  >
-                    <InsertInvitationSharpIcon />
-                    <h5 style={{ marginLeft: 5 }}>
-                      Add to Google Calendar
-                    </h5>
-                  </Button>
-                </div>
+                <h3 className="heading">
+                  Contact
+                </h3>
                 <div className="contact-info">
                   <TextField
                     id="standard-basic"
@@ -458,146 +560,156 @@ export const JobsModal = (props) => {
                     value={contact_name}
                     onChange={(event) => setContact_name(event.target.value)}
                   />
-                  <div className="contact-info-email">
-                    <TextField
-                      id="standard-basic"
+                  <FormControl className="contact-email">
+                    <InputLabel>
+                      Contact Email
+                    </InputLabel>
+                    <Input
                       label="Contact Email"
-                      className="contact-email"
                       name="contact_email"
                       value={contact_email}
                       onChange={(event) => setContact_email(event.target.value)}
+                      endAdornment={(
+                        <InputAdornment position="end">
+                          {contact_email
+                            ? (
+                              <IconButton
+                                aria-label="click contact email"
+                                href={`mailto:${contact_email}?subject=${title} - ${company}&body=Hello ${contact_name},`}
+                                target="_blank"
+                              >
+                                <MailOutlineSharpIcon />
+                              </IconButton>
+                            ) : false}
+                        </InputAdornment>
+                      )}
                     />
-                    <Button
-                      className="links-buttonInline"
-                      style={{
-                        backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 1.0,
-                      }}
-                      href={`mailto:${contact_email}?subject=${title} - ${company}&body=Hello ${contact_name},`}
-                      variant="contained"
-                    >
-                      <MailOutlineSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
-                    </Button>
-                  </div>
-                  <TextField
-                    id="standard-basic"
-                    label="Contact Phone Number"
-                    className="contact-phone"
-                    style={{ marginTop: 5 }}
-                    name="contact_phone"
-                    value={contact_phone}
-                    onChange={(event) => setContact_phone(event.target.value)}
-                  />
-                  <TextField
-                    id="standard-basic"
-                    label="Contact Links (LinkedIn)"
-                    className="contact-social"
-                    style={{ marginTop: 5 }}
-                    name="contact_socialmedia"
-                    value={contact_socialmedia}
-                    onChange={(event) => setContact_socialmedia(event.target.value)}
-                  />
+                  </FormControl>
+                  <FormControl className="contact-phone">
+                    <InputLabel>
+                      Contact Phone Number
+                    </InputLabel>
+                    <Input
+                      label="Contact Phone Number"
+                      name="contact_phone"
+                      value={contact_phone}
+                      onChange={(event) => setContact_phone(event.target.value)}
+                      endAdornment={(
+                        <InputAdornment position="end">
+                          {contact_phone
+                            ? (
+                              <IconButton
+                                aria-label="click contact phone"
+                                href={`tel:${contact_phone}`}
+                              >
+                                <PhoneIcon />
+                              </IconButton>
+                            ) : false}
+                        </InputAdornment>
+                      )}
+                    />
+                  </FormControl>
+                  <FormControl className="contact-phone">
+                    <InputLabel>
+                      Contact Links
+                    </InputLabel>
+                    <Input
+                      label="Contact Links"
+                      name="contact_socialmedia"
+                      value={contact_socialmedia}
+                      onChange={(event) => setContact_socialmedia(event.target.value)}
+                      endAdornment={(
+                        <InputAdornment position="end">
+                          {contact_socialmedia
+                            ? (
+                              <IconButton
+                                aria-label="click contact social media"
+                                onClick={() => clickLink(contact_socialmedia)}
+                              >
+                                <OpenInNewSharpIcon />
+                              </IconButton>
+                            ) : false}
+                        </InputAdornment>
+                      )}
+                    />
+                  </FormControl>
                 </div>
+                <h3 className="heading">
+                  Links
+                </h3>
                 <div className="links">
-                  <h3 className="heading-links">
-                    Links
-                  </h3>
-                  {/* <div>
-                    <Button
-                      className="links-buttons"
-                      variant="contained"
-                      onClick={() => clickLink(resume_url)}
-                      color="secondary"
-                      style={{ marginLeft: 10, backgroundColor: '#5bccd9' }}
-                    >
-                      <h5 style={{ marginLeft: 5 }}>
-                        Resume
-                      </h5>
-                    </Button>
-                    <Button
-                      className="links-buttons"
-                      variant="contained"
-                      onClick={() => clickLink(coverletter_url)}
-                      color="secondary"
-                      style={{ marginLeft: 10, backgroundColor: '#34c1d1' }}
-                    >
-                      <h5 style={{ marginLeft: 5 }}>
-                        Cover Letter
-                      </h5>
-                    </Button>
-                    <Button
-                      className="links-buttons"
-                      variant="contained"
-                      onClick={() => clickLink(extra_url)}
-                      color="secondary"
-                      style={{ marginLeft: 10, backgroundColor: '#34acba' }}
-                    >
-                      <h5 style={{ marginLeft: 5 }}>
-                        Additional
-                      </h5>
-                    </Button>
-                  </div> */}
-                </div>
-                <div className="links-input">
-                  <div className="links-input-fields">
-                    <TextField
-                      id="standard-basic"
-                      label="Resume Link"
-                      className="links-inputfield"
+                  <FormControl className="links-inputfield">
+                    <InputLabel>
+                      Resume
+                    </InputLabel>
+                    <Input
+                      label="Resume"
                       name="resume"
                       value={resume_url}
                       onChange={(event) => setResume_url(event.target.value)}
+                      endAdornment={(
+                        <InputAdornment position="end">
+                          {resume_url
+                            ? (
+                              <IconButton
+                                aria-label="resume url"
+                                onClick={() => clickLink(resume_url)}
+                              >
+                                <OpenInNewSharpIcon />
+                              </IconButton>
+                            ) : false}
+                        </InputAdornment>
+                      )}
                     />
-                    <Button
-                      className="links-buttonInline"
-                      style={{
-                        backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 1.0,
-                      }}
-                      onClick={() => clickLink(resume_url)}
-                      variant="contained"
-                    >
-                      <OpenInNewSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
-                    </Button>
-                  </div>
-                  <div className="links-input-fields">
-                    <TextField
-                      id="standard-basic"
-                      label="Cover Letter Link"
-                      className="links-inputfield"
-                      name="linkTwo"
+                  </FormControl>
+                  <FormControl className="links-inputfield">
+                    <InputLabel>
+                      Cover Letter
+                    </InputLabel>
+                    <Input
+                      label="Cover Letter"
+                      name="Cover Letter"
                       value={coverletter_url}
                       onChange={(event) => setCoverletter_url(event.target.value)}
+                      endAdornment={(
+                        <InputAdornment position="end">
+                          {coverletter_url
+                            ? (
+                              <IconButton
+                                aria-label="resume url"
+                                onClick={() => clickLink(coverletter_url)}
+                              >
+                                <OpenInNewSharpIcon />
+                              </IconButton>
+                            ) : false}
+                        </InputAdornment>
+                      )}
                     />
-                    <Button
-                      className="links-buttonInline"
-                      style={{
-                        backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 1.0,
-                      }}
-                      onClick={() => clickLink(resume_url)}
-                      variant="contained"
-                    >
-                      <OpenInNewSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
-                    </Button>
-                  </div>
-                </div>
-                <div className="additional-link">
-                  <TextField
-                    id="standard-basic"
-                    label="Additional Link (Portfolio, Transcript, Diploma, etc.)"
-                    className="links-inputfield-full"
-                    name="linkRandom"
-                    value={extra_url}
-                    onChange={(event) => setExtra_url(event.target.value)}
-                  />
-                  <Button
-                    className="links-buttonInline"
-                    style={{
-                      backgroundColor: '#34acba', minWidth: 15, borderBottomLeftRadius: 0, borderTopLeftRadius: 0, left: -2, top: 1.0,
-                    }}
-                    onClick={() => clickLink(extra_url)}
-                    variant="contained"
-                  >
-                    <OpenInNewSharpIcon fontSize="small" style={{ color: '#FFFFFF' }} />
-                  </Button>
+                  </FormControl>
+                  <FormControl className="links-inputfield">
+                    <InputLabel>
+                      Additional Link
+                    </InputLabel>
+                    <Input
+                      label="Additional Link"
+                      name="extra links"
+                      value={extra_url}
+                      onChange={(event) => setExtra_url(event.target.value)}
+                      endAdornment={(
+                        <InputAdornment position="end">
+                          {extra_url
+                            ? (
+                              <IconButton
+                                aria-label="resume url"
+                                onClick={() => clickLink(extra_url)}
+                              >
+                                <OpenInNewSharpIcon />
+                              </IconButton>
+                            ) : false}
+                        </InputAdornment>
+                      )}
+                    />
+                  </FormControl>
                 </div>
               </DialogContent>
               <DialogActions>
@@ -609,26 +721,22 @@ export const JobsModal = (props) => {
                           <Button
                             type="click"
                             variant="contained"
-                            style={{ backgroundColor: '#ee6a7c', color: 'white' }}
                             startIcon={<DeleteIcon />}
-                            onClick={handleDelete}
+                            onClick={() => setConfirmModalOpen(true)}
+                            style={{ backgroundColor: '#F94144', color: 'white' }}
                           >
-                            <h5 style={{ margin: 2 }}>
-                              Delete
-                            </h5>
+                            Delete
                           </Button>
                         )
                         : (
                           <Button
                             type="click"
                             variant="contained"
-                            style={{ backgroundColor: '#ee6a7c', color: 'white' }}
+                            style={{ backgroundColor: '#a9a9a9', color: 'white' }}
                             startIcon={<RotateLeftIcon />}
                             onClick={() => reset()}
                           >
-                            <h5 style={{ margin: 2 }}>
-                              Reset Form
-                            </h5>
+                            Reset Form
                           </Button>
                         )
                       }
@@ -638,23 +746,22 @@ export const JobsModal = (props) => {
                     <Button
                       type="button"
                       onClick={onClose}
-                      style={{ backgroundColor: '#ffe7d6' }}
                       variant="contained"
-                      color="default"
+                      color="primary"
+                      style={{ marginRight: '10px' }}
+                      startIcon={<CancelIcon />}
                     >
-                      <h5 style={{ margin: 2 }}>Cancel</h5>
+                      Cancel
                     </Button>
                     <Button
                       type="submit"
-                      style={{ backgroundColor: '#34acba' }}
                       onClick={handleSubmit}
                       variant="contained"
-                      color="primary"
+                      color="secondary"
+                      style={{ color: 'white' }}
                       startIcon={<SaveIcon />}
                     >
-                      <h5 style={{ margin: 2 }}>
-                        Save
-                      </h5>
+                      Save
                     </Button>
                   </div>
                 </div>
@@ -662,6 +769,7 @@ export const JobsModal = (props) => {
             </form>
           </Dialog>
         </Grid>
+        <ModalConfirm id="modal-confirm-delete" open={confirmModalOpen} onConfirm={handleDelete} onDecline={() => setConfirmModalOpen(false)} />
       </StylesProvider>
     </div>
   );
@@ -687,6 +795,7 @@ JobsModal.propTypes = {
   jobExtra_url: PropTypes.string,
   isEditModal: PropTypes.bool,
   event_title: PropTypes.string,
+  event_expired: PropTypes.bool,
   event_details: PropTypes.string,
   event_date: PropTypes.string,
   event_location: PropTypes.string,
@@ -711,6 +820,7 @@ JobsModal.defaultProps = {
   jobCoverletter_url: '',
   jobExtra_url: '',
   event_title: '',
+  event_expired: false,
   event_details: '',
   event_date: '',
   event_location: '',

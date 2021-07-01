@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
-const ModalConfirm = (props) => {
+const UpdateModal = (props) => {
   const { open, onConfirm, onDecline } = props;
 
   return (
@@ -16,31 +16,40 @@ const ModalConfirm = (props) => {
       <DialogTitle id="alert-dialog-title">Warning</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Are you sure you want to delete this job?
+          Are you sure you want to update your account information?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onDecline} color="primary" variant="contained">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={onDecline}
+        >
           Cancel
         </Button>
-        <Button onClick={onConfirm} variant="contained" autoFocus style={{ backgroundColor: '#F94144', color: 'white' }}>
-          Delete
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={onConfirm}
+          style={{ color: 'white' }}
+        >
+          CONFIRM
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-ModalConfirm.propTypes = {
+UpdateModal.propTypes = {
   open: PropTypes.bool,
   onConfirm: PropTypes.func,
   onDecline: PropTypes.func,
 };
 
-ModalConfirm.defaultProps = {
+UpdateModal.defaultProps = {
   open: false,
   onConfirm: () => {},
   onDecline: () => {},
 };
 
-export default ModalConfirm;
+export default UpdateModal;

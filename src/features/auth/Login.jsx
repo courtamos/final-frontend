@@ -53,12 +53,12 @@ const Login = () => {
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center">
+    <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
       <Paper className={classes.root}>
         {loggingInStatus === 'loading'
           && <LinearProgress />}
         <Box display="flex" justifyContent="center" mt={5}>
-          <img src="../../img/Logo1.png" alt="logo" />
+          <img src="../../img/Logo2-lg.png" alt="logo" height="250px" />
         </Box>
         <Box display="flex" flexDirection="column" justifyContent="center" p={5} width={300}>
           {error && (
@@ -94,9 +94,9 @@ const Login = () => {
             />
           </FormControl>
           <Box marginTop={5} marginBottom={3}>
-            <Button variant="contained" color="secondary" onClick={handleLogin} fullWidth>Login</Button>
+            <Button variant="contained" color="secondary" onClick={handleLogin} fullWidth style={{ color: 'white' }}>Login</Button>
           </Box>
-          <Link to="/signup" style={{ textAlign: 'center' }}>
+          <Link to="/signup" style={{ textAlign: 'center', color: '#577590' }}>
             Don&apos;t have an account? Sign Up!
           </Link>
         </Box>

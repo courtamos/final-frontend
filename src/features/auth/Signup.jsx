@@ -65,12 +65,12 @@ const Signup = () => {
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center">
+    <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
       <Paper className={classes.root}>
         {signUpStatus === 'loading'
           && <LinearProgress />}
         <Box display="flex" justifyContent="center" mt={5}>
-          <img src="../../img/Logo1.png" alt="logo" />
+          <img src="../../img/Logo2-lg.png" alt="logo" height="250px" />
         </Box>
         <Box display="flex" justifyContent="center" alignItems="center" p={5} width={300}>
           <FormControl fullWidth>
@@ -143,9 +143,14 @@ const Signup = () => {
               />
             </FormControl>
             <Box marginTop={5} marginBottom={3}>
-              <Button variant="contained" color="secondary" onClick={handleSignup} fullWidth>Sign Up</Button>
+              <Button variant="contained" color="secondary" onClick={handleSignup} fullWidth style={{ color: 'white' }}>Sign Up</Button>
             </Box>
-            <Link to="/login" style={{ textAlign: 'center' }}>
+            <Link
+              to="/login"
+              style={{
+                textAlign: 'center', color: '#577590',
+              }}
+            >
               Already have an account? Login!
             </Link>
           </FormControl>

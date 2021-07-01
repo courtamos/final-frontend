@@ -9,9 +9,9 @@ import JobItem from '../../components/JobItem';
 
 const DashboardColumn = (props) => {
   const {
-    title, color, items, colId,
+    title, color, items, index, tickUrl,
   } = props;
-  const jobItems = items.map((item, index) => (
+  const jobItems = items.map((item) => (
     <JobItem
       key={item.id}
       id={item.id}
@@ -31,6 +31,7 @@ const DashboardColumn = (props) => {
       coverletter_url={item.coverletter_url}
       extra_url={item.extra_url}
       event_title={item.events.length > 0 ? item.events[0].title : ''}
+      event_expired={item.events.length > 0 ? item.events[0].expired : false}
       event_details={item.events.length > 0 ? item.events[0].details : ''}
       event_date={item.events.length > 0 ? item.events[0].date : ''}
       event_location={item.events.length > 0 ? item.events[0].location : ''}
@@ -40,6 +41,7 @@ const DashboardColumn = (props) => {
   ));
 
   return (
+<<<<<<< HEAD
     <Box width={1}>
       <DashboardColumnHeading title={title} color={color} />
       <Droppable droppableId={colId}>
@@ -55,6 +57,11 @@ const DashboardColumn = (props) => {
           </div>
         )}
       </Droppable>
+=======
+    <Box width={1} style={{ height: '100%' }} p="5px">
+      <DashboardColumnHeading title={title} color={color} index={index} tickUrl={tickUrl} />
+      {jobItems}
+>>>>>>> 8706b87e7608a0cb7c513a3913db884d670f397e
     </Box>
   );
 };
@@ -64,6 +71,8 @@ DashboardColumn.propTypes = {
   color: PropTypes.string,
   colId: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
+  index: PropTypes.number,
+  tickUrl: PropTypes.string,
 };
 
 DashboardColumn.defaultProps = {
@@ -75,6 +84,8 @@ DashboardColumn.defaultProps = {
     description: 'Full Time, Remote',
     location: 'Calgary, AB',
   }],
+  index: 0,
+  tickUrl: 'https://i.imgur.com/rr4anU1.png',
 };
 
 export default DashboardColumn;

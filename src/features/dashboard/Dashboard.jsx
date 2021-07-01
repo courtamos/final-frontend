@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
@@ -10,6 +11,8 @@ import PropTypes from 'prop-types';
 import { DragDropContext } from 'react-beautiful-dnd';
 
 import Search from './Search';
+import UserProfile from './UserProfile';
+import JobStats from './JobStats';
 import SideBar from '../common/SideBar';
 import DashboardColumn from './DashboardColumn';
 import {
@@ -28,6 +31,7 @@ import {
 import {
   authSelector,
 } from '../auth/authSlice';
+import JobResources from './Drawer';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -91,42 +95,44 @@ const Dashboard = () => {
   };
 
   return (
-    <Container id="dashboard-container" disableGutters style={{ margin: '0px' }}>
-
-      <Box display="flex" flexDirection="row" width="100vw">
-        <SideBar userdata={user} />
+    <Container id="dashboard-container" disableGutters style={{ margin: '0px' }} maxWidth={false}>
+      <Box display="flex" flexDirection="row">
         <Switch>
           <Route exact path="/dashboard">
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Box display="flex" flexDirection="column">
-                <Box display="fixed">
-                  {error && (
-                  <Alert severity="error" fullWidth style={{ marginBottom: '10px' }}>
-                    {error}
-                  </Alert>
-                  )}
-                </Box>
-                <Grid container id="dashboard-columns" display="flex">
-                  {status === 'failed' ? 'Something went wrong' : (
-                    <>
-                      <Grid item xs={12} xl><DashboardColumn colId="1" items={interestedJobs} title="Interested" color="#ffe7d6" /></Grid>
-                      <Grid item xs={12} xl><DashboardColumn colId="2" items={appliedJobs} title="Applied" color="#ffa7a5" /></Grid>
-                      <Grid item xs={12} xl><DashboardColumn colId="3" items={interviewingJobs} title="Interviewing" color="#ee6a7c" /></Grid>
-                      <Grid item xs={12} xl>
-                        <DashboardColumn colId="4" items={offerJobs} title="Offer" color="#ab5675" />
-                      </Grid>
-                      <Grid item xs={12} xl><DashboardColumn colId="5" items={rejectedJobs} title="Rejected" color="#73464f" /></Grid>
-                    </>
-                  )}
-                </Grid>
-              </Box>
-            </DragDropContext>
+            <SideBar userdata={user} addButtonVisible />
+            <Grid container id="dashboard-columns" display="flex" flexGrow={1} justifyContent="space-between" style={{ marginLeft: '70px' }}>
+              {status === 'failed' ? 'Something went wrong' : (
+                <>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/zOfNZr4.png" index={0} items={interestedJobs} title="Interested" color="#F9C74F" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/Ay2YdTb.png" index={1} items={appliedJobs} title="Applied" color="#f8961e" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/D54n1zR.png" index={2} items={interviewingJobs} title="Interviewing" color="#90be6d" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/rr4anU1.png" index={3} items={offerJobs} title="Offer" color="#43aa8b" /></Box></Grid>
+                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/36wyVZ1.png" index={4} items={rejectedJobs} title="Rejected" color="#f94144" /></Box></Grid>
+                </>
+              )}
+            </Grid>
           </Route>
           <Route path="/dashboard/search">
-            <Search />
+            <SideBar userdata={user} />
+            <Grid style={{ marginLeft: '70px', width: '100vw' }} justifyContent="space-between">
+              <Search />
+            </Grid>
+          </Route>
+          <Route path="/dashboard/user_profile">
+            <SideBar userdata={user} />
+            <Grid style={{ marginLeft: '70px', width: '100vw' }} justifyContent="space-between">
+              <UserProfile />
+            </Grid>
+          </Route>
+          <Route path="/dashboard/job_stats">
+            <SideBar userdata={user} />
+            <Grid style={{ marginLeft: '70px', width: '100vw' }} justifyContent="space-between">
+              <JobStats />
+            </Grid>
           </Route>
         </Switch>
       </Box>
+      <JobResources />
       <Snackbar open={!!snack} autoHideDuration={6000} onClose={handleSnackClose}>
         <Alert onClose={handleSnackClose} severity="success">
           {snack}

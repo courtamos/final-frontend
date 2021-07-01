@@ -9,13 +9,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   Box, IconButton, Typography, Paper,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
 
 import ModalConfirm from './ModalConfirm';
-
-import './JobItem.scss';
 import { JobsModal } from '../features/dashboard/Jobs-modal';
 import { deleteJob } from '../features/dashboard/jobs/jobsSlice';
 
@@ -35,27 +33,62 @@ const useStyles = makeStyles({
 
   logo: {
     width: '75px',
+    minWidth: '75px',
     height: '75px',
+    '@media (max-width:1550px)': {
+      width: '50px',
+      minWidth: '50px',
+      height: '50px',
+    },
+    fontSize: '0px',
+    paddingRight: '3px',
   },
 
   image: {
+    width: '50px',
+    minWidth: '50px',
+    height: '50px',
     borderRadius: '50%',
+    '@media (max-width:1550px)': {
+      width: '35px',
+      minWidth: '35px',
+      height: '35px',
+    },
   },
 
   heading: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Montserrat, sans-serif',
+    fontWeight: '600',
+    paddingTop: '0px',
+    paddingBottom: '3px',
+    lineHeight: '1em',
+  },
+
+  subheading: {
+    fontFamily: 'Montserrat, sans-serif',
+    fontWeight: '500',
     paddingTop: '0px',
     paddingBottom: '0px',
     lineHeight: '1em',
-    margin: '0px',
   },
 
   content: {
-    fontFamily: 'Source Sans Pro',
-    paddingTop: '5px',
+    fontFamily: 'Source Sans Pro, sans-serif',
+    paddingTop: '3px',
     paddingBottom: '0px',
     lineHeight: '1em',
-    margin: '0px',
+  },
+
+  buttonbox: {
+    flexDirection: 'row',
+    '@media (max-width:1550px)': {
+      flexDirection: 'column',
+    },
+  },
+  iconbutton: {
+    width: '1.5em',
+    height: '1.5em',
+    color: '#d9d9d9',
   },
 });
 
@@ -63,7 +96,8 @@ const JobItem = (props) => {
   const dispatch = useDispatch();
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [logo, setLogo] = useState('https://i.imgur.com/n7X5rsl.png');
+  const [eventExpired, setEventExpired] = useState(false);
+  const [logo, setLogo] = useState('');
   const classes = useStyles();
   const {
     id,
@@ -80,6 +114,7 @@ const JobItem = (props) => {
     contact_phone,
     contact_socialmedia,
     event_title,
+    event_expired,
     event_details,
     event_date,
     event_location,
@@ -117,6 +152,17 @@ const JobItem = (props) => {
     return null;
   };
 
+  useEffect(() => {
+    const expirydate = new Date(event_date);
+    const currentdate = Date.now();
+
+    setEventExpired(false);
+
+    if (expirydate < currentdate) {
+      setEventExpired(true);
+    }
+  }, [event_date]);
+
   useEffect(async () => {
     if (company.length > 0) {
       try {
@@ -125,87 +171,85 @@ const JobItem = (props) => {
         );
         setLogo(result.data[0].logo);
       } catch (err) {
-        return 'https://i.imgur.com/n7X5rsl.png';
+        setLogo('../img/Logo2.png');
       }
     }
-    return 'https://i.imgur.com/n7X5rsl.png';
   }, [company]);
 
   return (
-    <Draggable draggableId={id.toString()} index={index}>
-      {(provided) => (
-        <div ref={provided.innerRef}>
-          <Paper
-            elevation={1}
-            className={classes.panel}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-          >
-            <Box display="flex" flexDirection="column" width="100%">
-              <Box
-                display="flex"
-                flexDirection="row"
-                alignItems="center"
-                width="100%"
-              >
-                <MenuIcon />
+    <Paper elevation={1} className={classes.panel}>
+      {eventExpired ? (
+        <Box position="absolute" style={{ marginTop: '-7px', marginLeft: '-7px' }}>
+          <NewReleasesIcon style={{ color: '#f94144', fontSize: '1.5em' }} />
+        </Box>
+      ) : null}
+      <Box display="flex" flexDirection="column" width="100%">
+        <Box
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          width="100%"
+        >
+          <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
+            <a href={handleRedirect()} target="_blank" rel="noreferrer">
+              <img src={logo} alt="logo" width="45px" className={classes.image} />
+            </a>
+          </Box>
+          <Box display="flex" flexDirection="column" flexGrow={1}>
+            <Typography variant="h5" align="left" className={classes.heading}>{company}</Typography>
+            <Typography variant="body1" align="left" className={classes.subheading}>{title}</Typography>
+            <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
+          </Box>
+          <Box className={classes.buttonbox} display="flex">
+            <IconButton
+              id="icon-button"
+              aria-label="edit-item"
+              onClick={openModal}
+              className={classes.iconbutton}
+            >
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              aria-label="delete"
+              onClick={() => { setModalOpen(true); }}
+              className={classes.iconbutton}
 
-                <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
-                  <a href={handleRedirect()} target="_blank" rel="noreferrer">
-                    <img src={logo} alt="logo" width="45px" className={classes.image} />
-                  </a>
-                </Box>
-                <Box display="flex" flexDirection="column" flexGrow={1}>
-                  <Typography variant="h6" align="left" className={classes.heading}>{company}</Typography>
-                  <Typography variant="body1" align="left" className={classes.heading}>{title}</Typography>
-                  <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
-                </Box>
-                <Box>
-                  <IconButton aria-label="delete" onClick={() => { setModalOpen(true); }}>
-                    <DeleteIcon />
-                  </IconButton>
-                  <IconButton
-                    id="icon-button"
-                    aria-label="edit-item"
-                    onClick={openModal}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <JobsModal
-                    open={editModalOpen}
-                    onClose={closeModal}
-                    id={id}
-                    companyName={company}
-                    jobTitle={title}
-                    jobDetails={description}
-                    jobLocation={location}
-                    jobSalary={salary}
-                    jobStatus={status}
-                    jobUrl={url}
-                    jobContact_name={contact_name}
-                    jobContact_email={contact_email}
-                    jobContact_phone={contact_phone}
-                    jobContact_socialmedia={contact_socialmedia}
-                    jobResume_url={resume_url}
-                    jobCoverletter_url={coverletter_url}
-                    jobExtra_url={extra_url}
-                    event_title={event_title}
-                    event_details={event_details}
-                    event_date={event_date}
-                    event_location={event_location}
-                    event_jobid={event_jobid}
-                    event_id={event_id}
-                    isEditModal
-                  />
-                </Box>
-                <ModalConfirm id="modal-confirm-delete" open={modalOpen} onConfirm={handleConfirmDelete} onDecline={handleDeclineDelete} />
-              </Box>
-            </Box>
-          </Paper>
-        </div>
-      )}
+            >
+              <DeleteIcon />
+            </IconButton>
+            <JobsModal
+              open={editModalOpen}
+              onClose={closeModal}
+              id={id}
+              companyName={company}
+              jobTitle={title}
+              jobDetails={description}
+              jobLocation={location}
+              jobSalary={salary}
+              jobStatus={status}
+              jobUrl={url}
+              jobContact_name={contact_name}
+              jobContact_email={contact_email}
+              jobContact_phone={contact_phone}
+              jobContact_socialmedia={contact_socialmedia}
+              jobResume_url={resume_url}
+              jobCoverletter_url={coverletter_url}
+              jobExtra_url={extra_url}
+              event_title={event_title}
+              event_expired={event_expired}
+              event_details={event_details}
+              event_date={event_date}
+              event_location={event_location}
+              event_jobid={event_jobid}
+              event_id={event_id}
+              isEditModal
+            />
+          </Box>
 
-    </Draggable>
+          <ModalConfirm id="modal-confirm-delete" open={modalOpen} onConfirm={handleConfirmDelete} onDecline={handleDeclineDelete} />
+        </Box>
+      </Box>
+    </Paper>
   );
 };
 
@@ -227,6 +271,7 @@ JobItem.propTypes = {
   coverletter_url: PropTypes.string,
   extra_url: PropTypes.string,
   event_title: PropTypes.string,
+  event_expired: PropTypes.bool,
   event_details: PropTypes.string,
   event_date: PropTypes.string,
   event_location: PropTypes.string,
@@ -251,6 +296,7 @@ JobItem.defaultProps = {
   coverletter_url: '',
   extra_url: '',
   event_title: '',
+  event_expired: false,
   event_details: '',
   event_date: '',
   event_location: '',
