@@ -13,7 +13,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 
 import { logout, authSelector } from '../auth/authSlice';
 import { SideBarButton } from './SideBarButton';
-import { JobsModal } from '../dashboard/Jobs-modal';
+import { JobsModal } from '../dashboard/JobsModal';
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
