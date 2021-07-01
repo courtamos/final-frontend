@@ -6,7 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 // import List from '@material-ui/core/List';
 import { withStyles } from '@material-ui/core';
 
-import '../../styles/Jobs-resources.scss';
+import '../../styles/JobsResources.scss';
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
