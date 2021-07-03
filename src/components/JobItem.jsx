@@ -122,6 +122,8 @@ const JobItem = (props) => {
     resume_url,
     coverletter_url,
     extra_url,
+    task,
+    index,
   } = props;
 
   const openModal = () => {
@@ -275,6 +277,8 @@ JobItem.propTypes = {
   event_location: PropTypes.string,
   event_jobid: PropTypes.number,
   event_id: PropTypes.number,
+  task: PropTypes.instanceOf(Object),
+  index: PropTypes.number,
 };
 
 JobItem.defaultProps = {
@@ -300,6 +304,8 @@ JobItem.defaultProps = {
   event_location: '',
   event_jobid: undefined,
   event_id: undefined,
+  task: {},
+  index: 0,
 };
 
 export default JobItem;
