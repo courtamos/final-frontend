@@ -9,6 +9,7 @@ import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import PropTypes from 'prop-types';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { sortedUniq } from 'lodash';
 import Search from './Search';
 import UserProfile from './UserProfile';
 import JobStats from './JobStats';
@@ -26,6 +27,7 @@ import {
   resetAddJobStatus,
   resetEditJobStatus,
   resetDeleteJobStatus,
+  editJob,
 } from './jobs/jobsSlice';
 import {
   authSelector,
@@ -48,36 +50,40 @@ const Dashboard = () => {
   // This is the shape our data needs to be in for react-beautiful-dnd
   const [jobsData, setJobsData] = useState({
     tasks: {
-      'job-1': {
-        id: 'task-1',
-        content: 'Example Task',
+      1: {
+        id: 1,
       },
     },
     columns: {
       1: {
         id: 1,
         title: 'Interested',
-        taskIds: ['job-1'],
+        tickUrl: 'https://i.imgur.com/zOfNZr4.png',
+        taskIds: [],
       },
       2: {
         id: 2,
         title: 'Applied',
-        taskIds: ['job-1'],
+        tickUrl: 'https://i.imgur.com/Ay2YdTb.png',
+        taskIds: [],
       },
       3: {
         id: 3,
         title: 'Interviewed',
-        taskIds: ['job-1'],
+        tickUrl: 'https://i.imgur.com/D54n1zR.png',
+        taskIds: [],
       },
       4: {
         id: 4,
         title: 'Offered',
-        taskIds: ['job-1'],
+        tickUrl: 'https://i.imgur.com/rr4anU1.png',
+        taskIds: [],
       },
       5: {
         id: 5,
         title: 'Rejected',
-        taskIds: ['job-1'],
+        tickUrl: 'https://i.imgur.com/36wyVZ1.png',
+        taskIds: [],
       },
     },
     columnOrder: [1, 2, 3, 4, 5],
@@ -89,41 +95,7 @@ const Dashboard = () => {
       return null;
     }
 
-    const result = {
-      tasks: {
-        1: {
-          id: 1,
-        },
-      },
-      columns: {
-        1: {
-          id: 1,
-          title: 'Interested',
-          taskIds: [],
-        },
-        2: {
-          id: 2,
-          title: 'Applied',
-          taskIds: [],
-        },
-        3: {
-          id: 3,
-          title: 'Interviewed',
-          taskIds: [],
-        },
-        4: {
-          id: 4,
-          title: 'Offered',
-          taskIds: [],
-        },
-        5: {
-          id: 5,
-          title: 'Rejected',
-          taskIds: [],
-        },
-      },
-      columnOrder: [1, 2, 3, 4, 5],
-    };
+    const result = { ...jobsData };
 
     // Build list of tasks
     myjobs.forEach((job) => {
@@ -173,9 +145,9 @@ const Dashboard = () => {
     setJobsData(rebuildJobsDataState(jobs));
   }, [dispatch]);
 
-  useEffect(() => {
-    setJobsData(rebuildJobsDataState(jobs));
-  }, []);
+  // useEffect(() => {
+  //   setJobsData(rebuildJobsDataState(jobs));
+  // }, []);
 
   useEffect(() => {
     if (addJobStatus === 'succeeded') {
@@ -211,8 +183,13 @@ const Dashboard = () => {
       return;
     }
 
+    const task = { ...jobsData.tasks[source.droppableId] };
+    task.index = destination.index;
+    jobsData.tasks[source.droppableId] = task;
+
     const column = jobsData.columns[source.droppableId];
     const newTaskIds = Array.from(column.taskIds);
+
     newTaskIds.splice(source.index, 1);
     newTaskIds.splice(destination.index, 0, draggableId);
 
@@ -230,13 +207,14 @@ const Dashboard = () => {
     };
 
     setJobsData(newState);
+    // Perform our database update for that object
+    dispatch(editJob({ jobId: source.id, job: task }));
   };
 
   const columns = jobsData.columnOrder.map((columnId) => {
     const column = jobsData.columns[columnId];
     const tasks = column.taskIds.map((taskId) => jobsData.tasks[taskId]);
-
-    return <TestColumn key={column.id} column={column} tasks={tasks} />;
+    return <DashboardColumn key={column.id} column={column} tasks={tasks} />;
   });
 
   return (
@@ -250,17 +228,7 @@ const Dashboard = () => {
                 onDragEnd={onDragEnd}
               >
                 {columns}
-
               </DragDropContext>
-              {/* {status === 'failed' ? 'Something went wrong' : (
-                <>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/zOfNZr4.png" index={0} items={interestedJobs} title="Interested" color="#F9C74F" /></Box></Grid>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/Ay2YdTb.png" index={1} items={appliedJobs} title="Applied" color="#f8961e" /></Box></Grid>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/D54n1zR.png" index={2} items={interviewingJobs} title="Interviewing" color="#90be6d" /></Box></Grid>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/rr4anU1.png" index={3} items={offerJobs} title="Offer" color="#43aa8b" /></Box></Grid>
-                  <Grid item xs={12} lg><Box display="flex"><DashboardColumn tickUrl="https://i.imgur.com/36wyVZ1.png" index={4} items={rejectedJobs} title="Rejected" color="#f94144" /></Box></Grid>
-                </>
-              )} */}
             </Grid>
           </Route>
           <Route path="/dashboard/search">

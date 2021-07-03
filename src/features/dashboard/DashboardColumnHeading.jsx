@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 
 const DashboardColumnHeading = (props) => {
   const classes = useStyles();
-  const { title, tickUrl, color } = props;
+  const { title, tickUrl } = props;
 
   return (
     <Box
@@ -34,13 +34,10 @@ const DashboardColumnHeading = (props) => {
       }}
     >
       <Paper elevation={1} className={classes.heading}>
-
         <Box display="flex" alignContent="center" justifyContent="space-between">
-
           <Box position="absolute" style={{ marginTop: '-5px', marginLeft: '-5px' }}>
             <img src={tickUrl} alt="tick" height="20em" />
           </Box>
-
           <Box display="flex" flexGrow={1} className={classes.heading} justifyContent="center" alignItems="center">
             <Typography
               variant="h5"
@@ -52,7 +49,6 @@ const DashboardColumnHeading = (props) => {
               {title}
             </Typography>
           </Box>
-
         </Box>
       </Paper>
     </Box>
@@ -62,13 +58,11 @@ const DashboardColumnHeading = (props) => {
 DashboardColumnHeading.propTypes = {
   title: PropTypes.string,
   tickUrl: PropTypes.string,
-  color: PropTypes.string,
 };
 
 DashboardColumnHeading.defaultProps = {
   title: 'Heading',
   tickUrl: 'https://i.imgur.com/rr4anU1.png',
-  color: 'black',
 };
 
 export default DashboardColumnHeading;

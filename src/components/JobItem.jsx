@@ -1,10 +1,11 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable camelcase */
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-
+import { Draggable } from 'react-beautiful-dnd';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Box, IconButton, Typography, Paper,
@@ -101,27 +102,6 @@ const JobItem = (props) => {
   const classes = useStyles();
   const {
     id,
-    company,
-    title,
-    description,
-    location,
-    salary,
-    status,
-    url,
-    contact_name,
-    contact_email,
-    contact_phone,
-    contact_socialmedia,
-    event_title,
-    event_expired,
-    event_details,
-    event_date,
-    event_location,
-    event_jobid,
-    event_id,
-    resume_url,
-    coverletter_url,
-    extra_url,
     task,
     index,
   } = props;
@@ -144,17 +124,17 @@ const JobItem = (props) => {
   };
 
   const handleRedirect = () => {
-    if (url !== '') {
-      if (url.substring(0, 4) !== 'http') {
-        return `http://${url}`;
+    if (task.url && task.url !== '') {
+      if (task.url.substring(0, 4) !== 'http') {
+        return `http://${task.url}`;
       }
-      return url;
+      return task.url;
     }
     return null;
   };
 
   useEffect(() => {
-    const expirydate = new Date(event_date);
+    const expirydate = new Date(task.event_date);
     const currentdate = Date.now();
 
     setEventExpired(false);
@@ -162,148 +142,119 @@ const JobItem = (props) => {
     if (expirydate < currentdate) {
       setEventExpired(true);
     }
-  }, [event_date]);
+  }, [task.event_date]);
 
   useEffect(async () => {
-    if (company.length > 0) {
+    if (task.company && task.company.length > 0) {
       try {
         const result = await axios.get(
-          `https://autocomplete.clearbit.com/v1/companies/suggest?query=${company}`,
+          `https://autocomplete.clearbit.com/v1/companies/suggest?query=${task.company}`,
         );
         setLogo(result.data[0].logo);
       } catch (err) {
         setLogo('../img/Logo2.png');
       }
     }
-  }, [company]);
+  }, [task.company]);
 
   return (
-    <Paper elevation={1} className={classes.panel}>
-      {eventExpired ? (
-        <Box position="absolute" style={{ marginTop: '-7px', marginLeft: '-7px' }}>
-          <NewReleasesIcon style={{ color: '#f94144', fontSize: '1.5em' }} />
-        </Box>
-      ) : null}
-      <Box display="flex" flexDirection="column" width="100%">
-        <Box
-          display="flex"
-          flexDirection="row"
-          alignItems="center"
-          width="100%"
+    <Draggable
+      draggableId={task.id.toString()}
+      index={index}
+    >
+      {(provided) => (
+        <div
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
         >
-          <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
-            <a href={handleRedirect()} target="_blank" rel="noreferrer">
-              <img src={logo} alt="logo" width="45px" className={classes.image} />
-            </a>
-          </Box>
-          <Box display="flex" flexDirection="column" flexGrow={1}>
-            <Typography variant="h5" align="left" className={classes.heading}>{company}</Typography>
-            <Typography variant="body1" align="left" className={classes.subheading}>{title}</Typography>
-            <Typography variant="body2" align="left" className={classes.content}>{location}</Typography>
-          </Box>
-          <Box className={classes.buttonbox} display="flex">
-            <IconButton
-              id="icon-button"
-              aria-label="edit-item"
-              onClick={openModal}
-              className={classes.iconbutton}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              aria-label="delete"
-              onClick={() => { setModalOpen(true); }}
-              className={classes.iconbutton}
+          <Paper elevation={1} className={classes.panel}>
+            {eventExpired ? (
+              <Box position="absolute" style={{ marginTop: '-7px', marginLeft: '-7px' }}>
+                <NewReleasesIcon style={{ color: '#f94144', fontSize: '1.5em' }} />
+              </Box>
+            ) : null}
+            <Box display="flex" flexDirection="column" width="100%">
+              <Box
+                display="flex"
+                flexDirection="row"
+                alignItems="center"
+                width="100%"
+              >
+                <Box display="flex" alignItems="center" justifyContent="center" className={classes.logo}>
+                  <a href={handleRedirect()} target="_blank" rel="noreferrer">
+                    <img src={logo} alt="logo" width="45px" className={classes.image} />
+                  </a>
+                </Box>
+                <Box display="flex" flexDirection="column" flexGrow={1}>
+                  <Typography variant="h5" align="left" className={classes.heading}>{task.company}</Typography>
+                  <Typography variant="body1" align="left" className={classes.subheading}>{task.title}</Typography>
+                  <Typography variant="body2" align="left" className={classes.content}>{task.location}</Typography>
+                </Box>
+                <Box className={classes.buttonbox} display="flex">
+                  <IconButton
+                    id="icon-button"
+                    aria-label="edit-item"
+                    onClick={openModal}
+                    className={classes.iconbutton}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => { setModalOpen(true); }}
+                    className={classes.iconbutton}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                  <JobsModal
+                    open={editModalOpen}
+                    onClose={closeModal}
+                    id={id}
+                    companyName={task.company}
+                    jobTitle={task.title}
+                    jobDetails={task.description}
+                    jobLocation={task.location}
+                    jobSalary={task.salary}
+                    jobStatus={task.status}
+                    jobUrl={task.url}
+                    jobContact_name={task.contact_name}
+                    jobContact_email={task.contact_email}
+                    jobContact_phone={task.contact_phone}
+                    jobContact_socialmedia={task.contact_socialmedia}
+                    jobResume_url={task.resume_url}
+                    jobCoverletter_url={task.coverletter_url}
+                    jobExtra_url={task.extra_url}
+                    event_title={task.event_title}
+                    event_expired={task.event_expired}
+                    event_details={task.event_details}
+                    event_date={task.event_date}
+                    event_location={task.event_location}
+                    event_jobid={task.event_jobid}
+                    event_id={task.event_id}
+                    isEditModal
+                  />
+                </Box>
 
-            >
-              <DeleteIcon />
-            </IconButton>
-            <JobsModal
-              open={editModalOpen}
-              onClose={closeModal}
-              id={id}
-              companyName={company}
-              jobTitle={title}
-              jobDetails={description}
-              jobLocation={location}
-              jobSalary={salary}
-              jobStatus={status}
-              jobUrl={url}
-              jobContact_name={contact_name}
-              jobContact_email={contact_email}
-              jobContact_phone={contact_phone}
-              jobContact_socialmedia={contact_socialmedia}
-              jobResume_url={resume_url}
-              jobCoverletter_url={coverletter_url}
-              jobExtra_url={extra_url}
-              event_title={event_title}
-              event_expired={event_expired}
-              event_details={event_details}
-              event_date={event_date}
-              event_location={event_location}
-              event_jobid={event_jobid}
-              event_id={event_id}
-              isEditModal
-            />
-          </Box>
+                <ModalConfirm id="modal-confirm-delete" open={modalOpen} onConfirm={handleConfirmDelete} onDecline={handleDeclineDelete} />
+              </Box>
+            </Box>
+          </Paper>
+        </div>
+      )}
+    </Draggable>
 
-          <ModalConfirm id="modal-confirm-delete" open={modalOpen} onConfirm={handleConfirmDelete} onDecline={handleDeclineDelete} />
-        </Box>
-      </Box>
-    </Paper>
   );
 };
 
 JobItem.propTypes = {
   id: PropTypes.number,
-  company: PropTypes.string,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  location: PropTypes.string,
-  salary: PropTypes.number,
-  status: PropTypes.number,
-  url: PropTypes.string,
-  contact_name: PropTypes.string,
-  contact_email: PropTypes.string,
-  contact_phone: PropTypes.string,
-  contact_socialmedia: PropTypes.string,
-  resume_url: PropTypes.string,
-  coverletter_url: PropTypes.string,
-  extra_url: PropTypes.string,
-  event_title: PropTypes.string,
-  event_expired: PropTypes.bool,
-  event_details: PropTypes.string,
-  event_date: PropTypes.string,
-  event_location: PropTypes.string,
-  event_jobid: PropTypes.number,
-  event_id: PropTypes.number,
   task: PropTypes.instanceOf(Object),
   index: PropTypes.number,
 };
 
 JobItem.defaultProps = {
   id: undefined,
-  company: '',
-  title: '',
-  description: '',
-  location: '',
-  salary: undefined,
-  status: undefined,
-  url: '',
-  contact_name: '',
-  contact_email: '',
-  contact_phone: '',
-  contact_socialmedia: '',
-  resume_url: '',
-  coverletter_url: '',
-  extra_url: '',
-  event_title: '',
-  event_expired: false,
-  event_details: '',
-  event_date: '',
-  event_location: '',
-  event_jobid: undefined,
-  event_id: undefined,
   task: {},
   index: 0,
 };
