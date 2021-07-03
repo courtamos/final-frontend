@@ -28,6 +28,7 @@ import {
   resetEditJobStatus,
   resetDeleteJobStatus,
   editJob,
+  selectBeautifulJobs,
 } from './jobs/jobsSlice';
 import {
   authSelector,
@@ -40,114 +41,17 @@ const Dashboard = () => {
   const {
     status, addJobStatus, editJobStatus, deleteJobStatus, jobs,
   } = useSelector(jobsSelector);
-  const interestedJobs = useSelector(selectInterestedJobs);
-  const appliedJobs = useSelector(selectAppliedJobs);
-  const interviewingJobs = useSelector(selectInterviewingJobs);
-  const offerJobs = useSelector(selectOfferJobs);
-  const rejectedJobs = useSelector(selectRejectedJobs);
+  // const interestedJobs = useSelector(selectInterestedJobs);
+  // const appliedJobs = useSelector(selectAppliedJobs);
+  // const interviewingJobs = useSelector(selectInterviewingJobs);
+  // const offerJobs = useSelector(selectOfferJobs);
+  // const rejectedJobs = useSelector(selectRejectedJobs);
+  const beautifulJobs = useSelector(selectBeautifulJobs);
   const [snack, setSnack] = useState('');
-
-  // This is the shape our data needs to be in for react-beautiful-dnd
-  const [jobsData, setJobsData] = useState({
-    tasks: {
-      1: {
-        id: 1,
-      },
-    },
-    columns: {
-      1: {
-        id: 1,
-        title: 'Interested',
-        tickUrl: 'https://i.imgur.com/zOfNZr4.png',
-        taskIds: [],
-      },
-      2: {
-        id: 2,
-        title: 'Applied',
-        tickUrl: 'https://i.imgur.com/Ay2YdTb.png',
-        taskIds: [],
-      },
-      3: {
-        id: 3,
-        title: 'Interviewed',
-        tickUrl: 'https://i.imgur.com/D54n1zR.png',
-        taskIds: [],
-      },
-      4: {
-        id: 4,
-        title: 'Offered',
-        tickUrl: 'https://i.imgur.com/rr4anU1.png',
-        taskIds: [],
-      },
-      5: {
-        id: 5,
-        title: 'Rejected',
-        tickUrl: 'https://i.imgur.com/36wyVZ1.png',
-        taskIds: [],
-      },
-    },
-    columnOrder: [1, 2, 3, 4, 5],
-  });
-
-  const rebuildJobsDataState = (myjobs) => {
-    /** This function will rebuild the state for react-beautful-dnd from the Redux store */
-    if (!myjobs) {
-      return null;
-    }
-
-    const result = { ...jobsData };
-
-    // Build list of tasks
-    myjobs.forEach((job) => {
-      result.tasks[job.id] = job;
-    });
-
-    // Build the task ID Lists
-    const taskIdLists = {
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-    };
-
-    interestedJobs.forEach((job) => {
-      taskIdLists[1].push(job.id);
-    });
-
-    appliedJobs.forEach((job) => {
-      taskIdLists[2].push(job.id);
-    });
-
-    interviewingJobs.forEach((job) => {
-      taskIdLists[3].push(job.id);
-    });
-
-    offerJobs.forEach((job) => {
-      taskIdLists[4].push(job.id);
-    });
-
-    rejectedJobs.forEach((job) => {
-      taskIdLists[5].push(job.id);
-    });
-
-    result.columns[1].taskIds = [...taskIdLists[1]];
-    result.columns[2].taskIds = [...taskIdLists[2]];
-    result.columns[3].taskIds = [...taskIdLists[3]];
-    result.columns[4].taskIds = [...taskIdLists[4]];
-    result.columns[5].taskIds = [...taskIdLists[5]];
-
-    return result;
-  };
 
   useEffect(() => {
     dispatch(fetchJobs());
-    setJobsData(rebuildJobsDataState(jobs));
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   setJobsData(rebuildJobsDataState(jobs));
-  // }, []);
 
   useEffect(() => {
     if (addJobStatus === 'succeeded') {
@@ -183,11 +87,10 @@ const Dashboard = () => {
       return;
     }
 
-    const task = { ...jobsData.tasks[source.droppableId] };
-    task.index = destination.index;
-    jobsData.tasks[source.droppableId] = task;
+    const task = { ...beautifulJobs.tasks[source.droppableId] };
+    task.state = source.droppableId - 1;
 
-    const column = jobsData.columns[source.droppableId];
+    const column = beautifulJobs.columns[source.droppableId];
     const newTaskIds = Array.from(column.taskIds);
 
     newTaskIds.splice(source.index, 1);
@@ -199,21 +102,21 @@ const Dashboard = () => {
     };
 
     const newState = {
-      ...jobsData,
+      ...beautifulJobs,
       columns: {
-        ...jobsData.columns,
+        ...beautifulJobs.columns,
         [newColumn.id]: newColumn,
       },
     };
 
-    setJobsData(newState);
+    // setBeautifulJobs(newState);
     // Perform our database update for that object
     dispatch(editJob({ jobId: source.id, job: task }));
   };
 
-  const columns = jobsData.columnOrder.map((columnId) => {
-    const column = jobsData.columns[columnId];
-    const tasks = column.taskIds.map((taskId) => jobsData.tasks[taskId]);
+  const columns = beautifulJobs.columnOrder.map((columnId) => {
+    const column = beautifulJobs.columns[columnId];
+    const tasks = column.taskIds.map((taskId) => beautifulJobs.tasks[taskId]);
     return <DashboardColumn key={column.id} column={column} tasks={tasks} />;
   });
 
