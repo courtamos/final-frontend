@@ -10,11 +10,11 @@ const DashboardColumn = (props) => {
     index, column, tasks,
   } = props;
 
-  const taskList = tasks.map((task, idx) => (
+  const taskList = tasks.map((job, idx) => (
     <JobItem
-      key={task.id}
+      key={job.id}
       index={idx}
-      task={task}
+      task={job}
     />
   ));
 

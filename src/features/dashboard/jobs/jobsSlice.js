@@ -1,14 +1,49 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit';
+// import { performOptimisticUpdate, revertOptimisticUpdate } from 'redux-toolkit-optimistic';
 import axios from 'axios';
-import { update } from 'lodash';
-import { undo } from 'redux-undo-action';
+// import { update } from 'lodash';
+// import { undo } from 'redux-undo-action';
+
+// const myAdapter = createEntityAdapter();
 
 const initialState = {
   jobs: [],
-  beautifulJobs: {},
+  columns: {
+    1: {
+      id: 1,
+      title: 'Interested',
+      tickUrl: 'https://i.imgur.com/zOfNZr4.png',
+      jobIds: [1, 2, 3],
+    },
+    2: {
+      id: 2,
+      title: 'Applied',
+      tickUrl: 'https://i.imgur.com/Ay2YdTb.png',
+      jobIds: [4, 5, 6],
+    },
+    3: {
+      id: 3,
+      title: 'Interviewed',
+      tickUrl: 'https://i.imgur.com/D54n1zR.png',
+      jobIds: [7, 8],
+    },
+    4: {
+      id: 4,
+      title: 'Offered',
+      tickUrl: 'https://i.imgur.com/rr4anU1.png',
+      jobIds: [9],
+    },
+    5: {
+      id: 5,
+      title: 'Rejected',
+      tickUrl: 'https://i.imgur.com/36wyVZ1.png',
+      jobIds: [],
+    },
+  },
+  columnOrder: [1, 2, 3, 4, 5],
   status: 'idle',
   addJobStatus: 'idle',
   editJobStatus: 'idle',
@@ -59,22 +94,16 @@ export const deleteJob = createAsyncThunk(
   },
 );
 
-const updateBeautifulJobs = (state = initialState) => {
-  state.beautifulJobs = {};
-};
-export const editBeautifulJob = createAsyncThunk(
-  'jobs/editJob', async ({ jobId, job, event }, { rejectWithValue, dispatch }) => {
-    const optimisticAction = updateBeautifulJobs(job);
-    dispatch(optimisticAction);
-    try {
-      const response = await axios.patch(`api/jobs/${jobId}`, { job, event });
-      return response.data.job;
-    } catch (error) {
-      dispatch(undo(optimisticAction));
-      return rejectWithValue(error.response.data);
-    }
-  },
-);
+// export const editBeautifulJob = createAsyncThunk(
+//   'jobs/editBeautifulJob', async ({ jobId, job, event }, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.patch(`api/jobs/${jobId}`, { job, event });
+//       return response.data.job;
+//     } catch (error) {
+//       return rejectWithValue(error.response.data);
+//     }
+//   },
+// );
 
 export const jobsSlice = createSlice({
   name: 'jobs',
@@ -141,6 +170,31 @@ export const jobsSlice = createSlice({
       .addCase(deleteJob.rejected, (state) => {
         state.deleteJobStatus = 'failed';
       });
+    // .addCase(editBeautifulJob.pending, (state, action) => {
+    //   // Optimistic update
+    //   performOptimisticUpdate(state, myAdapter, action.meta.arg);
+    //   state.editJobStatus = 'loading';
+    // })
+    // .addCase(editBeautifulJob.fulfilled, (state, action) => {
+    //   state.editJobStatus = 'succeeded';
+    //   if (action.type === 'jobs/edit') {
+    //     const result = { ...state.beautifulJobs };
+    //     // const jobs = { ...result.jobs };
+    //     // const job = jobs[action.payload.jobId];
+    //     state.beautifulJobs = result;
+    //   }
+    //   state.jobs = state.jobs.map((job) => {
+    //     if (job.id === action.payload.id) {
+    //       return action.payload;
+    //     }
+    //     return job;
+    //   });
+    // })
+    // .addCase(editBeautifulJob.rejected, (state, action) => {
+    // // Rollback state if failed
+    //   revertOptimisticUpdate(state, myAdapter, action.meta.arg.id);
+    //   state.editJobStatus = 'failed';
+    // });
   },
 });
 
@@ -150,100 +204,42 @@ export const { resetAddJobStatus, resetEditJobStatus, resetDeleteJobStatus } = j
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const jobsSelector = (state) => state.jobs;
+export const selectAllJobs = (state) => state.jobs.jobs;
 export const selectInterestedJobs = (state) => state.jobs.jobs.filter((job) => job.status === 0);
 export const selectAppliedJobs = (state) => state.jobs.jobs.filter((job) => job.status === 1);
 export const selectInterviewingJobs = (state) => state.jobs.jobs.filter((job) => job.status === 2);
 export const selectOfferJobs = (state) => state.jobs.jobs.filter((job) => job.status === 3);
 export const selectRejectedJobs = (state) => state.jobs.jobs.filter((job) => job.status === 4);
-export const selectBeautifulJobs = (state) => {
-  const result = {
-    tasks: {
-      1: {
-        id: 1,
-      },
-    },
-    columns: {
-      1: {
-        id: 1,
-        title: 'Interested',
-        tickUrl: 'https://i.imgur.com/zOfNZr4.png',
-        taskIds: [],
-      },
-      2: {
-        id: 2,
-        title: 'Applied',
-        tickUrl: 'https://i.imgur.com/Ay2YdTb.png',
-        taskIds: [],
-      },
-      3: {
-        id: 3,
-        title: 'Interviewed',
-        tickUrl: 'https://i.imgur.com/D54n1zR.png',
-        taskIds: [],
-      },
-      4: {
-        id: 4,
-        title: 'Offered',
-        tickUrl: 'https://i.imgur.com/rr4anU1.png',
-        taskIds: [],
-      },
-      5: {
-        id: 5,
-        title: 'Rejected',
-        tickUrl: 'https://i.imgur.com/36wyVZ1.png',
-        taskIds: [],
-      },
-    },
-    columnOrder: [1, 2, 3, 4, 5],
-  };
+export const selectInterestedJobIds = (state) => state.jobs.jobs
+  .map((job) => (job.status === 0 ? job.id : undefined));
+export const selectAppliedJobIds = (state) => state.jobs.jobs
+  .map((job) => (job.status === 1 ? job.id : undefined));
+export const selectInterviewingJobIds = (state) => state.jobs.jobs
+  .map((job) => (job.status === 2 ? job.id : undefined));
+export const selectOfferJobIds = (state) => state.jobs.jobs
+  .map((job) => (job.status === 3 ? job.id : undefined));
+export const selectRejectedJobIds = (state) => state.jobs.jobs
+  .map((job) => (job.status === 4 ? job.id : undefined));
 
-  const interestedJobs = state.jobs.jobs.filter((job) => job.status === 0);
-  const appliedJobs = state.jobs.jobs.filter((job) => job.status === 1);
-  const interviewingJobs = state.jobs.jobs.filter((job) => job.status === 2);
-  const offerJobs = state.jobs.jobs.filter((job) => job.status === 3);
-  const rejectedJobs = state.jobs.jobs.filter((job) => job.status === 4);
+export const selectAllColumns = (state) => state.jobs.columns;
+export const selectColumnOrder = (state) => state.jobs.columnOrder;
 
-  // Build list of tasks
-  state.jobs.jobs.forEach((job) => {
-    result.tasks[job.id] = job;
-  });
-
-  // Build the task ID Lists
-  const taskIdLists = {
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-  };
-
-  interestedJobs.forEach((job) => {
-    taskIdLists[1].push(job.id);
-  });
-
-  appliedJobs.forEach((job) => {
-    taskIdLists[2].push(job.id);
-  });
-
-  interviewingJobs.forEach((job) => {
-    taskIdLists[3].push(job.id);
-  });
-
-  offerJobs.forEach((job) => {
-    taskIdLists[4].push(job.id);
-  });
-
-  rejectedJobs.forEach((job) => {
-    taskIdLists[5].push(job.id);
-  });
-
-  result.columns[1].taskIds = [...taskIdLists[1]];
-  result.columns[2].taskIds = [...taskIdLists[2]];
-  result.columns[3].taskIds = [...taskIdLists[3]];
-  result.columns[4].taskIds = [...taskIdLists[4]];
-  result.columns[5].taskIds = [...taskIdLists[5]];
-
-  return result;
-};
+export const selectBeautifulJobs = createSelector(
+  [selectAllJobs, selectAllColumns, selectInterestedJobIds, selectRejectedJobIds],
+  (jobs, columns, interested) => {
+    const jobIds = [...interested];
+    const cols = { ...columns, jobIds };
+    console.log(interested);
+    // cols[2].jobIds = [...selectAppliedJobIds];
+    // cols[3].jobIds = [...selectInterviewingJobIds];
+    // cols[4].jobIds = [...selectOfferJobIds];
+    // cols[5].jobIds = [...selectRejectedJobIds];
+    return {
+      jobs,
+      columns: cols,
+      columnOrder: [1, 2, 3, 4, 5],
+    };
+  },
+);
 
 export default jobsSlice.reducer;

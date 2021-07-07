@@ -19,11 +19,11 @@ import TestColumn from './TestColumn';
 import {
   jobsSelector,
   fetchJobs,
-  selectInterestedJobs,
-  selectAppliedJobs,
-  selectInterviewingJobs,
-  selectOfferJobs,
-  selectRejectedJobs,
+  selectInterestedJobIds,
+  selectAppliedJobIds,
+  selectInterviewingJobIds,
+  selectOfferJobIds,
+  selectRejectedJobIds,
   resetAddJobStatus,
   resetEditJobStatus,
   resetDeleteJobStatus,
@@ -47,6 +47,7 @@ const Dashboard = () => {
   // const offerJobs = useSelector(selectOfferJobs);
   // const rejectedJobs = useSelector(selectRejectedJobs);
   const beautifulJobs = useSelector(selectBeautifulJobs);
+
   const [snack, setSnack] = useState('');
 
   useEffect(() => {
@@ -111,13 +112,13 @@ const Dashboard = () => {
 
     // setBeautifulJobs(newState);
     // Perform our database update for that object
-    dispatch(editJob({ jobId: source.id, job: task }));
+    // dispatch(editBeautifulJob({ jobId: source.id, job: task }));
   };
 
   const columns = beautifulJobs.columnOrder.map((columnId) => {
     const column = beautifulJobs.columns[columnId];
-    const tasks = column.taskIds.map((taskId) => beautifulJobs.tasks[taskId]);
-    return <DashboardColumn key={column.id} column={column} tasks={tasks} />;
+    const columnJobs = column.jobIds.map((jobId) => beautifulJobs.jobs[jobId]);
+    return <DashboardColumn key={column.id} column={column} tasks={columnJobs} />;
   });
 
   return (
