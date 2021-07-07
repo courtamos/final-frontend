@@ -10,13 +10,16 @@ const DashboardColumn = (props) => {
     index, column, tasks,
   } = props;
 
-  const taskList = tasks.map((job, idx) => (
-    <JobItem
-      key={job.id}
-      index={idx}
-      task={job}
-    />
-  ));
+  const taskList = tasks.map((job, idx) => {
+    console.log(job);
+    return (
+      <JobItem
+        key={job.id}
+        index={idx}
+        task={job}
+      />
+    );
+  });
 
   return (
     <Grid item xs={12} lg>

@@ -210,32 +210,53 @@ export const selectAppliedJobs = (state) => state.jobs.jobs.filter((job) => job.
 export const selectInterviewingJobs = (state) => state.jobs.jobs.filter((job) => job.status === 2);
 export const selectOfferJobs = (state) => state.jobs.jobs.filter((job) => job.status === 3);
 export const selectRejectedJobs = (state) => state.jobs.jobs.filter((job) => job.status === 4);
-export const selectInterestedJobIds = (state) => state.jobs.jobs
-  .map((job) => (job.status === 0 ? job.id : undefined));
-export const selectAppliedJobIds = (state) => state.jobs.jobs
-  .map((job) => (job.status === 1 ? job.id : undefined));
-export const selectInterviewingJobIds = (state) => state.jobs.jobs
-  .map((job) => (job.status === 2 ? job.id : undefined));
-export const selectOfferJobIds = (state) => state.jobs.jobs
-  .map((job) => (job.status === 3 ? job.id : undefined));
-export const selectRejectedJobIds = (state) => state.jobs.jobs
-  .map((job) => (job.status === 4 ? job.id : undefined));
 
 export const selectAllColumns = (state) => state.jobs.columns;
 export const selectColumnOrder = (state) => state.jobs.columnOrder;
 
 export const selectBeautifulJobs = createSelector(
-  [selectAllJobs, selectAllColumns, selectInterestedJobIds, selectRejectedJobIds],
-  (jobs, columns, interested) => {
-    const jobIds = [...interested];
-    const cols = { ...columns, jobIds };
-    console.log(interested);
-    // cols[2].jobIds = [...selectAppliedJobIds];
-    // cols[3].jobIds = [...selectInterviewingJobIds];
-    // cols[4].jobIds = [...selectOfferJobIds];
-    // cols[5].jobIds = [...selectRejectedJobIds];
+  [selectAllJobs,
+    selectAllColumns,
+    selectInterestedJobs,
+    selectAppliedJobs,
+    selectInterviewingJobs,
+    selectOfferJobs,
+    selectRejectedJobs],
+  (jobs, columns, interested, applied, interviewing, offer, rejected) => {
+    const jobsObj = {};
+
+    jobs.forEach((item) => {
+      jobsObj[item.id] = item;
+    });
+
+    const interestedColumn = {
+      ...columns[1],
+      jobIds: interested.map((item) => item.id),
+    };
+    const appliedColumn = {
+      ...columns[2],
+      jobIds: applied.map((item) => item.id),
+    };
+    const interviewingColumn = {
+      ...columns[3],
+      jobIds: interviewing.map((item) => item.id),
+    };
+    const offerColumn = {
+      ...columns[4],
+      jobIds: offer.map((item) => item.id),
+    };
+    const rejectedColumn = {
+      ...columns[5],
+      jobIds: rejected.map((item) => item.id),
+    };
+    const cols = { ...columns,
+      1: interestedColumn,
+      2: appliedColumn,
+      3: interviewingColumn,
+      4: offerColumn,
+      5: rejectedColumn };
     return {
-      jobs,
+      jobs: jobsObj,
       columns: cols,
       columnOrder: [1, 2, 3, 4, 5],
     };

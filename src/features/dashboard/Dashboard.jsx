@@ -19,11 +19,6 @@ import TestColumn from './TestColumn';
 import {
   jobsSelector,
   fetchJobs,
-  selectInterestedJobIds,
-  selectAppliedJobIds,
-  selectInterviewingJobIds,
-  selectOfferJobIds,
-  selectRejectedJobIds,
   resetAddJobStatus,
   resetEditJobStatus,
   resetDeleteJobStatus,
