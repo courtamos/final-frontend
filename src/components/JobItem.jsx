@@ -14,7 +14,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
 
 import ModalConfirm from './ModalConfirm';
-import { JobsModal } from '../features/dashboard/Jobs-modal';
+import { JobsModal } from '../features/dashboard/JobsModal';
 import { deleteJob } from '../features/dashboard/jobs/jobsSlice';
 
 const useStyles = makeStyles({
